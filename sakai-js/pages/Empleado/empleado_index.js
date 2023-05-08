@@ -7,8 +7,8 @@ import { Dialog } from 'primereact/dialog';
 import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
-import {useRouter} from 'next/router'
-import {EditarEmpleado} from './empleado_editar'
+import { useRouter } from 'next/router'
+import { EditarEmpleado } from './empleado_editar'
 
 const App = () => {
 
@@ -17,7 +17,7 @@ const App = () => {
   const [DeleteModal, setDeleteModal] = useState(false); //abrir el modal eliminar
   const [EmpleadoId, setEmpleadoId] = useState("");//almecenar el id del empleado
   const toast = useRef(null); //para los toast
-  const router = useRouter(); 
+  const router = useRouter();
 
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const App = () => {
   );
 
 
-  
+
 
   /* MODAL ELIMINAR */
   //abrir modal eliminar
@@ -122,7 +122,7 @@ const App = () => {
               body={rowData => (
                 <div>
                   <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> .
-                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({pathname: './empleado_editar', query: {id: rowData.empe_Id}})}/> .
+                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './empleado_editar', query: { id: rowData.empe_Id } })} /> .
                   <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.empe_Id)} />
                 </div>
               )}

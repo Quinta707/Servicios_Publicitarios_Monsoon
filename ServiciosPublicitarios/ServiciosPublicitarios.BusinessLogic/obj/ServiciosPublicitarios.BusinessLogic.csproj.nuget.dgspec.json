@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj": {}
+    "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj": {
+    "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
         "projectName": "ServiciosPublicitarios.BusinessLogic",
-        "projectPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
-        "packagesPath": "C:\\Users\\ALEXANDER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\obj\\",
+        "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ALEXANDER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,8 +32,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj": {
-                "projectPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj"
+              "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj": {
+                "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj"
               }
             }
           }
@@ -66,20 +66,20 @@
         }
       }
     },
-    "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj": {
+    "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj",
         "projectName": "ServiciosPublicitarios.DataAccess",
-        "projectPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj",
-        "packagesPath": "C:\\Users\\ALEXANDER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\obj\\",
+        "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ALEXANDER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -94,8 +94,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {
-                "projectPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj"
+              "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {
+                "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj"
               }
             }
           }
@@ -142,20 +142,20 @@
         }
       }
     },
-    "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {
+    "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
         "projectName": "ServiciosPublicitarios.Entities",
-        "projectPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
-        "packagesPath": "C:\\Users\\ALEXANDER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ALEXANDER\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\obj\\",
+        "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
+        "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ALEXANDER\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAB01.DESKTOP-36LBO8D\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

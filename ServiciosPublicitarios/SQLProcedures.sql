@@ -2079,7 +2079,7 @@ CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Index
 AS
 BEGIN
 	SELECT * FROM [pbli].VW_tbFacturaDetalle
-	WHERE fact_Id = @fact_Id
+	WHERE fact_Id = @fact_Id AND fdet_Estado = 1;
 END
 
 --******** PROCEDIMIENTO  CALCULAR COSTO DE DETALLE ***********--
