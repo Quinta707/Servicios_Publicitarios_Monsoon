@@ -52,6 +52,11 @@ const AppMenu = () => {
                             label: 'Factura',
                             icon: 'pi pi-fw pi-lock',
                             to: '/factura/factura_index'
+                        },
+                        {
+                            label: 'Servicios',
+                            icon: 'pi pi-fw pi-bookmark',
+                            to: '/Servicios/servicios_index'
                         }
                     ]
                 },
