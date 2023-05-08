@@ -10,7 +10,6 @@ import { Toast } from 'primereact/toast';
 import { InputText } from 'primereact/inputtext';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { Dialog } from 'primereact/dialog';
 
 const createFactura = () => {
 
@@ -19,11 +18,9 @@ const createFactura = () => {
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
 
     const [Detalles, setDetalles] = useState([]); //listado de detalles
-    const [DetalleId, setDetalleId] = useState(''); //contiene el id del dettalle a eliminar 
 
     const [submitted, setSubmitted] = useState(false);  //validar campos vacios
     const [catidadPositiva, setCantidadPositiva] = useState(false); //validar la cantidad sea positiva
-    const [SubmittedFactura, setSubmittedFactura] = useState(false); //validar campos vacios de los detalles
 
     const [ClienteDDL, setClienteDDL] = useState([]); //ddl  cliente
     const [Cliente, setCliente] = useState(''); //almacena el valor seleccionado del ddl 
@@ -39,9 +36,6 @@ const createFactura = () => {
 
     const [Cantidad, setCatidad] = useState(''); //cantdad de servicios a comprar
     const [FacturaId, setFacturaId] = useState(0); //capura el id de la factura ingresada
-    const [PrecioTotal, setPrecioTotal] = useState(0);//capura el precio de toda la compra
-
-    const [DeleteModal, setDeleteModal] = useState(false); //abrir el modal eliminar
 
     //cargar ddl Cargos
     useEffect(() => {
@@ -62,45 +56,17 @@ const createFactura = () => {
             .catch(error => console.error(error))
     }, []);
 
+    
+
     //listado de detalles
     useEffect(() => {
         axios.put(Global.url + 'Factura/ListadoDetalles?id=' + FacturaId)
             .then(response => response.data)
             .then(data => setDetalles(data.data))
             .catch(error => console.error(error))
-
-        axios.put(Global.url + 'Factura/PrecioDetalles?id=' + FacturaId)
-            .then(response => setPrecioTotal(response.data[0].Total + " Lps"))
-            .catch(error => console.error(error))
     }, [Detalles]);
-
-
-    //* MODAL ELIMINAR */
-    //abrir modal eliminar
-    const OpenDeleteModal = (id) => {
-        console.log(id)
-        setDetalleId(id);
-        setDeleteModal(true);
-    }
-
-    //cerrar modal eliminar
-    const hideDeleteModal = () => {
-        setDeleteModal(false);
-    };
-
-    //mandar datos del eliminar a la api
-    const EliminarEmpleados = (e) => {
-
-        let payload = {
-            fdet_Id: DetalleId,
-        }
-        axios.post(Global.url + 'Factura/EliminarDetalles', payload)
-            .then((r) => {
-                hideDeleteModal();
-                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-            });
-    }
-
+    
+   
 
 
     //enviar Factura
@@ -111,13 +77,13 @@ const createFactura = () => {
         }
         else {
 
-            setSubmitted(false)
             let Fcatura = {
                 clie_Id: Cliente.code,
                 empe_Id: 1,
                 meto_Id: MetodoPago.code,
                 fact_UsuCreacion: 1
             }
+
 
             axios.post(Global.url + 'Factura/Insertar', Fcatura)
                 .then((r) => {
@@ -133,7 +99,7 @@ const createFactura = () => {
     const EnviarFacturaDetalle = (e) => {
 
         if (!Servicio || !Cantidad) {
-            setSubmittedFactura(true)
+            setSubmitted(true)
         }
         else {
 
@@ -141,7 +107,6 @@ const createFactura = () => {
                 setCantidadPositiva(true);
             }
             else {
-                setSubmittedFactura(false)
                 setCantidadPositiva(false);
                 let FcaturaDetalle = {
                     fact_Id: FacturaId,
@@ -149,44 +114,26 @@ const createFactura = () => {
                     fdet_Cantidad: Cantidad,
                     fdet_UsuCreacion: 1
                 }
-
                 axios.post(Global.url + 'Factura/InsertarDetalles', FcaturaDetalle)
                     .then((r) => {
-                        setCatidad('');
-                        setServicio('');
-
                     })
             }
         }
     }
 
     const header = (
-        <div className="table-header">
-             <div className="grid p-fluid">
-                
-                <div className="col-3">
-                    <Button label="Finalizar Compra" raised severity="info" disabled={FacturaDetalleActivate} onClick={() => router.push('./factura_index')} />
-                </div>
+        <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+            <div className="grid">
+                <div className="col-12">
 
-                <div className="col-9">
-                    <span className="block p-input-icon-left">
-                        <i className="pi pi-search" />
-                        <InputText type="text" value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Buscar..." />
-                    </span>
                 </div>
-
             </div>
-           
+            <span className="block mt-2 md:mt-0 p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText type="text" value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Buscar..." />
+            </span>
         </div>
     );
-
-    const onProyeccionFilter = (event) => {
-        setTimeout(() => {
-            let results = ClienteDDL.filter((option) =>
-                option
-            );
-        }, 250);
-    };
 
     return (
         <div className='col-12'>
@@ -204,15 +151,7 @@ const createFactura = () => {
                             <div className='col-12'>
                                 <div className="field">
                                     <label htmlFor="Cliente">Cliente</label><br />
-                                    <Dropdown optionLabel="name"
-                                        placeholder="Selecionar"
-                                        options={ClienteDDL}
-                                        value={Cliente} onChange={(e) => setCliente(e.value)}
-                                        className={classNames({ 'p-invalid': submitted && !Cliente })}
-                                        disabled={FacturaActivate}
-                                        filter
-                                        filterPlaceholder="Buscar"
-                                        onFilter={(e) => onProyeccionFilter(e, ClienteDDL)} />
+                                    <Dropdown optionLabel="name" placeholder="Selecionar" options={ClienteDDL} value={Cliente} onChange={(e) => setCliente(e.value)} className={classNames({ 'p-invalid': submitted && !Cliente })} disabled={FacturaActivate} />
                                     {submitted && !Cliente && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
                                 </div>
                             </div>
@@ -231,7 +170,7 @@ const createFactura = () => {
                                         <Button label="Crear" severity="success" onClick={() => EnviarFactura()} disabled={FacturaActivate} />
                                     </div>
                                     <div className='col-5'>
-                                        <Button label="Cancelar" severity="danger" onClick={() => router.push('./factura_index')} disabled={FacturaActivate}/>
+                                        <Button label="Cancelar" severity="danger" onClick={() => router.push('./factura_index')} />
                                     </div>
                                 </div>
                             </div>
@@ -246,18 +185,19 @@ const createFactura = () => {
                             <div className='col-12'>
                                 <div className="field">
                                     <label htmlFor="Servicio">Servicio</label><br />
-                                    <Dropdown optionLabel="name" placeholder="Selecionar" options={ServicioDDL} value={Servicio} onChange={(e) => setServicio(e.value)} className={classNames({ 'p-invalid': SubmittedFactura && !Servicio })} disabled={FacturaDetalleActivate} />
-                                    {SubmittedFactura && !Servicio && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
+                                    <Dropdown optionLabel="name" placeholder="Selecionar" options={ServicioDDL} value={Servicio} onChange={(e) => setServicio(e.value)} className={classNames({ 'p-invalid': submitted && !Servicio })} disabled={FacturaDetalleActivate} />
+                                    {submitted && !Servicio && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
                                 </div>
                             </div>
 
                             <div className='col-12'>
                                 <div className="field">
                                     <label htmlFor="Servicio">Cantidad</label><br />
-                                    <InputNumber type='Text' value={Cantidad} onValueChange={(e) => setCatidad(e.value)} showButtons mode="decimal" className={classNames({ 'p-invalid': SubmittedFactura && !Cantidad })} disabled={FacturaDetalleActivate} />
-                                    {SubmittedFactura && !Cantidad && <small className="p-invalid" style={{ color: 'red' }}>Campo Obligatorio.</small>}
+                                    <InputNumber type='Text' value={Cantidad} onValueChange={(e) => setCatidad(e.value)} showButtons mode="decimal" className={classNames({ 'p-invalid': submitted && !Cantidad })} disabled={FacturaDetalleActivate} />
+                                    {submitted && !Cantidad && <small className="p-invalid" style={{ color: 'red' }}>Campo Obligatorio.</small>}
                                     {catidadPositiva && <small className="p-invalid" style={{ color: 'red' }}>Ingrese una cantidad positiva.</small>}
                                 </div>
+
                             </div>
 
                             <div className='col-12'>
@@ -283,7 +223,7 @@ const createFactura = () => {
                                     className="p-datatable-gridlines"
                                     showGridlines
                                     sortField="representative.name"
-                                    rows={5}
+                                    rows={10}
                                     rowsPerPageOptions={[5, 10, 25]}
                                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                                     currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros."
@@ -293,11 +233,12 @@ const createFactura = () => {
                                     emptyMessage="No se encontrron registros."
                                     filterMode="filter"
                                     header={header}
-                                    value={Detalles.filter((deta) =>
-                                        deta.serv_Nombre.toLowerCase().includes(searchText.toLowerCase()) ||
-                                        (typeof deta.serv_Precio === 'string' && deta.serv_Precio.toLowerCase().includes(searchText.toLowerCase())) ||
-                                        (typeof deta.fdet_Cantidad === 'string' && deta.fdet_Cantidad.toLowerCase().includes(searchText.toLowerCase()))
+                                    value={Detalles.filter((post) =>
+                                        post.serv_Nombre.toLowerCase().includes(searchText.toLowerCase()) ||
+                                        post.serv_Precio.toLowerCase().includes(searchText.toLowerCase()) ||
+                                        post.fdet_Cantidad.toLowerCase().includes(searchText.toLowerCase())
                                     )}
+
                                 >
                                     <Column field="serv_Nombre" header="servicio" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
                                     <Column field="serv_Precio" header="Precio" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
@@ -307,46 +248,26 @@ const createFactura = () => {
                                         field="acciones"
                                         header="Acciones"
                                         headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}
-                                        style={{ minWidth: '100px' }}
+                                        style={{ minWidth: '300px' }}
                                         body={rowData => (
                                             <div>
-                                                <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.fdet_Id)} />
+                                                <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} />
                                             </div>
                                         )}
                                     />
                                 </DataTable>
-
-                                {/*modal para Eliminar Registros*/}
-                                <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Detalle" onHide={hideDeleteModal} modal footer={
-                                    <>
-                                        <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
-                                        <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarEmpleados} />
-                                    </>
-                                }>
-                                    <div className="flex align-items-center justify-content-center">
-                                        <p>
-                                            ¿Desea eliminar este registro?
-                                        </p>
-                                    </div>
-                                </Dialog>
-                            </div>
-
-                            <div className='col-5 mt-2'>
-                                <div className="grid p-fluid">
-                                    <div className='col-5 mt-3'>
-                                        <label htmlFor='Precio'>Precio de la Compra: </label>
-                                    </div> 
-                                    <div className='col-7'>
-                                        <InputText type="text" id="Precio" value={PrecioTotal} disabled={true} />
-                                    </div>   
-                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
+
     )
+
+
 }
 
 export default createFactura;
