@@ -3,25 +3,21 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Global from '../api/Global';
 import { InputText } from 'primereact/inputtext';
-import { Dialog } from 'primereact/dialog';
 import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
 import {useRouter} from 'next/router'
-import {EditarEmpleado} from './empleado_editar'
 
 const App = () => {
 
   const [posts, setPosts] = useState([]); //alamcenar los registros
   const [searchText, setSearchText] = useState(''); //para la barra de busqueda
-  const [DeleteModal, setDeleteModal] = useState(false); //abrir el modal eliminar
-  const [EmpleadoId, setEmpleadoId] = useState("");//almecenar el id del empleado
   const toast = useRef(null); //para los toast
   const router = useRouter(); 
 
 
   useEffect(() => {
-    axios.get(Global.url + 'Empleado/Listado')
+    axios.get(Global.url + 'Factura/Listado')
       .then(response => response.data)
       .then(data => setPosts(data.data))
       .catch(error => console.error(error))
@@ -33,7 +29,7 @@ const App = () => {
     <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
       <div className="grid">
         <div className="col-12">
-          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => router.push('./empleado_create')} />
+          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload"  onClick={() => router.push('./factura_create')} />
         </div>
       </div>
       <span className="block mt-2 md:mt-0 p-input-icon-left">
@@ -45,35 +41,13 @@ const App = () => {
 
 
   
-
-  /* MODAL ELIMINAR */
-  //abrir modal eliminar
-  const OpenDeleteModal = (id) => {
-    console.log(id)
-    setEmpleadoId(id);
-    setDeleteModal(true);
+  const Editar = () => {
+    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No se puede editar, la factura ya fue cerrada', life: 1500 });
   }
 
-  //cerrar modal eliminar
-  const hideDeleteModal = () => {
-    setEmpleadoId("");
-    setDeleteModal(false);
-  };
-
-  //mandar datos del eliminar a la api
-  const EliminarEmpleados = (e) => {
-
-    let payload = {
-      empe_Id: EmpleadoId,
-    }
-    axios.post(Global.url + 'Empleado/Eliminar', payload)
-      .then((r) => {
-        hideDeleteModal();
-        setEmpleadoId("");
-        toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-      });
+  const Eliminar = () => {
+    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No se puede Eliminar, la factura ya fue cerrada', life: 1500 });
   }
-
 
   return (
     <div className="grid">
@@ -81,7 +55,7 @@ const App = () => {
 
         <div className="card" style={{ background: `rgb(105,101,235)`, height: '100px', width: '100%' }}>
           <div className="row text-center d-flex align-items-center">
-            <h2 style={{ color: 'white' }}>Empleados</h2>
+            <h2 style={{ color: 'white' }}>Factura</h2>
           </div>
         </div>
 
@@ -104,15 +78,16 @@ const App = () => {
             filterMode="filter"
             header={header}
             value={posts.filter((post) =>
+              post.clie_NombreCompleto.toLowerCase().includes(searchText.toLowerCase()) ||
               post.empe_NombreCompleto.toLowerCase().includes(searchText.toLowerCase()) ||
-              post.empe_Identidad.toLowerCase().includes(searchText.toLowerCase()) ||
-              post.carg_Descripcion.toLowerCase().includes(searchText.toLowerCase())
+              post.fact_FechaCompra.toLowerCase().includes(searchText.toLowerCase())
             )}
 
           >
-            <Column field="empe_NombreCompleto" header="Nombre" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-            <Column field="empe_Identidad" header="Identidad" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-            <Column field="carg_Descripcion" header="Cargo" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+            <Column field="clie_NombreCompleto" header="Cliente" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+            <Column field="empe_NombreCompleto" header="Empleado" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+            <Column field="fact_FechaCompra" header="Fecha" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+
 
             <Column
               field="acciones"
@@ -122,27 +97,12 @@ const App = () => {
               body={rowData => (
                 <div>
                   <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> .
-                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({pathname: './empleado_editar', query: {id: rowData.empe_Id}})}/> .
-                  <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.empe_Id)} />
+                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => Editar()} /> .
+                  <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => Eliminar()}/>
                 </div>
               )}
             />
           </DataTable>
-
-          {/*modal para Eliminar Registros*/}
-          <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Empleados" onHide={hideDeleteModal} modal footer={
-            <>
-              <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
-              <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarEmpleados} />
-            </>
-          }>
-            <div className="flex align-items-center justify-content-center">
-              <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-              <span>
-                ¿Desea eliminar este registro?
-              </span>
-            </div>
-          </Dialog>
 
         </div>
       </div>
