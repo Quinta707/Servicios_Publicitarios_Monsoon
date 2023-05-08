@@ -34,17 +34,12 @@ namespace ServiciosPublicitarios.DataAccess.Repository
         #endregion
 
         #region Factura
-        public static string UDP_tbFacturas_Listado         = "pbli.UDP_tbFacturas_Index";
-        public static string UDP_tbFacturas_Insertar        = "pbli.UDP_tbFacturas_Insert";
-        public static string UDP_tbFacturas_Actualiar       = "pbli.UDP_tbFacturas_Update";
-        public static string UDP_tbFacturas_Eliminar        = "pbli.UDP_tbFacturas_Delete";
-        public static string UDP_tbFacturas_Buscar          = "pbli.UDP_tbFacturas_Find";
-
-        public static string UDP_tbFacturaDetalle_Insetar   = "pbli.tbFacturaDetalle_Insert";
-        public static string UDP_tbFacturaDetalle_Eliminar  = "pbli.tbFacturaDetalle_Delete";
-        public static string UDP_tbFacturaDetalle_Listado   = "pbli.tbFacturaDetalle_Index";
-        public static string UDP_tbFacturaDetalle_Precio    = "pbli.UDP_tbFacturaDetalle_Price";
-        #endregion           
+        public static string UDP_tbFacturas_Listado = "pbli.UDP_tbFacturas_Index";
+        public static string UDP_tbFacturas_Insertar = "pbli.UDP_tbFacturas_Insert";
+        public static string UDP_tbFacturas_Actualiar = "pbli.UDP_tbFacturas_Update";
+        public static string UDP_tbFacturas_Eliminar = "pbli.UDP_tbFacturas_Delete";
+        public static string UDP_tbFacturas_Buscar = "pbli.UDP_tbFacturas_Find";
+        #endregion
 
         #region Sucursal
         public static string UDP_tbSucursales_Listado = "pbli.UDP_tbSucursales_Index";

@@ -49,9 +49,9 @@ const AppMenu = () => {
                             to: '/Sucursal/sucursal_index'
                         },
                         {
-                            label: 'Factura',
+                            label: 'Access Denied',
                             icon: 'pi pi-fw pi-lock',
-                            to: '/factura/factura_index'
+                            to: '/auth/access'
                         }
                     ]
                 },

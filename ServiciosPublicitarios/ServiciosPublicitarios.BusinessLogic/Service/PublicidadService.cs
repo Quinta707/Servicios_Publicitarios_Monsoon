@@ -1,7 +1,6 @@
 ﻿using ServiciosPublicitarios.DataAccess.Repository;
 using ServiciosPublicitarios.Entities.Entities;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -181,100 +180,6 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
                 return result.Error(e.Message);
             }
         }
-
-        public ServiceResult InsertarFactura(tbFacturas item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _facturaRepository.Insert(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
-                else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public ServiceResult InsertarFacturaDetalle(tbFacturaDetalle item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _facturaRepository.InsertFdet(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
-                else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public ServiceResult EliminarFacturaDetalle(tbFacturaDetalle item)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var map = _facturaRepository.DeleteFdet(item);
-                if (map.CodeStatus > 0)
-                {
-                    return result.Ok(map);
-                }
-                else
-                {
-                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
-                    return result.Error(map);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public IEnumerable PrecioDetalle(int id)
-        {
-            try
-            {
-                return _facturaRepository.PriceFdet(id);
-                
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public ServiceResult ListadoFacturaDetalle(int id)
-        {
-            var result = new ServiceResult();
-            try
-            {
-                var list = _facturaRepository.ListFdet(id);
-                return result.Ok(list);
-            }
-            catch (Exception e)
-            {
-                return result.Error(e.Message);
-            }
-        }
-
         #endregion
 
 

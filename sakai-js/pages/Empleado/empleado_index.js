@@ -25,7 +25,7 @@ const App = () => {
       .then(response => response.data)
       .then(data => setPosts(data.data))
       .catch(error => console.error(error))
-  }, [posts]);
+  }, []);
 
 
 
@@ -113,6 +113,7 @@ const App = () => {
             <Column field="empe_NombreCompleto" header="Nombre" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
             <Column field="empe_Identidad" header="Identidad" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
             <Column field="carg_Descripcion" header="Cargo" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+
 
             <Column
               field="acciones"
