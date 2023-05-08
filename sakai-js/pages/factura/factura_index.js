@@ -96,7 +96,7 @@ const App = () => {
               style={{ minWidth: '300px' }}
               body={rowData => (
                 <div>
-                  <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> .
+                  <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './factura_details', query: { id: rowData.fact_Id } })}/> .
                   <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => Editar()} /> .
                   <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => Eliminar()}/>
                 </div>

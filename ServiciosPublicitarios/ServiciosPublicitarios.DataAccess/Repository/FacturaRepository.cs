@@ -18,7 +18,11 @@ namespace ServiciosPublicitarios.DataAccess.Repository
 
         public VW_tbFacturas Find(int? id)
         {
-            throw new NotImplementedException();
+            using var db = new SqlConnection(MonsoonContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@fact_Id", id, DbType.Int32, ParameterDirection.Input);
+
+            return db.QueryFirst<VW_tbFacturas>(ScriptsDataBase.UDP_tbFacturas_Buscar, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
 
         public RequestStatus Insert(tbFacturas item)

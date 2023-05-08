@@ -2014,7 +2014,7 @@ END
 --**************************************************--
 -- ************* TABLA Factura Detalle *****************--
 GO
-CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Insert
+CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Insert 
 (@fact_Id INT, 
  @serv_Id INT,
  @fdet_Cantidad INT,
@@ -2022,10 +2022,24 @@ CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Insert
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO [pbli].[tbFacturaDetalle] (fact_Id, serv_Id, fdet_Cantidad, fdet_UsuCreacion, fdet_UsuModificacion, fdet_FechaModificacion)
-		VALUES (@fact_Id,@serv_Id,@fdet_Cantidad,@fdet_UsuCreacion, NULL, NULL)
 		
-		SELECT 1 codeStatus
+		-- Verificar si el ID del servicio ya existe en la tabla [pbli].[tbFacturaDetalle]
+		IF EXISTS (SELECT 1 FROM [pbli].[tbFacturaDetalle] WHERE serv_Id = @serv_Id AND fact_Id = @fact_Id)
+			BEGIN
+
+				UPDATE pbli.tbFacturaDetalle 
+				SET fdet_Cantidad += @fdet_Cantidad
+				WHERE fact_Id = @fact_Id AND serv_Id = @serv_Id
+
+				SELECT 1 codeStatus
+			END
+		ELSE
+		 BEGIN
+			INSERT INTO [pbli].[tbFacturaDetalle] (fact_Id, serv_Id, fdet_Cantidad, fdet_UsuCreacion, fdet_UsuModificacion, fdet_FechaModificacion)
+			VALUES (@fact_Id,@serv_Id,@fdet_Cantidad,@fdet_UsuCreacion, NULL, NULL)
+		
+			SELECT 1 codeStatus
+		 END
 	END TRY
 	BEGIN CATCH
 		SELECT 0 codeStatus

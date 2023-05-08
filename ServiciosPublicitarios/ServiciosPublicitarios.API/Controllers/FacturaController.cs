@@ -38,7 +38,14 @@ namespace ServiciosPublicitarios.API.Controllers
             var response = _publicidadService.InsertarFactura(item);
             return Ok(response);
         }
-        
+
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _publicidadService.BuscarFactura(id);
+            return Ok(list);
+        }
+
 
         [HttpPut("ListadoDetalles")]
         public IActionResult ListFdet(int id)

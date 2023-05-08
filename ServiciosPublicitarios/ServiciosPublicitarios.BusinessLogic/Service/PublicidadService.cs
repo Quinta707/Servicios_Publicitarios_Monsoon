@@ -207,6 +207,19 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
             }
         }
 
+        public VW_tbFacturas BuscarFactura(int? id)
+        {
+            try
+            {
+                var list = _facturaRepository.Find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public ServiceResult InsertarFacturaDetalle(tbFacturaDetalle item)
         {
             var result = new ServiceResult();
