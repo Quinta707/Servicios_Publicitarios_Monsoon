@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qOqfkBHMaWKdicAtEjkpGPmUuO8+hEAnzpEp4+bvm0vropB8JRzVSWt5uTq0m4HHd2zVoVruFB5E8v8Xw36l2w==",
+  "dgSpecHash": "1AXyGdKLEPb1Q5V6E9fXY6JH4BB9PEov2i7ilJmeMEEHovaJEI/6OWnx1kw+T/WCAd88o55C7VgnbGeUJ+5eog==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj",
+  "projectFilePath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

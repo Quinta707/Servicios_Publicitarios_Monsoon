@@ -68,3 +68,13 @@ C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.En
 C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.csproj.CoreCompileInputs.cache
 C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.dll
 C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.pdb
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.deps.json
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.dll
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.pdb
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.csproj.AssemblyReference.cache
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.AssemblyInfoInputs.cache
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.AssemblyInfo.cs
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.csproj.CoreCompileInputs.cache
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.dll
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.Entities\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.pdb

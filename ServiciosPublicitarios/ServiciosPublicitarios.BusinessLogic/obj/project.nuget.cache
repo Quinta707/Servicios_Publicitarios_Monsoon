@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7LcwmHE+I9Qkyri4NmBZoJUy1GekXvLjKXauHXsCRNIF84aqkrmFT7WLwU/MNKEq+ZEtatrVl6EGf48lRLDPvA==",
+  "dgSpecHash": "7eGVNaJGCfB5i3LOZfLqLp5oAYmcmMk/M2HbH0VQhUazEQ86VQ6762xuZN+7DVWCMTYRA1Zvsws4DUQmsDkL5g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
+  "projectFilePath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",

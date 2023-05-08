@@ -9146,11 +9146,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\ServiciosPublicitarios.API.csproj",
+      "projectUniqueName": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\ServiciosPublicitarios.API.csproj",
       "projectName": "ServiciosPublicitarios.API",
-      "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\ServiciosPublicitarios.API.csproj",
+      "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\ServiciosPublicitarios.API.csproj",
       "packagesPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\obj\\",
+      "outputPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -9171,8 +9171,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj": {
-              "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj"
+            "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj": {
+              "projectPath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj"
             }
           }
         }

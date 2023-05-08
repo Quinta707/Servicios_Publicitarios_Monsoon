@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FK6F3jdO6EdCY6DwZ+yQbz3dP3gp1FVkLrHz0qiJ1TJUeHyQGc3rt19xMhXcai1UFpfQHKbJraW1K7c2c5Z1yw==",
+  "dgSpecHash": "GNzrWLRRrttDDXo83yPW4DUjpWADsodpR1GjV8q1/lDUMSnsYjwutr718VM84y+rSptPoM0gyzmLPFOnpWKrcg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Proyecto\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\ServiciosPublicitarios.API.csproj",
+  "projectFilePath": "C:\\Users\\LAB01.DESKTOP-36LBO8D\\Desktop\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.API\\ServiciosPublicitarios.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\LAB01.DESKTOP-36LBO8D\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

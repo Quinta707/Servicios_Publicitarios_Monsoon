@@ -89,3 +89,16 @@ C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.Da
 C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.csproj.CopyComplete
 C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.dll
 C:\Users\LAB01\Desktop\Proyecto\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.pdb
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.deps.json
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.dll
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.pdb
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.dll
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\bin\Debug\netcoreapp3.1\ServiciosPublicitarios.Entities.pdb
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.csproj.AssemblyReference.cache
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.AssemblyInfoInputs.cache
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.AssemblyInfo.cs
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.csproj.CoreCompileInputs.cache
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.csproj.CopyComplete
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.dll
+C:\Users\LAB01.DESKTOP-36LBO8D\Desktop\Servicios_Publicitarios_Monsoon\ServiciosPublicitarios\ServiciosPublicitarios.DataAccess\obj\Debug\netcoreapp3.1\ServiciosPublicitarios.DataAccess.pdb
