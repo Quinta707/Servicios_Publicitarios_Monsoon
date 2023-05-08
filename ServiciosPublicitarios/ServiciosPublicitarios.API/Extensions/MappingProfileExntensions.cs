@@ -21,6 +21,7 @@ namespace ServiciosPublicitarios.API.Extensions
             CreateMap<SucursalViewModel,                tbSucursales>().ReverseMap();
             CreateMap<ProveedorViewModel,               tbProveedores>().ReverseMap();
             CreateMap<FacturaDetalleViewModel,          tbFacturaDetalle>().ReverseMap();
+            CreateMap<InsumosPorServicioViewModel,      tbInsumosPorServicios>().ReverseMap();
                
 
 

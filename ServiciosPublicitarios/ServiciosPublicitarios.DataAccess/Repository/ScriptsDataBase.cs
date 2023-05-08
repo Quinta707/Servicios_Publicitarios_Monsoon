@@ -70,6 +70,10 @@ namespace ServiciosPublicitarios.DataAccess.Repository
         public static string UDP_tbServicios_Buscar = "pbli.UDP_tbServicios_Find";
         #endregion
 
+        #region InsumosPorServicio
+        public static string UDP_InsumosPorServicio_Listado = "pbli.UDP_tbInsumosPorServicio_Lista";
+        #endregion
+
 
         //----- GRAL ---------
 

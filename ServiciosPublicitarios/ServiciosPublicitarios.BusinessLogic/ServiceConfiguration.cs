@@ -27,6 +27,7 @@ namespace ServiciosPublicitarios.BusinessLogic
             service.AddScoped<FacturaRepository>();
             service.AddScoped<SucursalRepository>();
             service.AddScoped<ProveedorRepository>();
+            service.AddScoped<InsumosPorServicioRepository>();
 
 
             service.AddScoped<UsuarioRepository>();

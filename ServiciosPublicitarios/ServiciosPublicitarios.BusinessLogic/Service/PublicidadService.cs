@@ -16,6 +16,7 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
         private readonly FacturaRepository  _facturaRepository;
         private readonly SucursalRepository  _sucursalRepository;
         private readonly ProveedorRepository  _proveedorRepository;
+        private readonly InsumosPorServicioRepository _insumosPorServicioRepository;
 
         public PublicidadService (EmpleadoRepository empleadoRepository, 
                                   ClienteRepository clienteRepository,
@@ -23,15 +24,17 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
                                   ServicioRepository servicioRepository,
                                   FacturaRepository facturaRepository,
                                   SucursalRepository sucursalRepository,
-                                  ProveedorRepository proveedorRepository)
+                                  ProveedorRepository proveedorRepository,
+                                  InsumosPorServicioRepository insumosPorServicioRepository)
         {
-            _empleadoRepository     = empleadoRepository;
-            _clienteRepository      = clienteRepository;
-            _insumoRepository       = insumoRepository;
-            _servicioRepository     = servicioRepository;
-            _facturaRepository      = facturaRepository;
-            _sucursalRepository     = sucursalRepository;
-            _proveedorRepository    = proveedorRepository;
+            _empleadoRepository             = empleadoRepository;
+            _clienteRepository              = clienteRepository;
+            _insumoRepository               = insumoRepository;
+            _servicioRepository             = servicioRepository;
+            _facturaRepository              = facturaRepository;
+            _sucursalRepository             = sucursalRepository;
+            _proveedorRepository            = proveedorRepository;
+            _insumosPorServicioRepository   = insumosPorServicioRepository;
         }
 
 
@@ -319,6 +322,22 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
             try
             {
                 var list = _servicioRepository.List();
+                return result.Ok(list);
+            }
+            catch (Exception e)
+            {
+                return result.Error(e.Message);
+            }
+        }
+        #endregion
+
+        #region InsumosPorServicio
+        public ServiceResult ListadoInsumosPorServicio(VW_tbInsumosPorServicio serv_Id)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var list = _insumosPorServicioRepository.List(serv_Id);
                 return result.Ok(list);
             }
             catch (Exception e)
