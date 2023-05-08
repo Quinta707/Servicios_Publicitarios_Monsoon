@@ -25,6 +25,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
         public virtual DbSet<VW_tbDepartamentos> VW_tbDepartamentos { get; set; }
         public virtual DbSet<VW_tbEmpleados> VW_tbEmpleados { get; set; }
         public virtual DbSet<VW_tbEstadosCiviles> VW_tbEstadosCiviles { get; set; }
+        public virtual DbSet<VW_tbFacturaDetalle> VW_tbFacturaDetalle { get; set; }
         public virtual DbSet<VW_tbFacturas> VW_tbFacturas { get; set; }
         public virtual DbSet<VW_tbInsumos> VW_tbInsumos { get; set; }
         public virtual DbSet<VW_tbMetodosdePago> VW_tbMetodosdePago { get; set; }
@@ -288,6 +289,27 @@ namespace ServiciosPublicitarios.DataAccess.Context
                 entity.Property(e => e.eciv_FechaCreacion).HasColumnType("datetime");
 
                 entity.Property(e => e.eciv_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.user_Creacion)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbFacturaDetalle>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbFacturaDetalle", "pbli");
+
+                entity.Property(e => e.fdet_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.fdet_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.serv_Nombre).HasMaxLength(150);
+
+                entity.Property(e => e.serv_Precio).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.user_Creacion)
                     .IsRequired()
@@ -1223,7 +1245,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82EA3BCD5F8")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E1DAA5BC3")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)

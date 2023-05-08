@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiciosPublicitarios.API.models;
 using ServiciosPublicitarios.BusinessLogic.Service;
+using ServiciosPublicitarios.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +30,48 @@ namespace ServiciosPublicitarios.API.Controllers
             var list = _publicidadService.ListadoFacturas();
             return Ok(list);
         }
+
+        [HttpPost("Insertar")]
+        public IActionResult Insert(FacturaViewModel factura)
+        {
+            var item = _mapper.Map<tbFacturas>(factura);
+            var response = _publicidadService.InsertarFactura(item);
+            return Ok(response);
+        }
+        
+
+        [HttpPut("ListadoDetalles")]
+        public IActionResult ListFdet(int id)
+        {
+            var list = _publicidadService.ListadoFacturaDetalle(id);
+            return Ok(list);
+        }
+
+
+        [HttpPost("InsertarDetalles")]
+        public IActionResult InsertFdet(FacturaDetalleViewModel facturaFdet)
+        {
+            var item = _mapper.Map<tbFacturaDetalle>(facturaFdet);
+            var response = _publicidadService.InsertarFacturaDetalle(item);
+            return Ok(response);
+        }
+        
+
+        [HttpPost("EliminarDetalles")]
+        public IActionResult DeleteFdet(FacturaDetalleViewModel facturaFdet)
+        {
+            var item = _mapper.Map<tbFacturaDetalle>(facturaFdet);
+            var response = _publicidadService.EliminarFacturaDetalle(item);
+            return Ok(response);
+        }
+
+
+        [HttpPut("PrecioDetalles")]
+        public IActionResult FindPrice(int id)
+        {
+            var list = _publicidadService.PrecioDetalle(id);
+            return Ok(list);
+        }
+
     }
 }

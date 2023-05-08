@@ -1427,7 +1427,7 @@ ON T1.fact_UsuModificacion = T3.[user_Id];
 
 --**************  INSERT ******************--
 GO
-CREATE OR ALTER PROCEDURE pbli.UDP_tbFacturas_Insert
+CREATE OR ALTER PROCEDURE pbli.UDP_tbFacturas_Insert 
 (
 @clie_Id			INT, 
 @empe_Id			INT, 
@@ -1440,7 +1440,8 @@ BEGIN
 
 		INSERT INTO [pbli].[tbFacturas](clie_Id, empe_Id, meto_Id, fact_FechaCompra, fact_UsuCreacion)
 		VALUES	(@clie_Id, @empe_Id, @meto_Id, GETDATE(), @fact_UsuCreacion)
-		SELECT 1 codeStatus
+
+		SELECT SCOPE_IDENTITY() CodeStatus
 
 	END TRY
 	BEGIN CATCH
@@ -1521,6 +1522,9 @@ BEGIN
 	SELECT * FROM pbli.VW_tbFacturas
 	WHERE fact_Id = @fact_Id
 END
+
+--******************************************--
+--*********** TABLA INSUMOS **************--
 
 
 
@@ -2006,6 +2010,90 @@ BEGIN
 END
 
 
+
+--**************************************************--
+-- ************* TABLA Factura Detalle *****************--
+GO
+CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Insert
+(@fact_Id INT, 
+ @serv_Id INT,
+ @fdet_Cantidad INT,
+ @fdet_UsuCreacion INT)
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO [pbli].[tbFacturaDetalle] (fact_Id, serv_Id, fdet_Cantidad, fdet_UsuCreacion, fdet_UsuModificacion, fdet_FechaModificacion)
+		VALUES (@fact_Id,@serv_Id,@fdet_Cantidad,@fdet_UsuCreacion, NULL, NULL)
+		
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 0 codeStatus
+	END CATCH
+END
+
+
+GO
+CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Delete
+(@fdet_Id INT)
+AS
+BEGIN
+	BEGIN TRY 
+		UPDATE [pbli].[tbFacturaDetalle]
+		SET [fdet_Estado] = 0
+		WHERE [fdet_Id] = @fdet_Id
+		
+		SELECT  1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT  0 codeStatus
+	END CATCH 
+END
+
+
+GO
+CREATE OR ALTER VIEW pbli.VW_tbFacturaDetalle
+AS
+SELECT	fdet_Id, 
+		fact_Id, 
+		T1.serv_Id, 
+		T2.serv_Nombre,
+		T2.serv_Precio,
+		fdet_Cantidad, 
+		fdet_UsuCreacion, 
+		T3.user_NombreUsuario AS user_Creacion,
+		fdet_FechaCreacion, 
+		fdet_UsuModificacion, 
+		T4.user_NombreUsuario AS user_Modificacion,
+		fdet_FechaModificacion, 
+		fdet_Estado
+FROM [pbli].[tbFacturaDetalle] AS T1 INNER JOIN pbli.tbServicios AS T2
+ON T1.serv_Id = T2.serv_Id INNER JOIN acce.tbUsuarios AS T3
+ON T1.fdet_UsuCreacion = T3.[user_Id] LEFT JOIN acce.tbUsuarios AS T4
+ON T1.fdet_UsuModificacion = T4.[user_Id]
+
+
+GO
+CREATE OR ALTER PROCEDURE pbli.tbFacturaDetalle_Index
+(@fact_Id INT)
+AS
+BEGIN
+	SELECT * FROM [pbli].VW_tbFacturaDetalle
+	WHERE fact_Id = @fact_Id
+END
+
+--******** PROCEDIMIENTO  CALCULAR COSTO DE DETALLE ***********--
+GO
+CREATE OR ALTER PROCEDURE pbli.UDP_tbFacturaDetalle_Price 
+(@fact_Id INT)
+AS
+BEGIN
+	SELECT	SubTotal = (SUM(fdet_Cantidad*serv_Precio)),
+			IVA = CAST((SUM(serv_Precio*fdet_Cantidad))*0.15 AS DECIMAL (18,2)), 
+			Total =((SUM(serv_Precio*fdet_Cantidad))+(SUM(serv_Precio*fdet_Cantidad))*0.15)  
+	FROM pbli.VW_tbFacturaDetalle
+	WHERE [fdet_Estado] = 1 AND [fact_Id] = @fact_Id
+END	
 
 ----/***********************************************\-----
 --- ********** PROCIDIMIENTOS ADICIONALES **********---

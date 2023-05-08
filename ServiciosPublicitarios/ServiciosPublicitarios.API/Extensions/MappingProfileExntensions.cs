@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ServiciosPublicitarios.API.Controllers;
 using ServiciosPublicitarios.API.models;
 using ServiciosPublicitarios.Entities.Entities;
 using System;
@@ -12,25 +13,27 @@ namespace ServiciosPublicitarios.API.Extensions
     {
         public MappingProfileExntensions()
         {
-            CreateMap<EmpleadoViewModel,        tbEmpleados>().ReverseMap();
-            CreateMap<ClienteVIewModel,         tbClientes>().ReverseMap();
-            CreateMap<InsumoViewModel,          tbInsumos>().ReverseMap();
-            CreateMap<ServicioViewModel,        tbServicios>().ReverseMap();
-            CreateMap<FacturaViewModel,         tbFacturas>().ReverseMap();
-            CreateMap<SucursalViewModel,        tbSucursales>().ReverseMap();
-            CreateMap<ProveedorViewModel,       tbProveedores>().ReverseMap();
+            CreateMap<EmpleadoViewModel,                tbEmpleados>().ReverseMap();
+            CreateMap<ClienteVIewModel,                 tbClientes>().ReverseMap();
+            CreateMap<InsumoViewModel,                  tbInsumos>().ReverseMap();
+            CreateMap<ServicioViewModel,                tbServicios>().ReverseMap();
+            CreateMap<FacturaViewModel,                 tbFacturas>().ReverseMap();
+            CreateMap<SucursalViewModel,                tbSucursales>().ReverseMap();
+            CreateMap<ProveedorViewModel,               tbProveedores>().ReverseMap();
+            CreateMap<FacturaDetalleViewModel,          tbFacturaDetalle>().ReverseMap();
+               
 
 
-            CreateMap<DepartamentoViewModel,    tbDepartamentos>().ReverseMap();
-            CreateMap<MunicipioViewModel,       tbMunicipios>().ReverseMap();
-            CreateMap<CategoriaViewModel,       tbCategorias>().ReverseMap();
-            CreateMap<MetododePagoViewModel,    tbMetodosdePago>().ReverseMap();
-            CreateMap<CargoViewModel,           tbCargos>().ReverseMap();
-            CreateMap<tbEstadosCiviles,         tbEstadosCiviles>().ReverseMap();
+            CreateMap<DepartamentoViewModel,            tbDepartamentos>().ReverseMap();
+            CreateMap<MunicipioViewModel,               tbMunicipios>().ReverseMap();
+            CreateMap<CategoriaViewModel,               tbCategorias>().ReverseMap();
+            CreateMap<MetododePagoViewModel,            tbMetodosdePago>().ReverseMap();
+            CreateMap<CargoViewModel,                   tbCargos>().ReverseMap();
+            CreateMap<tbEstadosCiviles,                 tbEstadosCiviles>().ReverseMap();
 
 
-            CreateMap<UsuarioViewModel,         tbUsuarios>().ReverseMap();
-            CreateMap<RolViewModel,             tbRoles>().ReverseMap();
+            CreateMap<UsuarioViewModel,                 tbUsuarios>().ReverseMap();
+            CreateMap<RolViewModel,                     tbRoles>().ReverseMap();
         }
 
     }
