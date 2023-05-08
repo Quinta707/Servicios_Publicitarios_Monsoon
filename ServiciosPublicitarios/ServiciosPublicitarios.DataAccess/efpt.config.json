@@ -130,10 +130,6 @@
          "ObjectType": 3
       },
       {
-         "Name": "[pbli].[VW_tbFacturaDetalle]",
-         "ObjectType": 3
-      },
-      {
          "Name": "[pbli].[VW_tbFacturas]",
          "ObjectType": 3
       },

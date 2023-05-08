@@ -175,6 +175,7 @@ const EditarEmpleado = () => {
             
             }
     
+            console.log(empleado111)
             axios.post(Global.url + 'Empleado/Editar', empleado111)
             .then((r) => {
                 router.push('./empleado_index')

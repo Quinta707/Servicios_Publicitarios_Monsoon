@@ -68,11 +68,12 @@ const createEmpleado = () => {
 
 
     const ActivarMunicipioDDl = (depa_Id) => {
+        console.log(depa_Id);
         setMunicipioActivated(false);
         axios.put(Global.url + 'Municipio/MunicipioDDL?id='+ depa_Id)
-            .then(response => response.data)
-            .then((data) => setMunicipioDDL( data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
-            .catch(error => console.error(error))
+        .then(response => response.data)
+        .then((data) => setMunicipioDDL( data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
+        .catch(error => console.error(error))
     }
 
     
@@ -128,7 +129,7 @@ const createEmpleado = () => {
             </div>
 
             <div className="card">
-                <div className="grid p-fluid">  
+                <div className="grid p-fluid">
 
                     <div className="col-6">
                         <div className="field mt-3">
@@ -248,7 +249,7 @@ const createEmpleado = () => {
                             </div>
 
                             <div className='col-6'>
-                                <Button label="Cancelar" severity="default"onClick={() => router.push('./empleado_index')}/>
+                                <Button label="Cancelar" severity="default" />
                             </div>
                         
                      

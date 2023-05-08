@@ -47,6 +47,7 @@ namespace ServiciosPublicitarios.API.Controllers
         }
 
         [HttpPost("Insertar")]
+
         public IActionResult Insert(EmpleadoViewModel empleado)
         {
             var item = _mapper.Map<tbEmpleados>(empleado);
