@@ -57,6 +57,16 @@ const AppMenu = () => {
                             label: 'Servicios',
                             icon: 'pi pi-fw pi-bookmark',
                             to: '/Servicios/servicios_index'
+                        },
+                        {
+                            label: 'Insumos',
+                            icon: 'pi pi-fw pi-bookmark',
+                            to: '/Insumos/insumos_index'
+                        },
+                        {
+                            label: 'Proveedores',
+                            icon: 'pi pi-fw pi-bookmark',
+                            to: '/Proveedores/proveedores_index'
                         }
                     ]
                 },

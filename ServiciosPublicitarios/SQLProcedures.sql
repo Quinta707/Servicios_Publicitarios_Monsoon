@@ -1885,13 +1885,16 @@ BEGIN
 		SET [serv_Estado] = 0
 		WHERE serv_Id = @serv_Id;
 
-		SELECT 1 codeSatatus
+		SELECT 1 codeStatus
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeSatatus
+		SELECT 0 codeStatus
 	END CATCH
 END 
 
+update pbli.tbServicios
+SET		serv_Estado = 1
+WHERE	serv_Id IN (1, 2, 5, 6)
 
 --**************************************************--
 -- ************* TABLA PROVVEDORES *****************--

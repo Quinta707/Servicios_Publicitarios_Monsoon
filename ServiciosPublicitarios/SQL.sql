@@ -920,7 +920,7 @@ VALUES	('Termos y tazas', '1'),		--1
 		('Botones y llaveros', '1'),	--2
 		('Gorras', '1'),				--3
 		('Placas', '1'),				--4
-		('Retrateras', '1'),			--5
+		('Tarjetas', '1'),				--5
 		('Banners', '1'),				--6
 		('Agendas', '1'),				--7
 		('Camisas', '1'),				--8
@@ -942,7 +942,7 @@ VALUES	('Termo Aluminio 350ML Blanco', '1', '150', '1', '1'),
 		('Gorra Negra', '3', '60', '2', '1'),
 		('Papel de sublimación', '9', '3.2', '2', '1'),
 		('Llavero clip metal corazón', '2', '35', '3', '1'),
-		('Llavero clip metal rectángulo', '2', '35', '3', '1'),
+		('Llavero metal rectángulo', '2', '35', '3', '1'),
 		('Llavero metal escudo', '2', '32', '3', '1'),
 		('Llavero metal redondo', '2', '32', '3', '1'),
 		('Placa de madera tipo hoja', '4', '200', '3', '1'),
@@ -960,7 +960,7 @@ VALUES	('Termo Aluminio 350ML Blanco', '1', '150', '1', '1'),
 		('Vinil azul', '9', '20', '5', '1'),
 		('Vinil plateado', '9', '20', '5', '1'),
 		('Vinil dorado', '9', '20', '5', '1'),
-		('Lámina de plástico corrugado 4 mm', '9', '60', '2', '1'),
+		('Lámina de plástico corrugado', '9', '60', '2', '1'),
 		('Camisa blanca talla S', '8', '108', '4', '1'),
 		('Camisa blanca talla M', '8', '108', '4', '1'),
 		('Camisa blanca talla L', '8', '108', '4', '1'),
@@ -968,7 +968,8 @@ VALUES	('Termo Aluminio 350ML Blanco', '1', '150', '1', '1'),
 		('Camisa negra talla S', '8', '108', '4', '1'),
 		('Camisa negra talla M', '8', '108', '4', '1'),
 		('Camisa negra talla L', '8', '108', '4', '1'),
-		('Camisa negra talla XL', '8', '108', '4', '1');
+		('Camisa negra talla XL', '8', '108', '4', '1'),
+		('Paquete tarjetas', '5', '50', '4', '1');
 	
 		
 
@@ -981,21 +982,34 @@ VALUES	('Termos y tazas personalizados', '50', '1'),
 		('Placas y retrateras personalizadas', '30', '1'),
 		('Botones y llaveros personalizados', '10', '1'),
 		('Banners', '190', '1');
-
-
+GO
+UPDATE	pbli.tbServicios
+SET		serv_Nombre = 'Tazas y termos personalizados'
+WHERE	serv_Id = '1';
+GO
+UPDATE	pbli.tbServicios
+SET		serv_Nombre = 'Tarjetas de presentación'
+WHERE	serv_Id = '4';
+GO
+UPDATE	pbli.tbServicios
+SET		serv_Nombre = 'Botones personalizados'
+WHERE	serv_Id = '5';
+UPDATE	pbli.tbServicios
+SET		serv_Nombre = 'Banners de publicidad'
+WHERE	serv_Id = '6';
 --********** INSUMOS POR SERVICIO TABLE ***************--
 GO
 INSERT INTO pbli.tbInsumosPorServicios(serv_Id, insu_Id, inse_UsuCreacion)
-VALUES	('1', '2', '1'),
+VALUES	('1', '19', '1'),
 		('1', '11', '1'),
-		('2', '10', '1'),
+		('2', '33', '1'),
 		('2', '11', '1'),
 		('3', '22', '1'),
 		('3', '30', '1'),
 		('3', '11', '1'),
 		('4', '20', '1'),
 		('4', '11', '1'),
-		('5', '14', '1'),
+		('5', '7', '1'),
 		('5', '11', '1'),
 		('6', '21', '1'),
 		('6', '11', '1');
@@ -1037,7 +1051,6 @@ VALUES	('1', '1', '2', '1'),
 		('7', '1', '19', '1'),
 		('8', '2', '30', '1'),
 		('9', '3', '21', '1'),
-		('10', '4', '15', '1')
-		;
+		('10', '4', '15', '1');
 
 
