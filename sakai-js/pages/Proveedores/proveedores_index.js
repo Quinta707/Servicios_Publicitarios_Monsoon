@@ -100,8 +100,8 @@ const ProveedoresIn = () => {
   };
 
   const hideDialog = () => {
-    setCorreo("");
-    setProveedor("");
+    setCorreo(null);
+    setProveedor(null);
     setDireccion("");
     setDepartamento('');
     setMunicipio('');
@@ -111,11 +111,11 @@ const ProveedoresIn = () => {
   const proveedoresDialogFooter = (
     <>
         <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
-        <Button label="Guardar" icon="pi pi-check" text />
+        <Button label="Guardar" icon="pi pi-check" text onClick={() => Agregar()} />
     </>
   );
 
-  const Insetar = (e) => {
+  const Agregar = (e) => {
 
     if (!Proveedor || !Correo || !Direccion ) 
     {
@@ -127,7 +127,6 @@ const ProveedoresIn = () => {
         }
     }
     else{
-
 
         let proveedor = {
             prov_Nombre:            Proveedor,
@@ -141,14 +140,10 @@ const ProveedoresIn = () => {
 
         axios.post(Global.url + 'Proveedor/Insertar', proveedor)
         .then((r) => {
-          ProveedoresDialog(false);
+          hideDialog();
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro agregado correctamente', life: 1500 });
         });
-    }
-
-    
-
-    
+    }    
 }
 
   return (
@@ -256,7 +251,6 @@ const ProveedoresIn = () => {
     </div>
   )
 }
-
 
 
 export default ProveedoresIn;
