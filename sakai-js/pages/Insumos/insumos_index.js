@@ -61,7 +61,7 @@ const InsumosIn = () => {
       setCategoria(codeCat)
       setInsumoName(r.data.insu_Nombre)
       setPrecio(r.data.insu_Precio)
-      setProveedoresId(insu_Id)
+      setInsumoId(insu_Id)
       setedit(r.data)
     })
     .catch(error => console.error(error))
@@ -75,7 +75,7 @@ const InsumosIn = () => {
     setCategoria('')
     setInsumoName('')
     setPrecio('')
-    setProveedoresId('')
+    setInsumoId('')
     setedit('')
     setInsumosEditDialog(false);
   };
