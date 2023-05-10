@@ -19,7 +19,6 @@ const ProveedoresIn = () => {
   const [DeleteModal, setDeleteModal] = useState(false);
   const [ProveedoresId, setProveedoresId] = useState("");
   const toast = useRef(null);
-  const router = useRouter();
   const [ProveedoresDialog, setProveedoresDialog] = useState(false);
 
   const [Proveedor, setProveedor] = useState("");
@@ -35,6 +34,10 @@ const ProveedoresIn = () => {
   const [MunicipioSubmited, setMunicipioSubmited] = useState(false);
 
   const [submitted, setSubmitted] = useState(false);
+
+  const [edit, setedit] = useState([]);
+  const [editDialog, seteditDialog] = useState(false);
+
 
   useEffect(() => {
     axios.get(Global.url + 'Proveedor/Listado')
@@ -74,7 +77,89 @@ const ProveedoresIn = () => {
     </div>
   );
 
+  const AsiganrlevalorMunicipioDDL = (depa_Id, datos) => 
+    {
+        setMunicipioActivated(false);
+        axios.put(Global.url + 'Municipio/MunicipioDDL?id='+ depa_Id)
+        .then(response => response.data)
+        .then((data) => setMunicipioDDL( data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
+        .catch(error => console.error(error))
 
+        var codeMuni  = {code: datos.muni_Id, name: datos.muni_Nombre}
+        setMunicipio(codeMuni);
+    }
+
+  const EditProveedor = (prov_Id) => {
+      axios.get(Global.url + 'Proveedor/Buscar?id=' + prov_Id)
+      .then((r) => {
+        console.log(r.data)
+        setProveedor(r.data.prov_Nombre)
+        setDireccion(r.data.prov_Direccion)
+        setCorreo(r.data.prov_Correo)
+        var codeDepto  = {code: r.data.depa_Id, name: r.data.depa_Nombre}
+        setDepartamento(codeDepto)
+        AsiganrlevalorMunicipioDDL(codeDepto.code, r.data)
+        setProveedoresId(prov_Id)
+        setedit(r.data)
+        console.log(edit)
+      })
+      .catch(error => console.error(error))
+
+      seteditDialog(true)
+      
+  };
+
+  const hideeditDialog = () => {
+    setProveedor('');
+    setDireccion('');
+    setCorreo('');
+    setMunicipio('');
+    setProveedoresId('');
+    setedit('');
+    seteditDialog(false);
+  };
+
+  const EditarP = (e) => {
+
+    if (!Proveedor || !Correo || !Direccion ) 
+    {
+        setSubmitted(true);
+
+        if(Deparatemento && !Municipio)
+        {
+            setMunicipioSubmited(true);
+        }
+    }
+    else{
+
+        let proveedor = {
+            prov_Id:                ProveedoresId,
+            prov_Nombre:            Proveedor,
+            muni_Id:                Municipio.code,
+            prov_Direccion:         Direccion,
+            prov_Correo:            Correo,
+            prov_UsuModificacion :  1
+        }
+
+        console.log(proveedor);
+
+        axios.post(Global.url + 'Proveedor/Editar', proveedor)
+        .then((r) => {
+          hideeditDialog();
+          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro editado correctamente', life: 1500 });
+        });
+    }    
+  }
+
+
+  const editDialogFooter = (
+    <>
+        <Button label="Cancelar" icon="pi pi-times" text onClick={hideeditDialog} />
+        <Button label="Guardar" icon="pi pi-check" text onClick={() => EditarP()} />
+    </>
+  );
+
+  
   const OpenDeleteModal = (id) => {
     console.log(id)
     setProveedoresId(id);
@@ -180,7 +265,6 @@ const ProveedoresIn = () => {
             <Column field="prov_Id" header="ID" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
             <Column field="prov_Nombre" header="Proveedor" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
             <Column field="muni_Nombre" header="Ciudad" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-            <Column field="prov_Direccion" header="Dirección" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
             <Column field="prov_Correo" header="Correo" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
 
             <Column
@@ -191,7 +275,7 @@ const ProveedoresIn = () => {
               body={rowData => (
                 <div>
                   <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> 
-                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './Proveedores_editar', query: { id: rowData.empe_Id } })} /> 
+                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => EditProveedor(rowData.prov_Id)} /> 
                   <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.prov_Id)} />
                 </div>
               )}
@@ -213,6 +297,41 @@ const ProveedoresIn = () => {
           </Dialog>
 
           <Dialog visible={ProveedoresDialog} style={{ width: '450px' }} header="Nuevo Proveedor" modal className="p-fluid" footer={proveedoresDialogFooter} onHide={hideDialog}>             
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="proveedor">Proveedor</label>
+                  <InputText optionLabel="proveedor" value={Proveedor} onChange={ (e) => setProveedor(e.target.value)} className={classNames({ 'p-invalid': submitted && !Proveedor })}/>
+                  {submitted && !Proveedor && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="correo">Correo Electrónico</label>
+                  <InputText type='email' optionLabel="correo" value={Correo} onChange={ (e) => setCorreo(e.target.value)} className={classNames({ 'p-invalid': submitted && !Correo })}/>
+                  {submitted && !Correo && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+          </div>
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="name">Departamento</label>
+                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartamentoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value); ActivarMunicipioDDl(e.value.code); }} className={classNames({ 'p-invalid': submitted && !Deparatemento })}/>
+                  {submitted && !Deparatemento && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+              </div>
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="name">Municipio</label>
+                  <Dropdown optionLabel="name" placeholder="Selecionar" options={MunicipioDDL} value={Municipio} onChange={(e) => setMunicipio(e.value)} disabled={MunicipioActivated}/>
+                  {MunicipioSubmited && !Municipio && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+              </div>
+          </div>
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12">
+                  <label optionLabel="name">Dirección</label>
+                  <InputTextarea id="direccion" value={Direccion} onChange={ (e) => setDireccion(e.target.value)} className={classNames({ 'p-invalid': submitted && !Direccion })}></InputTextarea>
+                  {submitted && !Direccion && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+          </div>
+          </Dialog>
+
+
+          <Dialog visible={editDialog} value={edit} style={{ width: '450px' }} header="Editar Proveedor" modal className="p-fluid" footer={editDialogFooter} onHide={hideeditDialog}>             
           <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
                   <label htmlFor="proveedor">Proveedor</label>
