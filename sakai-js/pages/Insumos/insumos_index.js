@@ -32,6 +32,9 @@ const InsumosIn = () => {
 
   const [submitted, setSubmitted] = useState(false);
 
+  const [InsumosEditDialog, setInsumosEditDialog] = useState(false);
+
+
   useEffect(() => {
     axios.get(Global.url + 'Insumo/Listado')
       .then(response => response.data)
@@ -48,6 +51,70 @@ const InsumosIn = () => {
       .then((data) => setProveedorDDL( data.data.map((c) => ({ code: c.prov_Id, name: c.prov_Nombre }))))
       .catch(error => console.error(error))
   }, [posts]);
+
+  const EditInsumo = (insu_Id) => {
+    axios.get(Global.url + 'Insumo/Buscar?id=' + insu_Id)
+    .then((r) => {
+      var codeProv = {code: r.data.prov_Id, name: r.data.prov_Nombre}
+      setProveedor(codeProv)
+      var codeCat = {code: r.data.cate_Id, name: r.data.cate_Descripcion}
+      setCategoria(codeCat)
+      setInsumoName(r.data.insu_Nombre)
+      setPrecio(r.data.insu_Precio)
+      setProveedoresId(insu_Id)
+      setedit(r.data)
+    })
+    .catch(error => console.error(error))
+
+    setInsumosEditDialog(true)
+    
+  };
+
+  const hideeditDialog = () => {
+    setProveedor('')
+    setCategoria('')
+    setInsumoName('')
+    setPrecio('')
+    setProveedoresId('')
+    setedit('')
+    setInsumosEditDialog(false);
+  };
+
+  const EditarP = (e) => {
+
+    if (!InsumoName || !Precio || !Categoria || !Proveedor ) 
+    {
+        setSubmitted(true);
+
+    }
+    else{
+
+        let insumoe = {
+            insu_Id:                InsumoId,
+            insu_Nombre:            InsumoName,
+            cate_Id:                Categoria.code,
+            insu_Precio:            Precio,
+            prov_Id:                Proveedor.code,
+            prov_UsuModificacion :  1
+        }
+
+        console.log(insumoe);
+
+        axios.post(Global.url + 'Insumo/Editar', insumoe)
+        .then((r) => {
+          hideeditDialog();
+          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
+        });
+    }    
+  }
+
+
+  const editDialogFooter = (
+    <>
+        <Button label="Cancelar" icon="pi pi-times" text onClick={hideeditDialog} />
+        <Button label="Guardar" icon="pi pi-check" text onClick={() => EditarP()} />
+    </>
+  );
 
   const openNew = () => {
     setInsumosDialog(true);
@@ -183,7 +250,7 @@ const InsumosIn = () => {
               body={rowData => (
                 <div>
                   <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> 
-                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './Insumo_editar', query: { id: rowData.empe_Id } })} /> 
+                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => EditInsumo(rowData.insu_Id)} /> 
                   <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.insu_Id)} />
                 </div>
               )}
@@ -203,7 +270,35 @@ const InsumosIn = () => {
               </span>
             </div>
           </Dialog>
+
           <Dialog visible={InsumosDialog} style={{ width: '450px' }} header="Nuevo Insumo" modal className="p-fluid" footer={insumosDialogFooter} onHide={hideDialog}>             
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="insumo">Insumo</label>
+                  <InputText optionLabel="insumo" value={InsumoName} onChange={ (e) => setInsumoName(e.target.value)} className={classNames({ 'p-invalid': submitted && !InsumoName })}/>
+                  {submitted && !InsumoName && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="Precio">Precio</label>
+                  <InputText type='number' optionLabel="Precio" value={Precio} onChange={ (e) => setPrecio(e.target.value)} className={classNames({ 'p-invalid': submitted && !Precio })}/>
+                  {submitted && !Precio && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+          </div>
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="name">Categoria</label>
+                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={CategoriaDDL} value={Categoria} onChange={(e) => { setCategoria(e.value);}} className={classNames({ 'p-invalid': submitted && !Categoria })}/>
+                  {submitted && !Categoria && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+              </div>
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="name">Proveedor</label>
+                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={ProveedorDDL} value={Proveedor} onChange={(e) => { setProveedor(e.value); }} className={classNames({ 'p-invalid': submitted && !Proveedor })}/>
+                  {submitted && !Proveedor && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+              </div>
+          </div>
+          </Dialog>
+
+          <Dialog visible={InsumosEditDialog} style={{ width: '450px' }} header="Editar Insumo" modal className="p-fluid" footer={editDialogFooter} onHide={hideDialog}>             
           <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
                   <label htmlFor="insumo">Insumo</label>
@@ -234,7 +329,6 @@ const InsumosIn = () => {
     </div>
   )
 }
-
 
 
 export default InsumosIn;

@@ -146,7 +146,7 @@ const ProveedoresIn = () => {
         axios.post(Global.url + 'Proveedor/Editar', proveedor)
         .then((r) => {
           hideeditDialog();
-          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro editado correctamente', life: 1500 });
+          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
         });
     }    
   }
@@ -226,7 +226,7 @@ const ProveedoresIn = () => {
         axios.post(Global.url + 'Proveedor/Insertar', proveedor)
         .then((r) => {
           hideDialog();
-          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro agregado correctamente', life: 1500 });
+          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
         });
     }    
 }
