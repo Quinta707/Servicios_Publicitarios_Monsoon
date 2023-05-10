@@ -100,8 +100,8 @@ const ProveedoresIn = () => {
   };
 
   const hideDialog = () => {
-    setCorreo(null);
-    setProveedor(null);
+    setCorreo("");
+    setProveedor("");
     setDireccion("");
     setDepartamento('');
     setMunicipio('');

@@ -6,8 +6,10 @@ import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
 import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
-import axios from 'axios'
-import { useRouter } from 'next/router'
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { Dropdown } from 'primereact/dropdown';
+import { classNames } from 'primereact/utils';
 
 const InsumosIn = () => {
 
@@ -17,22 +19,88 @@ const InsumosIn = () => {
   const [InsumoId, setInsumoId] = useState("");
   const toast = useRef(null);
   const router = useRouter();
+  const [InsumosDialog, setInsumosDialog] = useState(false);
 
+  const [InsumoName, setInsumoName] = useState("");
+  const [Precio, setPrecio] = useState("");
+
+  const [CategoriaDDL, setCategoriaDDL] = useState([]);
+  const [Categoria, setCategoria] = useState('');
+
+  const [ProveedorDDL, setProveedorDDL] = useState([]);
+  const [Proveedor, setProveedor] = useState('');
+
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     axios.get(Global.url + 'Insumo/Listado')
       .then(response => response.data)
       .then(data => setPosts(data.data))
       .catch(error => console.error(error))
+
+      axios.get(Global.url + 'Categoria/Listado')
+        .then(response => response.data)
+        .then((data) => setCategoriaDDL( data.data.map((c) => ({ code: c.cate_Id, name: c.cate_Descripcion }))))
+        .catch(error => console.error(error))
+
+      axios.get(Global.url + 'Proveedor/Listado')
+      .then(response => response.data)
+      .then((data) => setProveedorDDL( data.data.map((c) => ({ code: c.prov_Id, name: c.prov_Nombre }))))
+      .catch(error => console.error(error))
   }, [posts]);
 
+  const openNew = () => {
+    setInsumosDialog(true);
+  };
 
+  const hideDialog = () => {
+    setInsumoName("");
+    setPrecio("");
+    setCategoria("");
+    setProveedor('');
+    setMunicipio('');
+    setInsumosDialog(false);
+  };
+
+  const Agregar = (e) => {
+
+    if (!InsumoName || !Precio || !Proveedor || !Categoria) 
+    {
+        setSubmitted(true);
+    }
+    else{
+
+        let insumo = {
+
+          insu_Nombre:            InsumoName,
+          cate_Id:                Categoria.code,
+          insu_Precio:            Precio,
+          prov_Id:                Proveedor.code,
+          insu_UsuCreacion :      1
+        }
+
+        console.log(insumo);
+
+        axios.post(Global.url + 'Insumo/Insertar', insumo)
+        .then((r) => {
+          hideDialog();
+          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro agregado correctamente', life: 1500 });
+        });
+    }    
+  };
+
+  const insumosDialogFooter = (
+    <>
+        <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
+        <Button label="Guardar" icon="pi pi-check" text onClick={() => Agregar()} />
+    </>
+  );
 
   const header = (
     <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
       <div className="grid">
         <div className="col-12">
-          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload"  />
+          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={openNew}  />
         </div>
       </div>
       <span className="block mt-2 md:mt-0 p-input-icon-left">
@@ -132,6 +200,32 @@ const InsumosIn = () => {
                 ¿Desea eliminar este registro?
               </span>
             </div>
+          </Dialog>
+          <Dialog visible={InsumosDialog} style={{ width: '450px' }} header="Nuevo Insumo" modal className="p-fluid" footer={insumosDialogFooter} onHide={hideDialog}>             
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="insumo">Insumo</label>
+                  <InputText optionLabel="insumo" value={InsumoName} onChange={ (e) => setInsumoName(e.target.value)} className={classNames({ 'p-invalid': submitted && !InsumoName })}/>
+                  {submitted && !InsumoName && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="Precio">Precio</label>
+                  <InputText type='number' optionLabel="Precio" value={Precio} onChange={ (e) => setPrecio(e.target.value)} className={classNames({ 'p-invalid': submitted && !Precio })}/>
+                  {submitted && !Precio && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+              </div>
+          </div>
+          <div className="p-fluid formgrid grid">
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="name">Categoria</label>
+                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={CategoriaDDL} value={Categoria} onChange={(e) => { setCategoria(e.value);}} className={classNames({ 'p-invalid': submitted && !Categoria })}/>
+                  {submitted && !Categoria && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+              </div>
+              <div className="field col-12 md:col-6">
+                  <label htmlFor="name">Proveedor</label>
+                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={ProveedorDDL} value={Proveedor} onChange={(e) => { setProveedor(e.value); }} className={classNames({ 'p-invalid': submitted && !Proveedor })}/>
+                  {submitted && !Proveedor && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+              </div>
+          </div>
           </Dialog>
 
         </div>
