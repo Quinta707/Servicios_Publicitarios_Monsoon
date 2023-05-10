@@ -1340,7 +1340,7 @@ BEGIN
 						clie_Telefono = @clie_Telefono, 
 						clie_UsuModificacion = @clie_UsuModificacion, 
 						clie_FechaModificacion = GETDATE()
-				WHERE	clie_Id = clie_Id		
+				WHERE	clie_Id = @clie_Id		
 
 				SELECT 1 codeStatus
 			END 
