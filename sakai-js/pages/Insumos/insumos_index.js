@@ -58,7 +58,6 @@ const InsumosIn = () => {
     setPrecio("");
     setCategoria("");
     setProveedor('');
-    setMunicipio('');
     setInsumosDialog(false);
   };
 
@@ -71,15 +70,18 @@ const InsumosIn = () => {
     else{
 
         let insumo = {
-
           insu_Nombre:            InsumoName,
           cate_Id:                Categoria.code,
-          insu_Precio:            Precio,
+          insu_Precio:            parseInt(Precio),
           prov_Id:                Proveedor.code,
           insu_UsuCreacion :      1
         }
 
         console.log(insumo);
+        console.log(InsumoName);
+        console.log(Categoria.code);
+        console.log(Precio);
+        console.log(Proveedor.code);
 
         axios.post(Global.url + 'Insumo/Insertar', insumo)
         .then((r) => {
@@ -227,7 +229,6 @@ const InsumosIn = () => {
               </div>
           </div>
           </Dialog>
-
         </div>
       </div>
     </div>
