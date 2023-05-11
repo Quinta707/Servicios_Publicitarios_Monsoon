@@ -7,6 +7,8 @@ import { Password } from 'primereact/password';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import { InputText } from 'primereact/inputtext';
 import { classNames } from 'primereact/utils';
+import axios from 'axios';
+import Global from '../../api/Global';
 
 const RecovPage = () => {
     const [password, setPassword] = useState('');
@@ -22,6 +24,8 @@ const RecovPage = () => {
 
     const [submitted, setsubmitted] = useState(false);
     const [sub2, setsub2] = useState(false);
+    const [incorrectpass, setincorrectpass] = useState(false);
+    const [validationErrors, setValidationErrors] = useState({});
 
     const repasAction = (e) => {
         if(usuario == "" || usuario == null || pass == "" || pass == null || newpass == "" || newpass == null )
@@ -30,20 +34,30 @@ const RecovPage = () => {
         }
         else{
         console.log(localStorage.getItem('token'))
-        setValidationErrors({})
-        e.preventDefault();
         let payload = {
-            user_NombreUsuario:usuario,
-            user_Contrasena:clave,
+            user_NombreUsuario: usuario,
         }
         
-        axios.put(Global.url + 'Usuario/IniciarSesion', payload)
+        axios.put(Global.url + 'Usuario/ValidarUsuario', payload)
         .then((r) => {
             const data = r.data;
             if(data != "" && data != null){
-                localStorage.setItem('token', data.user_Id);
-                console.log(localStorage.getItem('token'));
-                router.push('/uikit/charts');
+                if(pass == newpass){
+                    let insert = {
+                        user_NombreUsuario: usuario,
+                        user_Contrasena:    pass,
+                    }
+                    axios.put(Global.url + 'Usuario/Recuperar', insert)
+                    .then((r) => {
+                        localStorage.setItem('token', data.user_Id);
+                        console.log(localStorage.getItem('token'));
+                        router.push('../auth/login');
+                    })
+                }
+                else{
+                    setincorrectpass(true)
+                }
+                setsub2(false)
             }
             else(
                 setsub2(true)
@@ -72,6 +86,7 @@ const RecovPage = () => {
                             <span className="text-600 font-medium"> Recuperar contraseña</span>
                         </div>
                         {sub2 && <small className="p-invalid" style={{color: 'red'}}>El usuario ingresado no existe.</small>}
+                        {incorrectpass && <small className="p-invalid" style={{color: 'red'}}>Las contraseñas no coinciden.</small>}
                         <div>
                             <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
                                 Usuario
@@ -89,7 +104,7 @@ const RecovPage = () => {
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Confirmar nueva contraseña
                             </label>
-                            {submitted && !clave && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                            {submitted && !newpass && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
                             <input type='password' value={newpass} onChange={(e) => setnewpass(e.target.value)}
                             placeholder="Confirme su nueva contraseña" className={ 'w-full mb-5 p-inputtext p-password-input p-component' + classNames({ 'p-invalid': submitted && !newpass })} icon="pi pi-eye"/>
                             
