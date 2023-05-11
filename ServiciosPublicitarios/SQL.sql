@@ -1053,4 +1053,28 @@ VALUES	('1', '1', '2', '1'),
 		('9', '3', '21', '1'),
 		('10', '4', '15', '1');
 
+--***********CAMBIOS EN LA TABLA DE SERVICIOS**********--
+GO
+ALTER TABLE pbli.tbServicios
+ADD serv_Url NVARCHAR(MAX);
+GO
+UPDATE	pbli.tbServicios
+SET		serv_Url = 'https://i.ibb.co/RYPgRkb/3.png'
+WHERE	serv_Id = '1';
+UPDATE	pbli.tbServicios
+SET		serv_Url = 'https://i.ibb.co/7GZqM2R/4.png'
+WHERE	serv_Id = '2';
+UPDATE	pbli.tbServicios
+SET		serv_Url = 'https://i.ibb.co/GtppXDM/7.png'
+WHERE	serv_Id = '3';
+UPDATE	pbli.tbServicios
+SET		serv_Url = 'https://i.ibb.co/F60ZMqh/6.png'
+WHERE	serv_Id = '4';
+UPDATE	pbli.tbServicios
+SET		serv_Url = 'https://i.ibb.co/g6j2VCY/1.png'
+WHERE	serv_Id = '5';
+UPDATE	pbli.tbServicios
+SET		serv_Url = 'https://i.ibb.co/FwzYCdH/5.png'
+WHERE	serv_Id = '6';
+
 

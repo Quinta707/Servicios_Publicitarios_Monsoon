@@ -1794,14 +1794,14 @@ END
 --***********************************************--
 -- ************* TABLA SERVICIOS *****************--
 
-
 --************** VIEW *****************--
 GO
 CREATE OR ALTER VIEW pbli.VW_tbservicios
 AS
 SELECT	serv_Id, 
 		serv_Nombre, 
-		serv_Precio, 
+		serv_Precio,
+		serv_url,
 		serv_UsuCreacion, 
 		T2.user_NombreUsuario AS user_Creacion,
 		serv_FechaCreacion, 
@@ -1838,6 +1838,7 @@ GO
 CREATE OR ALTER PROCEDURE pbli.UDP_tbServicios_Create
 (@serv_Nombre NVARCHAR(200),
  @serv_Precio DECIMAL(18,2),
+ @serv_Url	  NVARCHAR(MAX),
  @serv_UsuCreacion INT)
 AS
 BEGIN
@@ -1845,12 +1846,14 @@ BEGIN
 		INSERT INTO [pbli].[tbServicios]
 				   ([serv_Nombre]
 				   ,[serv_Precio]
+				   ,[serv_Url]
 				   ,[serv_UsuCreacion]
 				   ,[serv_UsuModificacion]
 				   ,[serv_FechaModificacion])
 			 VALUES
 				   (@serv_Nombre
 				   ,@serv_Precio
+				   ,@serv_Url
 				   ,@serv_UsuCreacion 
 				   ,NULL
 				   ,NULL);

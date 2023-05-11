@@ -28,7 +28,7 @@ const Servicios = () => {
     const toast = useRef(null);
 
     const router = useRouter();
-    
+    const [Img, setImg] = useState(null);
 
     useEffect(() => {
         fetch(Global.url + 'Servicio/Listado', { headers: { 'Cache-Control': 'no-cache' } })
@@ -36,7 +36,7 @@ const Servicios = () => {
             .then((d) => d.data)
             .then((data) => setDataViewValue(data)),
         setGlobalFilterValue('');
-    },);
+    }, []);
 
   
     const onFilter = (e) => {
@@ -110,13 +110,13 @@ const Servicios = () => {
     };
 
     const dataviewListItem = (data) => {
+       
         return (
-            
             <div className="col-12">
                 <div className="flex flex-column md:flex-row align-items-center p-3 w-full">
                    
                     <div className="flex-1 flex flex-column align-items-center text-center md:text-left">
-                    <img src={`/demo/images/product/${data.serv_Id + '.png'}`} alt={data.serv_Nombre} className="w-9 shadow-2 my-3 mx-0" />
+                        <img src={data.serv_url} alt={data.serv_Nombre} className="w-9 shadow-2 my-3 mx-0" />
                         <div className="font-bold text-2xl">{data.serv_Nombre}</div>
                     </div>
                     <div className="flex flex-row md:flex-column justify-content-between w-full md:w-auto align-items-center md:align-items-end mt-5 md:mt-0">
@@ -141,7 +141,7 @@ const Servicios = () => {
                         </div>
                     </div>
                     <div className="flex flex-column align-items-center text-center mb-3">
-                        <img src={`/demo/images/product/${data.serv_Id + '.png'}`} alt={data.serv_Nombre} className="w-9 shadow-2 my-3 mx-0" />
+                        <img src={data.serv_url} alt={data.serv_Nombre} className="w-9 shadow-2 my-3 mx-0" />
                         <div className="text-2xl font-bold">{data.serv_Nombre}</div>
                     </div>
                     <div className="flex align-items-center justify-content-between">

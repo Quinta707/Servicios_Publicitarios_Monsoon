@@ -17,7 +17,6 @@ import { useRouter } from 'next/router'
 
 const Servicios = () => {
     const [submitted, setsubmitted] = useState(false);
-    const [image, setImage] = useState(null);
     const [Insumo, setInsumo] = useState([]);
     const toast = useRef(null);
 
@@ -25,37 +24,49 @@ const Servicios = () => {
     const [Precio, setPrecio] = useState('');
     const router = useRouter();
     
+    const [image, setImage] = useState(null);
 
     useEffect(() => {
         
     },);
 
-    function handleImageChange(event) {
-        const file = event.target.files[0];
-        setImage(file);
+    const handleImageChange = (event) => {
+        setImage(event.target.files[0]);
+      };
+
+    const handleImageUpload = async () => {
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const response = await fetch("https://api.imgbb.com/1/upload?key=30e4067e1dd236eefe264d0d784c0000", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+    console.log(data);
     };
 
     const NuevoServicio = (e) => {
         if(ServicioName != "" || ServicioName != null || Precio != "" || Precio != null){
             const usuario = localStorage.getItem('token');
+            handleImageUpload;
+            // let servicio = {
+            //     serv_Id: 0,
+            //     serv_Nombre: ServicioName,
+            //     serv_Precio: parseInt(Precio),
+            //     serv_UsuCreacion: 1,
+            //     serv_FechaCreacion: "2023-05-11T19:57:32.534Z",
+            //     serv_UsuModificacion: 0,
+            //     serv_FechaModificacion: "2023-05-11T19:57:32.534Z",
+            //     serv_Estado: true
+            // }
 
-            console.log(usuario);
-            let servicio = {
-                serv_Id: 0,
-                serv_Nombre: ServicioName,
-                serv_Precio: parseInt(Precio),
-                serv_UsuCreacion: 1,
-                serv_FechaCreacion: "2023-05-11T19:57:32.534Z",
-                serv_UsuModificacion: 0,
-                serv_FechaModificacion: "2023-05-11T19:57:32.534Z",
-                serv_Estado: true
-            }
-
-            axios.post(Global.url + 'Servicio/Insertar', servicio)
-            .then((r) => {
+            // axios.post(Global.url + 'Servicio/Insertar', servicio)
+            // .then((r) => {
                 
                 
-            });
+            // });
         }
         else{
             setsubmitted(true);
@@ -87,7 +98,7 @@ const Servicios = () => {
 
                             <div className="field col-12">
                                 <label htmlFor="fail">Imagen</label>
-                                <FileUpload id="fail" type="file" accept="image/*" onChange={handleImageChange} />
+                                <FileUpload id="fail" type="file" onChange={handleImageChange} />
                             </div>  
                             
                         </div>
