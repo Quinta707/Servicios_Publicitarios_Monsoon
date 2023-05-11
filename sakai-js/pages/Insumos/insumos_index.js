@@ -51,7 +51,7 @@ const InsumosIn = () => {
       .then(response => response.data)
       .then((data) => setProveedorDDL( data.data.map((c) => ({ code: c.prov_Id, name: c.prov_Nombre }))))
       .catch(error => console.error(error))
-  }, [posts]);
+  }, []);
 
   const EditInsumo = (insu_Id) => {
     axios.get(Global.url + 'Insumo/Buscar?id=' + insu_Id)
