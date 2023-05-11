@@ -27,10 +27,10 @@ function LoginPage(){
     
     useEffect(()=>{
         
-        if(localStorage.getItem('token') != "" && localStorage.getItem('token') != null){
+        if(localStorage.getItem('usuID') != "" && localStorage.getItem('usuID') != null){
            router.push('/uikit/charts');
         }
-        console.log(localStorage.getItem('token'))
+        console.log(localStorage.getItem('usuID'))
     },[])
 
     const loginAction = (e) => {
@@ -39,7 +39,7 @@ function LoginPage(){
             setsubmitted(true)
         }
         else{
-        console.log(localStorage.getItem('token'))
+        console.log(localStorage.getItem('usuID'))
         setValidationErrors({})
         e.preventDefault();
         let payload = {
@@ -51,8 +51,8 @@ function LoginPage(){
         .then((r) => {
             const data = r.data;
             if(data != "" && data != null){
-                localStorage.setItem('token', data.user_Id);
-                console.log(localStorage.getItem('token'));
+                localStorage.setItem('usuID', data.user_Id);
+                console.log(localStorage.getItem('usuID'));
                 router.push('/uikit/charts');
             }
             else(
