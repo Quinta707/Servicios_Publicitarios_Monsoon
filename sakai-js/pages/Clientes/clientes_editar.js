@@ -38,6 +38,7 @@ const EditarCliente = () => {
     const [MunicipioDDL, setMunicipioDDL] = useState([]);//ddl Municipios
     const [Municipio, setMunicipio] = useState(''); // alamcena el valor del ddl
     const [MunicipioActivated, setMunicipioActivated] = useState(true);// almacena si el ddl esta activado
+    const [ide, setide] = useState('');
 
     //cargar ddl Cargos
     useEffect(() => {
@@ -56,7 +57,7 @@ const EditarCliente = () => {
         axios.get(Global.url + 'Cliente/Buscar?id=' + id)
         .then((r) => { 
            
-            console.log(r.data)
+            setide(id);
             setNombres(r.data.clie_Nombres);
             setApellidos(r.data.clie_Apellidos);
             setIdentidad(r.data.clie_Identidad);
@@ -129,7 +130,7 @@ const EditarCliente = () => {
 
 
             let Cliente111 = {
-                clie_Id: 3,
+                clie_Id: parseInt(id),
                 clie_Nombres: Nombres,
                 clie_Apellidos: Apellidos,
                 clie_Identidad: Identidad,

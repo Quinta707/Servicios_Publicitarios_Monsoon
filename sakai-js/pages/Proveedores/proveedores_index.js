@@ -296,7 +296,7 @@ const ProveedoresIn = () => {
             </div>
           </Dialog>
 
-          <Dialog visible={ProveedoresDialog} style={{ width: '450px' }} header="Nuevo Proveedor" modal className="p-fluid" footer={proveedoresDialogFooter} onHide={hideDialog}>             
+          <Dialog visible={ProveedoresDialog} style={{ width: '500px' }} header="Nuevo Proveedor" modal className="p-fluid" footer={proveedoresDialogFooter} onHide={hideDialog}>             
           <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
                   <label htmlFor="proveedor">Proveedor</label>
@@ -331,7 +331,7 @@ const ProveedoresIn = () => {
           </Dialog>
 
 
-          <Dialog visible={editDialog} value={edit} style={{ width: '450px' }} header="Editar Proveedor" modal className="p-fluid" footer={editDialogFooter} onHide={hideeditDialog}>             
+          <Dialog visible={editDialog} value={edit} style={{ width: '500px' }} header="Editar Proveedor" modal className="p-fluid" footer={editDialogFooter} onHide={hideeditDialog}>             
           <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
                   <label htmlFor="proveedor">Proveedor</label>

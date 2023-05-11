@@ -99,8 +99,6 @@ const InsumosIn = () => {
             prov_UsuModificacion :  1
         }
 
-        console.log(insumoe);
-
         axios.post(Global.url + 'Insumo/Editar', insumoe)
         .then((r) => {
           hideeditDialog();
@@ -145,12 +143,6 @@ const InsumosIn = () => {
           insu_UsuCreacion :      1
         }
 
-        console.log(insumo);
-        console.log(InsumoName);
-        console.log(Categoria.code);
-        console.log(Precio);
-        console.log(Proveedor.code);
-
         axios.post(Global.url + 'Insumo/Insertar', insumo)
         .then((r) => {
           hideDialog();
@@ -182,7 +174,6 @@ const InsumosIn = () => {
 
 
   const OpenDeleteModal = (id) => {
-    console.log(id)
     setInsumoId(id);
     setDeleteModal(true);
   }
@@ -272,7 +263,7 @@ const InsumosIn = () => {
             </div>
           </Dialog>
 
-          <Dialog visible={InsumosDialog} style={{ width: '450px' }} header="Nuevo Insumo" modal className="p-fluid" footer={insumosDialogFooter} onHide={hideDialog}>             
+          <Dialog visible={InsumosDialog} style={{ width: '500px' }} header="Nuevo Insumo" modal className="p-fluid" footer={insumosDialogFooter} onHide={hideDialog}>             
           <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
                   <label htmlFor="insumo">Insumo</label>
@@ -299,7 +290,7 @@ const InsumosIn = () => {
           </div>
           </Dialog>
 
-          <Dialog visible={InsumosEditDialog} style={{ width: '450px' }} header="Editar Insumo" modal className="p-fluid" footer={editDialogFooter} onHide={hideDialog}>             
+          <Dialog visible={InsumosEditDialog} style={{ width: '500px' }} header="Editar Insumo" modal className="p-fluid" footer={editDialogFooter} onHide={hideDialog}>             
           <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
                   <label htmlFor="insumo">Insumo</label>
