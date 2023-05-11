@@ -33,6 +33,7 @@ const InsumosIn = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const [InsumosEditDialog, setInsumosEditDialog] = useState(false);
+  const [edit, setedit] = useState([]);
 
 
   useEffect(() => {
