@@ -16,6 +16,51 @@ const RecovPage = () => {
     const router = useRouter();
     const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
 
+    const [usuario, setusuario] = useState('');
+    const [pass, setpass] = useState('');
+    const [newpass, setnewpass] = useState('');
+
+    const [submitted, setsubmitted] = useState(false);
+    const [sub2, setsub2] = useState(false);
+
+    const repasAction = (e) => {
+        if(usuario == "" || usuario == null || pass == "" || pass == null || newpass == "" || newpass == null )
+        {
+            setsubmitted(true)
+        }
+        else{
+        console.log(localStorage.getItem('token'))
+        setValidationErrors({})
+        e.preventDefault();
+        let payload = {
+            user_NombreUsuario:usuario,
+            user_Contrasena:clave,
+        }
+        
+        axios.put(Global.url + 'Usuario/IniciarSesion', payload)
+        .then((r) => {
+            const data = r.data;
+            if(data != "" && data != null){
+                localStorage.setItem('token', data.user_Id);
+                console.log(localStorage.getItem('token'));
+                router.push('/uikit/charts');
+            }
+            else(
+                setsub2(true)
+            )
+        })
+        .catch((e) => {
+            if (e.response.data.errors != undefined) {
+                setValidationErrors(e.response.data.errors);
+            }
+            if (e.response.data.error != undefined) {
+                setValidationErrors(e.response.data.error);
+            }
+        });
+        }
+        
+    }
+
     return (
         <div className={containerClassName}>
             <div className="surface-ground background-image flex flex-column align-items-center justify-content-center">
@@ -26,30 +71,35 @@ const RecovPage = () => {
                             <div className="text-900 text-3xl font-medium mb-3">¿Olvidaste tu contraseña?</div>
                             <span className="text-600 font-medium"> Recuperar contraseña</span>
                         </div>
-
+                        {sub2 && <small className="p-invalid" style={{color: 'red'}}>El usuario ingresado no existe.</small>}
                         <div>
                             <label htmlFor="email1" className="block text-900 text-xl font-medium mb-2">
                                 Usuario
                             </label>
-                            <InputText inputid="email1" type="text" placeholder="Ingrese su usuario" className="w-full md:w-30rem mb-5" style={{ padding: '1rem' }} />
+                            {submitted && !usuario && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                            <InputText value={usuario} onChange={(e)=>{setusuario(e.target.value)}} placeholder='Ingrese su usuario' className={ 'w-full mb-5 p-inputtext p-component' + classNames({ 'p-invalid': submitted && !usuario })}></InputText>
 
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Nueva contraseña
                             </label>
-                            <Password inputid="password1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Nueva Contraseña" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-30rem"></Password>
+                            {submitted && !pass && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                            <input type='password' value={pass} onChange={(e) => setpass(e.target.value)}
+                            placeholder="Ingrese su nueva contraseña" className={ 'w-full mb-5 p-inputtext p-password-input p-component' + classNames({ 'p-invalid': submitted && !pass })} icon="pi pi-eye"/>
 
                             <label htmlFor="password1" className="block text-900 font-medium text-xl mb-2">
                                 Confirmar nueva contraseña
                             </label>
-
-                            <Password inputid="password1" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Nueva Contraseña" toggleMask className="w-full mb-5" inputClassName="w-full p-3 md:w-30rem"></Password>
+                            {submitted && !clave && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                            <input type='password' value={newpass} onChange={(e) => setnewpass(e.target.value)}
+                            placeholder="Confirme su nueva contraseña" className={ 'w-full mb-5 p-inputtext p-password-input p-component' + classNames({ 'p-invalid': submitted && !newpass })} icon="pi pi-eye"/>
+                            
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
                                 
-                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>
+                                <a className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} onClick={() => router.push('../auth/login')}>
                                     Regresar al login
                                 </a>
                             </div>
-                            <Button label="Guardar" className="w-full p-3 text-xl" onClick={() => router.push('/')}></Button>
+                            <Button label="Guardar" className="w-full p-3 text-xl" onClick={((e) => repasAction(e))}></Button>
                         </div>
                     </div>
                 </div>

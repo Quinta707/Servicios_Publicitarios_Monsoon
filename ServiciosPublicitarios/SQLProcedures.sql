@@ -687,6 +687,17 @@ BEGIN
 END
 
 
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_ValidarUsuario
+(
+@user_NombreUsuario NVARCHAR(100)
+)
+AS
+BEGIN
+	SELECT	user_Id
+	FROM	acce.tbUsuarios
+	WHERE	user_NombreUsuario = @user_NombreUsuario
+END
 
 GO
 CREATE OR ALTER PROCEDURE acce.UDP_RecuperarUsuario
