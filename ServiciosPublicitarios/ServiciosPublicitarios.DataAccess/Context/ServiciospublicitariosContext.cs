@@ -31,6 +31,8 @@ namespace ServiciosPublicitarios.DataAccess.Context
         public virtual DbSet<VW_tbInsumosPorServicio> VW_tbInsumosPorServicio { get; set; }
         public virtual DbSet<VW_tbMetodosdePago> VW_tbMetodosdePago { get; set; }
         public virtual DbSet<VW_tbMunicipios> VW_tbMunicipios { get; set; }
+        public virtual DbSet<VW_tbPantallas> VW_tbPantallas { get; set; }
+        public virtual DbSet<VW_tbPantallasPorRoles> VW_tbPantallasPorRoles { get; set; }
         public virtual DbSet<VW_tbProveedores> VW_tbProveedores { get; set; }
         public virtual DbSet<VW_tbRoles> VW_tbRoles { get; set; }
         public virtual DbSet<VW_tbSucursales> VW_tbSucursales { get; set; }
@@ -58,7 +60,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
+            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AI");
 
             modelBuilder.Entity<VW_tbCargos>(entity =>
             {
@@ -122,8 +124,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.Property(e => e.clie_Identidad)
                     .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.clie_NombreCompleto)
                     .IsRequired()
@@ -241,8 +242,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.Property(e => e.empe_Identidad)
                     .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.empe_NombreCompleto)
                     .IsRequired()
@@ -450,6 +450,54 @@ namespace ServiciosPublicitarios.DataAccess.Context
                     .HasMaxLength(100);
 
                 entity.Property(e => e.user_Modificacion).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<VW_tbPantallas>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbPantallas", "acce");
+
+                entity.Property(e => e.pant_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.pant_FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.pant_Icono)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.pant_Menu)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.pant_Url)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.pant_reactId)
+                    .IsRequired()
+                    .HasMaxLength(80);
+            });
+
+            modelBuilder.Entity<VW_tbPantallasPorRoles>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("VW_tbPantallasPorRoles", "acce");
+
+                entity.Property(e => e.pant_Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.prol_FechaCreacion).HasColumnType("datetime");
+
+                entity.Property(e => e.prol_FechaModificacion).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<VW_tbProveedores>(entity =>
@@ -710,8 +758,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.Property(e => e.clie_Identidad)
                     .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.clie_Nombres)
                     .IsRequired()
@@ -819,8 +866,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.Property(e => e.empe_Identidad)
                     .IsRequired()
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.empe_Nombres)
                     .IsRequired()
@@ -1168,9 +1214,9 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.Property(e => e.pant_FechaModificacion).HasColumnType("datetime");
 
-                entity.Property(e => e.pant_HtmlId)
+                entity.Property(e => e.pant_Icono)
                     .IsRequired()
-                    .HasMaxLength(80);
+                    .HasMaxLength(300);
 
                 entity.Property(e => e.pant_Menu)
                     .IsRequired()
@@ -1183,6 +1229,10 @@ namespace ServiciosPublicitarios.DataAccess.Context
                 entity.Property(e => e.pant_Url)
                     .IsRequired()
                     .HasMaxLength(300);
+
+                entity.Property(e => e.pant_reactId)
+                    .IsRequired()
+                    .HasMaxLength(80);
             });
 
             modelBuilder.Entity<tbPantallasPorRoles>(entity =>
@@ -1273,7 +1323,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E22DA5230")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E1348127C")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)
@@ -1398,6 +1448,11 @@ namespace ServiciosPublicitarios.DataAccess.Context
                 entity.Property(e => e.user_NombreUsuario)
                     .IsRequired()
                     .HasMaxLength(100);
+
+                entity.HasOne(d => d.empe)
+                    .WithMany(p => p.tbUsuarios)
+                    .HasForeignKey(d => d.empe_Id)
+                    .HasConstraintName("FK_acce_tbUsuarios_pbli_tbEmpleados_empe_Id");
 
                 entity.HasOne(d => d.role)
                     .WithMany(p => p.tbUsuarios)

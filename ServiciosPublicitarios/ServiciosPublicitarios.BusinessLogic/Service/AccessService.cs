@@ -351,12 +351,12 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
             }
         }
 
-        public ServiceResult PantallasMenu(int? id)
+        public ServiceResult PantallasMenu(int? id, int EsAdmin)
         {
             var result = new ServiceResult();
             try
             {
-                var list = _pantallaRepository.PantallasMenu(id);
+                var list = _pantallaRepository.PantallasMenu(id, EsAdmin);
                 return result.Ok(list);
             }
             catch (Exception e)

@@ -32,9 +32,9 @@ namespace ServiciosPublicitarios.API.Controllers
 
 
         [HttpGet("PantallaMenu")]
-        public IActionResult PantallasMenu(int? id)
+        public IActionResult PantallasMenu(int? id, int EsAdmin)
         {
-            var list = _accessService.PantallasMenu(id);
+            var list = _accessService.PantallasMenu(id, EsAdmin);
             return Ok(list);
         }
     }

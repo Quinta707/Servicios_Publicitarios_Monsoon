@@ -22,6 +22,7 @@ namespace ServiciosPublicitarios.Entities.Entities
         public int? serv_UsuModificacion { get; set; }
         public DateTime? serv_FechaModificacion { get; set; }
         public bool? serv_Estado { get; set; }
+        public string serv_Url { get; set; }
 
         public virtual tbUsuarios serv_UsuCreacionNavigation { get; set; }
         public virtual tbUsuarios serv_UsuModificacionNavigation { get; set; }

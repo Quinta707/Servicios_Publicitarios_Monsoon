@@ -10,7 +10,7 @@ import Global from '../../api/Global';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 
-function LoginPage(){
+function LoginPage() {
 
 
     const [usuario, setusuario] = useState("")
@@ -29,50 +29,57 @@ function LoginPage(){
 
     const [submitted, setsubmitted] = useState(false);
     const [sub2, setsub2] = useState(false);
- 
-    useEffect(()=>{
-     
-        if(localStorage.getItem('usuID') != "" && localStorage.getItem('usuID') != null){
-           router.push('/uikit/charts');
+
+    useEffect(() => {
+
+        if (localStorage.getItem('usuID') != "" && localStorage.getItem('usuID') != null) {
+          //router.push('/');
         }
-        console.log(localStorage.getItem('usuID'))
-    },[])
+       
+    }, [])  
+
+
+
     const loginAction = (e) => {
-        if(usuario == "" || usuario == null || clave == "" || clave == null )
-        {
+        if (usuario == "" || usuario == null || clave == "" || clave == null) {
             setsubmitted(true)
         }
-        else{
-        console.log(localStorage.getItem('usuID'))
-        setValidationErrors({})
-        e.preventDefault();
-        let payload = {
-            user_NombreUsuario:usuario,
-            user_Contrasena:clave,
+        else {
+            console.log(localStorage.getItem('usuID'))
+            setValidationErrors({})
+            e.preventDefault();
+            let payload = {
+                user_NombreUsuario: usuario,
+                user_Contrasena: clave,
+            }
+
+            axios.put(Global.url + 'Usuario/IniciarSesion', payload)
+                .then((r) => {
+                    const data = r.data;
+                    if (data != "" && data != null) {
+                        localStorage.setItem('usuID', data.user_Id);
+                        localStorage.setItem('Empleado_Id', data.empe_Id);
+                        localStorage.setItem('empe_NombreCompleto', data.empe_NombreCompleto);
+                        localStorage.setItem('user_NombreUsuario', data.user_NombreUsuario);
+                        localStorage.setItem('role_Id', data.role_Id);
+                        localStorage.setItem('user_EsAdmin', data.user_EsAdmin);
+
+                        router.push('/');
+                    }
+                    else (
+                        setsub2(true)
+                    )
+                })
+                .catch((e) => {
+                    if (e.response.data.errors != undefined) {
+                        setValidationErrors(e.response.data.errors);
+                    }
+                    if (e.response.data.error != undefined) {
+                        setValidationErrors(e.response.data.error);
+                    }
+                });
         }
-     
-        axios.put(Global.url + 'Usuario/IniciarSesion', payload)
-        .then((r) => {
-            const data = r.data;
-            if(data != "" && data != null){
-                localStorage.setItem('usuID', data.user_Id);
-                console.log(localStorage.getItem('usuID'));
-                router.push('/uikit/charts');
-            }
-            else(
-                setsub2(true)
-            )
-        })
-        .catch((e) => {
-            if (e.response.data.errors != undefined) {
-                setValidationErrors(e.response.data.errors);
-            }
-            if (e.response.data.error != undefined) {
-                setValidationErrors(e.response.data.error);
-            }
-        });
-        }
-     
+
     }
     return (
         <div className={containerClassName}>
@@ -85,20 +92,20 @@ function LoginPage(){
                             <span className="text-600 font-medium"> Iniciar Sesión</span>
                         </div>
                         <div className='text-center'>
-                        {sub2 && <small className="p-invalid" style={{color: 'red'}}>Usuario o contraseña incorrectos.</small>}
+                            {sub2 && <small className="p-invalid" style={{ color: 'red' }}>Usuario o contraseña incorrectos.</small>}
                         </div>
                         <div>
-                        <label htmlFor="usuario" className="block text-900 font-medium text-xl mb-2">
-                            Usuario
-                        </label>
-                            {submitted && !usuario && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
-                            <InputText value={usuario} onChange={(e)=>{setusuario(e.target.value)}} placeholder='Ingrese su usuario' className={ 'w-full mb-5 p-inputtext p-component' + classNames({ 'p-invalid': submitted && !usuario })}></InputText>
-                        <label htmlFor="clave" className="block text-900 font-medium text-xl mb-2">
-                             Contraseña
-                        </label>
-                        {submitted && !clave && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                            <label htmlFor="usuario" className="block text-900 font-medium text-xl mb-2">
+                                Usuario
+                            </label>
+                            {submitted && !usuario && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
+                            <InputText value={usuario} onChange={(e) => { setusuario(e.target.value) }} placeholder='Ingrese su usuario' className={'w-full mb-5 p-inputtext p-component' + classNames({ 'p-invalid': submitted && !usuario })}></InputText>
+                            <label htmlFor="clave" className="block text-900 font-medium text-xl mb-2">
+                                Contraseña
+                            </label>
+                            {submitted && !clave && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
                             <input type='password' value={clave} onChange={(e) => setclave(e.target.value)}
-                            placeholder="Ingrese su contraseña" className={ 'w-full mb-5 p-inputtext p-password-input p-component' + classNames({ 'p-invalid': submitted && !clave })} icon="pi pi-eye"/>
+                                placeholder="Ingrese su contraseña" className={'w-full mb-5 p-inputtext p-password-input p-component' + classNames({ 'p-invalid': submitted && !clave })} icon="pi pi-eye" />
                             <div className="flex align-items-center justify-content-between mb-5 gap-5">
                                 <div className="flex align-items-center">
                                     <Checkbox inputid="rememberme1" checked={checked} onChange={(e) => setChecked(e.checked)} className="mr-2"></Checkbox>
@@ -108,8 +115,8 @@ function LoginPage(){
                                     ¿Olvidaste tu contraseña?
                                 </a>
                             </div>
-                            <button type="submit" className='p-button w-full mb-5 text-center' onClick={ ((e) => loginAction(e))}>Ingresar</button>
-                         
+                            <button type="submit" className='p-button w-full mb-5 text-center' onClick={((e) => loginAction(e))}>Ingresar</button>
+
                         </div>
                     </div>
                 </div>

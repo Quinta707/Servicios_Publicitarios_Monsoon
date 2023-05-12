@@ -1043,6 +1043,167 @@ BEGIN
 END
 
 
+-- ************* TABLA PANTALLAS *****************--
+
+--************** VIEW *****************--
+GO
+CREATE OR ALTER VIEW acce.VW_tbPantallas
+AS
+SELECT * 
+FROM acce.tbPantallas
+
+
+--************** INDEX *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.tbPantallas_Index
+AS
+BEGIN
+	SELECT * FROM acce.VW_tbPantallas
+	WHERE pant_Estado = 1;
+END
+
+
+
+-- ************* TABLA ROLES/PANTALLA *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Insert 
+	@role_Id int,
+	@pant_Id int,
+	@prol_UsuCreacion int
+AS
+BEGIN
+    BEGIN TRY
+        IF EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id AND prol_Estado = 1)
+        BEGIN
+
+            SELECT 2 as codeStatus
+
+        END
+        ELSE IF NOT EXISTS (SELECT * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id AND pant_Id = @pant_Id)
+        BEGIN
+		INSERT INTO [acce].[tbPantallasPorRoles]
+           ([role_Id]
+           ,[pant_Id]
+           ,[prol_UsuCreacion]
+           ,[prol_FechaCreacion]
+           ,[prol_UsuModificacion]
+           ,[prol_FechaModificacion]
+           ,[prol_Estado])
+     VALUES
+           (@role_Id
+           ,@pant_Id
+           ,@prol_UsuCreacion
+           ,GETDATE()
+           ,NULL
+           ,NULL
+           ,1)
+
+            SELECT 1 codeStatus
+        END
+        ELSE
+        BEGIN
+            UPDATE acce.tbPantallasPorRoles
+            SET  prol_Estado = 1
+				,prol_UsuCreacion = @prol_UsuCreacion
+				,prol_FechaCreacion = GETDATE()
+				,prol_UsuModificacion = NULL
+				,prol_FechaModificacion = NULL
+            WHERE role_Id = @role_Id AND pant_Id = @pant_Id
+
+            select 1 codeStatus
+        END
+
+    END TRY
+    BEGIN CATCH
+        SELECT 0 codeStatus
+    END CATCH
+END
+GO
+
+
+GO
+CREATE OR ALTER VIEW acce.VW_tbPantallasPorRoles
+AS
+SELECT		prol_Id, 
+			role_Id, 
+			T1.pant_Id, 
+			T2.pant_Nombre,
+			prol_UsuCreacion, 
+			prol_FechaCreacion, 
+			prol_UsuModificacion, 
+			prol_FechaModificacion, 
+			prol_Estado
+FROM		[acce].[tbPantallasPorRoles] AS T1 INNER JOIN acce.tbPantallas AS T2
+ON T1.pant_Id = T2.pant_Id
+
+
+
+--************** FIND *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Find
+(@role_Id INT) 
+AS
+BEGIN
+	SELECT * FROM acce.VW_tbPantallasPorRoles
+	WHERE role_Id = @role_Id
+END
+
+--************** FIND PANTALLAS DISPONIBLES *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_PantallasDisponibles
+(@role_Id INT) 
+AS
+BEGIN
+
+	SELECT * FROM acce.tbPantallas
+	WHERE pant_Id NOT IN (	SELECT pant_Id 
+							FROM acce.VW_tbPantallasPorRoles
+							WHERE role_Id = @role_Id)
+END
+
+
+--************** FIND PANTALLAS DISPONIBLES *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_tbPantallasPorRoles_Delete
+(@role_Id INT)
+AS
+BEGIN
+	BEGIN TRY
+		DELETE FROM acce.tbPantallasPorRoles
+		WHERE role_Id = @role_Id
+
+		SELECT 1 codeStatus
+	END TRY
+	BEGIN CATCH
+		SELECT 1 codeStatus
+	END CATCH
+END
+
+
+--************** FIND PANTALLAS DIBUJADO DE MENU *****************--
+GO
+CREATE OR ALTER PROCEDURE acce.tbPantallas_Menu 
+(@role_Id INT,
+ @esAdmin BIT)
+AS
+BEGIN
+	
+	IF @esAdmin = 1
+		BEGIN
+			SELECT * 
+			FROM acce.tbPantallas 
+		END
+	ELSE
+		BEGIN
+			SELECT * 
+			FROM acce.tbPantallas 
+			WHERE pant_Id IN (SELECT pant_Id FROM tbPantallasPorRoles
+								WHERE role_Id = @role_Id)
+		END
+END
+
+
+
 --***************** PBLI ***********************--
 --***********************************************--
 -- ************* TABLA EMPLEADOS *****************--

@@ -36,11 +36,12 @@ namespace ServiciosPublicitarios.DataAccess.Repository
             throw new NotImplementedException();
         }
 
-        public IEnumerable<tbPantallas> PantallasMenu(int? id)
+        public IEnumerable<tbPantallas> PantallasMenu(int? id, int EsAdmin)
         {
             using var db = new SqlConnection(MonsoonContext.ConnectionString);
             var parametros = new DynamicParameters();
             parametros.Add("@role_Id", id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@esAdmin", EsAdmin, DbType.Int32, ParameterDirection.Input);
 
             return db.Query<tbPantallas>(ScriptsDataBase.UDP_tbPantallas_Menu, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }

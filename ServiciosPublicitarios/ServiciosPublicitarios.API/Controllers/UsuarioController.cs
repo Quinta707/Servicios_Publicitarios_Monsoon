@@ -81,12 +81,12 @@ namespace ServiciosPublicitarios.API.Controllers
             return Ok(list);
         }
 
-        [HttpPut("ValidarUsuario")]
-        public IActionResult ValidarUsuario(UsuarioViewModel usuariosView)
-        {
-            var item = _mapper.Map<tbUsuarios>(usuariosView);
-            var list = _accessService.ValidarUsuario(item);
-            return Ok(list);
-        }
+        //[HttpPut("ValidarUsuario")]
+        //public IActionResult ValidarUsuario(UsuarioViewModel usuariosView)
+        //{
+        //    var item = _mapper.Map<tbUsuarios>(usuariosView);
+        //    var list = _accessService.ValidarUsuario(item);
+        //    return Ok(list);
+        //}
     }
 }

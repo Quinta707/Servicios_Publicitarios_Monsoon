@@ -6,13 +6,8 @@ using System.Collections.Generic;
 
 namespace ServiciosPublicitarios.Entities.Entities
 {
-    public partial class tbPantallas
+    public partial class VW_tbPantallas
     {
-        public tbPantallas()
-        {
-            tbPantallasPorRoles = new HashSet<tbPantallasPorRoles>();
-        }
-
         public int pant_Id { get; set; }
         public string pant_Nombre { get; set; }
         public string pant_Url { get; set; }
@@ -23,8 +18,6 @@ namespace ServiciosPublicitarios.Entities.Entities
         public DateTime pant_FechaCreacion { get; set; }
         public int? pant_UsuModificacion { get; set; }
         public DateTime? pant_FechaModificacion { get; set; }
-        public bool? pant_Estado { get; set; }
-
-        public virtual ICollection<tbPantallasPorRoles> tbPantallasPorRoles { get; set; }
+        public bool pant_Estado { get; set; }
     }
 }

@@ -11,6 +11,7 @@ namespace ServiciosPublicitarios.Entities.Entities
         public int serv_Id { get; set; }
         public string serv_Nombre { get; set; }
         public decimal? serv_Precio { get; set; }
+        public string serv_url { get; set; }
         public int serv_UsuCreacion { get; set; }
         public string user_Creacion { get; set; }
         public DateTime serv_FechaCreacion { get; set; }

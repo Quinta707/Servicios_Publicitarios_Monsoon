@@ -4,10 +4,12 @@ import { LayoutContext } from './context/layoutcontext';
 import { MenuProvider } from './context/menucontext';
 import Link from 'next/link';
 
-
+import { useRouter } from 'next/router'
 
 
 const AppMenu = () => {
+
+    const router = useRouter();
     const { layoutConfig } = useContext(LayoutContext);
 
     // en estos tres se guardan los arreglos dentro de un drop down list
@@ -24,14 +26,32 @@ const AppMenu = () => {
     const [model1, setmodel1] = useState([]);
 
     useEffect(() => {
-        const url = 'https://localhost:44304/api/Pantalla/PantallaMenu?id=' + '2';
-        fetch(url)
-            .then(response => response.json())
-            .then(data => setPosts(data.data))
+
+        if (localStorage.getItem('usuID') == "" || localStorage.getItem('usuID') == null) {
+            console.log(localStorage.getItem('usuID'));
+            router.push('/auth/login');
+        }
+        else {
+
+            var role_Id = localStorage.getItem('role_Id');
+
+            if (localStorage.getItem('user_EsAdmin') == "true") {
+                var EsAdmin = 1;
+            }
+            else {
+                var EsAdmin = 0;
+            }
+
+            const url = 'https://localhost:44304/api/Pantalla/PantallaMenu?id=' + role_Id + '&EsAdmin=' + EsAdmin;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    setPosts(data.data)
+                    console.log(data)
+                })
+        }
 
     }, []);
-
-
 
 
     const acce = (item) => {
