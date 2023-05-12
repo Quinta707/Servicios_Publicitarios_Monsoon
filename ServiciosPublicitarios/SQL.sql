@@ -93,6 +93,8 @@ END;
 
 GO
 EXEC acce.UDP_InsertUsuario 'Cristian', '123', 1, NULL, 1;
+
+
 GO
 ALTER TABLE acce.tbRoles
 ADD CONSTRAINT FK_acce_tbRoles_acce_tbUsuarios_role_UsuCreacion_user_Id 	FOREIGN KEY(role_UsuCreacion) REFERENCES acce.tbUsuarios(user_Id),
@@ -100,7 +102,13 @@ ADD CONSTRAINT FK_acce_tbRoles_acce_tbUsuarios_role_UsuCreacion_user_Id 	FOREIGN
 
 GO
 INSERT INTO acce.tbRoles(role_Nombre, role_UsuCreacion)
-VALUES ('Admin', 1)
+VALUES	('Acceso', 1);
+
+
+GO
+UPDATE acce.tbUsuarios
+SET role_Id = 1
+WHERE user_Id = 1;
 
 GO
 ALTER TABLE [acce].[tbUsuarios]

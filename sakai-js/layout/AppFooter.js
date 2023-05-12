@@ -6,9 +6,9 @@ const AppFooter = () => {
 
     return (
         <div className="layout-footer">
-            <img src={`https://i.pinimg.com/originals/aa/4c/06/aa4c0662450520592ce81df389c4b60f.jpg`} alt="Logo" height="20" className="mr-2" />
+            <img src={`demo/images/product/logo.jpeg`} alt="Logo" height="20" className="mr-2" />
             Por
-            <span className="font-medium ml-2">Servicios Publicitarios Moonson</span>
+            <span className="font-medium ml-2">Servicios Publicitarios Monsoon</span>
         </div>
     );
 };

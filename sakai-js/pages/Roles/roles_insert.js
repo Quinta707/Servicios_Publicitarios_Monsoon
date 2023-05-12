@@ -7,6 +7,8 @@ import { classNames } from 'primereact/utils';
 import { Toast } from 'primereact/toast';
 import { InputText } from 'primereact/inputtext';
 import { PickList } from 'primereact/picklist';
+import { Toolbar } from 'primereact/toolbar';
+
 
 
 const RolesInsert = () => {
@@ -55,7 +57,7 @@ const RolesInsert = () => {
                     else {
 
                         console.log(r.data.data.codeStatus)
-                        
+
                         IngresarRolesporPantalla(r.data.data.codeStatus);
                     }
                 });
@@ -74,15 +76,33 @@ const RolesInsert = () => {
             }
             console.log(rolespanntallaciclo)
             axios.post(Global.url + 'RolporPantalla/Insertar', rolespanntallaciclo)
-            .then((r) => {
-                console.log(r.data.data.codeStatus)
-            })
+                .then((r) => {
+                    console.log(r.data.data.codeStatus)
+                })
         });
 
         localStorage.setItem('RolInsert', '1');
         router.push('./roles_index')
-        
+
     }
+
+
+    const toolbarLeftTemplate = () => {
+        return (
+            <>
+
+                <div className='col-9'>
+                    <label >Nombre</label>
+                    <InputText type="text" id="inputtext" value={Rol} onChange={(e) => setRol(e.target.value)} className={classNames({ 'p-invalid': submitted && !Rol })} />
+                    {submitted && !Rol && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
+
+                </div>
+            </>
+        );
+    };
+
+
+
 
     return (
         <div className="grid">
@@ -95,36 +115,16 @@ const RolesInsert = () => {
                 </div>
 
                 <div className="grid p-fluid">
-                    <div className='col-4'>
-                        <div className='card'>
-                            <div className="grid p-fluid">
-                                <div className='col-12 mt-4'>
-                                    <div className="field">
-                                        <label>Nombre</label>
-                                        <InputText type="text" id="inputtext" value={Rol} onChange={(e) => setRol(e.target.value)} disabled={RolActivate} className={classNames({ 'p-invalid': submitted && !Rol })} />
-                                        {submitted && !Rol && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
-                                    </div>
-                                </div>
-                                <div className='col-12 mb-4'>
-                                    <div className="grid p-fluid">
-                                        <div className='col-6'>
-                                            <Button label="Crear" severity="success" onClick={() => EnviarRol()} disabled={RolActivate} />
-                                        </div>
-                                        <div className='col-6'>
-                                            <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} disabled={RolActivate} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-8'>
-                        <div className='card'>
-                            
-                        </div>
-                    </div>
+
                     <div className='col-12'>
                         <div className='card'>
+                            <div className="grid p-fluid">
+                                <div className='col-1'></div>
+                                <div className='col-10'>
+                                    <Toolbar left={toolbarLeftTemplate} ></Toolbar>
+                                </div>
+                            </div>
+
                             <PickList
                                 source={Pantallas}
                                 target={PantallasSeleccionadas}
@@ -138,8 +138,29 @@ const RolesInsert = () => {
                                 sourceStyle={{ height: '200px' }}
                                 targetStyle={{ height: '200px' }}
                             ></PickList>
+
+                            <div className='grid p-fluid mt-3'>
+                                <div className='col-1'>
+
+                                </div>
+                                <div className='col-4'>
+
+                                </div>
+                                <div className='col-3'>
+                                    <Button label="Crear" severity="success" onClick={() => EnviarRol()} disabled={RolActivate} icon="pi pi-plus" style={{ marginRight: '.5em' }} />
+                                </div>
+                                <div className='col-3'>
+                                    <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} disabled={RolActivate} icon="pi pi-times" />
+                                </div>
+                                <div className='col-1'></div>
+                            </div>
+
                         </div>
-                    </div>         
+
+
+
+
+                    </div>
                 </div>
             </div>
         </div>

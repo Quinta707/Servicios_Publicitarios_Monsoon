@@ -1,14 +1,33 @@
 import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import { classNames } from 'primereact/utils';
-import React, { forwardRef, useContext, useImperativeHandle, useRef } from 'react';
+import React, { forwardRef, useContext, useImperativeHandle, useRef, useState,useEffect } from 'react';
 import { LayoutContext } from './context/layoutcontext';
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
+import { useRoute } from 'next/router'
+
 
 const AppTopbar = forwardRef((props, ref) => {
     const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } = useContext(LayoutContext);
     const menubuttonRef = useRef(null);
     const topbarmenuRef = useRef(null);
     const topbarmenubuttonRef = useRef(null);
+    const [CerrarSesion, setCerrarSesion] = useState(false)
+    const [confirmar, setconfirmar] = useState(false)
+    const router = useRouter();
+
+
+    useEffect(() => {
+        if (confirmar) {
+            setconfirmar(false);
+            localStorage.clear();
+            router.push('/auth/login');
+        }
+      }, [confirmar]);
+
+
+   
 
     useImperativeHandle(ref, () => ({
         menubutton: menubuttonRef.current,
@@ -19,8 +38,8 @@ const AppTopbar = forwardRef((props, ref) => {
     return (
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
-                <img src={`https://i.pinimg.com/originals/aa/4c/06/aa4c0662450520592ce81df389c4b60f.jpg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
-                <span>Moonson</span>
+                <img src={`demo/images/product/logo.jpeg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
+                <span>Monsoon</span>
             </Link>
 
             <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
@@ -37,10 +56,32 @@ const AppTopbar = forwardRef((props, ref) => {
                     <span>Calendar</span>
                 </button>
                 <button type="button" className="p-link layout-topbar-button">
-                    <i className="pi pi-user"></i>
+                    <i className="pi pi-sign-out" onClick={() => setCerrarSesion(true)}></i>
                     <span>Profile</span>
                 </button>
             </div>
+
+            <Dialog header="Cerrar Sesion" visible={CerrarSesion} style={{ width: '30vw' }} onHide={() => setCerrarSesion(false)} modal footer={
+                <>
+                    <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={() => setCerrarSesion(false)} />
+                    <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={() => setconfirmar(true)}/>
+                </>
+            }>
+                <div className="contenido-dialog">
+                    <div className='col-12'>
+                        <div className='grid p-fluid'>
+                            <div className='col-12'>
+                                <div className="flex align-items-center justify-content-center">
+                                    <i className="pi pi-sign-out mr-2" style={{ fontSize: '1.5rem' }} />
+                                    <span>¿Estás seguro de que deseas cerrar la sesión?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Dialog>
+
+
         </div>
     );
 });
