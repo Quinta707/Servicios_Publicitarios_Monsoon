@@ -2001,8 +2001,8 @@ GO
 CREATE OR ALTER PROCEDURE pbli.UDP_tbServicios_Create
 (@serv_Nombre NVARCHAR(200),
  @serv_Precio DECIMAL(18,2),
- @serv_Url	  NVARCHAR(MAX),
- @serv_UsuCreacion INT)
+ @serv_UsuCreacion INT,
+ @serv_Url	  NVARCHAR(MAX))
 AS
 BEGIN
 	BEGIN TRY

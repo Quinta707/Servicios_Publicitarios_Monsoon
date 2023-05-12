@@ -28,7 +28,6 @@ const Servicios = () => {
     const toast = useRef(null);
 
     const router = useRouter();
-    const [Img, setImg] = useState(null);
 
     useEffect(() => {
         fetch(Global.url + 'Servicio/Listado', { headers: { 'Cache-Control': 'no-cache' } })
@@ -177,7 +176,7 @@ const Servicios = () => {
                         <div className="text-700 text-black text-2xl mb-5">Los mejores servicios publicitarios del país</div>
                         <br></br>
                         <DataView value={filteredValue || dataViewValue} layout={layout} paginator rows={9} sortOrder={sortOrder} sortField={sortField} itemTemplate={itemTemplate} header={dataViewHeader}></DataView>
-                        <Dialog visible={InsumosDialog} header="AyudaDiosMío" style={{ width: '450px' }} modal className="p-fluid" footer={insumosDialogFooter} onHide={cerrarInsumos}>
+                        <Dialog visible={InsumosDialog} header="Insumos por servicio" style={{ width: '450px' }} modal className="p-fluid" footer={insumosDialogFooter} onHide={cerrarInsumos}>
                             <DataTable value={Insumo} >
                                 <Column field="insu_Id" header="ID" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}></Column>
                                 <Column field="insu_Nombre" header="Insumo" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}></Column>
