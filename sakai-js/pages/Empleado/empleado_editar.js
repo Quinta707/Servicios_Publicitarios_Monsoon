@@ -102,6 +102,11 @@ const EditarEmpleado = () => {
             
             //return r.data; // La respuesta ya está en formato JSON
         })
+        .catch((e) => {
+
+            localStorage.setItem('EmpleadoInsert', '400');
+            router.push('./empleado_index')
+        })
         
         
     },[]);
@@ -177,6 +182,7 @@ const EditarEmpleado = () => {
     
             axios.post(Global.url + 'Empleado/Editar', empleado111)
             .then((r) => {
+                localStorage.setItem('EmpleadoInsert', '2');
                 router.push('./empleado_index')
             })
             .catch((error) => {

@@ -11,6 +11,7 @@ namespace ServiciosPublicitarios.Entities.Entities
         public int clie_Id { get; set; }
         public string clie_Nombres { get; set; }
         public string clie_Apellidos { get; set; }
+        public string clie_NombreCompleto { get; set; }
         public string clie_Identidad { get; set; }
         public DateTime clie_FechaNacimiento { get; set; }
         public string clie_Sexo { get; set; }

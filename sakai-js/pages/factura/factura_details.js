@@ -5,11 +5,21 @@ import Global from '../api/Global';
 import { Fieldset } from 'primereact/fieldset';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Button } from 'primereact/button';
+
 
 const Detalle = () => {
 
     const router = useRouter();
+    const [searchText, setSearchText] = useState(''); //para la barra de busqueda
     const [FacturaId, setFacturaId] = useState(router.query.id); // optiene el id del resgitro a editar
+
+    const [user_Creacion, setuser_Creacion] = useState('');
+    const [FechaCreacion, setFechaCreacion] = useState('');
+    const [user_Modificacion, setuser_Modificacion] = useState('');
+    const [FechaModificacion, setFechaModificacion] = useState('');
+
+    const [Auditoria, setAuditoria] = useState([]);
 
     const [FacturaDatos, setFacturaDatos] = useState([]);
     const [cliente, setcliente] = useState('');
@@ -21,21 +31,20 @@ const Detalle = () => {
     const [IVA, setIVA] = useState('');
     const [Total, setTotal] = useState('');
 
-    const [UsuarioCreacion, setUsuarioCreacion] = useState('');
-    const [FechaCreacion, setFechaCreacion] = useState('')
 
     useEffect(() => {
-        console.log(FacturaId);
         axios.get(Global.url + 'Factura/Buscar?id=' + FacturaId)
             .then((r) => {
+
+
                 setcliente(r.data.clie_NombreCompleto)
                 setEmpleado(r.data.empe_NombreCompleto)
                 setSucursal(r.data.sucu_Nombre)
                 setmetodopago(r.data.meto_Descripcion)
                 setFechaCompra(r.data.fact_FechaCompra)
 
-                setUsuarioCreacion(r.data.user_Creacion)
-                setFechaCreacion(r.data.user_Modificacion)
+                setAuditoria(r.data)
+                console.log(Auditoria)
             })
 
         axios.put(Global.url + 'Factura/ListadoDetalles?id=' + FacturaId)
@@ -49,7 +58,6 @@ const Detalle = () => {
                 setIVA(r.data[0].IVA);
                 setTotal(r.data[0].Total);
             })
-
     }, []);
 
     return (
@@ -65,36 +73,39 @@ const Detalle = () => {
 
                 <div className="card">
                     <div className="grid p-fluid">
-                        <div className='col-6'>
+                        <div className='p-fluid formgrid grid'>
+                            <div className='field col-12 mb:col-4'>
                             <h5>Factura Id: </h5> <label>{FacturaId}</label>
-                        </div>
-                        <div className='col-6'>
-
-                        </div>
-
-                        <div className='col-6 mt-2'>
+                            </div>
+                            <div className='field col-12 mb:col-4'>
                             <h5>Cliente: </h5>
                             <label>{cliente}</label>
-                        </div>
-                        <div className='col-6 mt-2'>
+                            </div>
+                            <div className='field col-12 mb:col-4'>
                             <h5>Empleado: </h5> <label>{Empleado}</label>
+                            </div>
                         </div>
-
-                        <div className='col-6 mt-2'>
+                        <div className='p-fluid formgrid grid'>
+                            <div className='field col-12 mb:col-4'>
+                            <h5>Empleado: </h5> <label>{Empleado}</label>
+                            </div>
+                            <div className='field col-12 mb:col-4'>
                             <h5>Sucursal: </h5> <label>{sucursal}</label>
-                        </div>
-                        <div className='col-6 mt-2'>
+                            </div>
+                            <div className='field col-12 mb:col-4'>
                             <h5>Metdodo de pago: </h5> <label>{metodopago}</label>
+                            </div>
                         </div>
-
-                        <div className='col-6 mt-2'>
-                            <h5>FechaCompra: </h5> <label>{FechaCompra}</label>
+                        <div className='p-fluid formgrid grid'>
+                            <div className='field col-12 mb:col-4'>
+                                <h5>FechaCompra: </h5> <label>{FechaCompra}</label>
+                            </div>
                         </div>
 
                         <div className='col-12 mt-2'>
 
 
-                            <Fieldset legend="Auditoria" toggleable>
+                            <Fieldset legend="Servicios Comprados" toggleable>
 
                                 <div className="grid p-fluid">
                                     <div className='col-4 mt-2'>
@@ -150,7 +161,7 @@ const Detalle = () => {
 
                         <div className='col-12'>
 
-                            <Fieldset legend="Servicios Comprados" toggleable>
+                            <Fieldset legend="Auditoria" toggleable>
                                 <div className="grid p-fluid">
                                     <div className='col-12 mt-2'>
                                         <DataTable
@@ -162,13 +173,13 @@ const Detalle = () => {
                                             dataKey="cate_Id"
                                             filterDisplay="menu"
                                             responsiveLayout="scroll"
-                                            emptyMessage="No se encontrron registros."
-
+                                            emptyMessage="No se encontraron registros."
+                                            value={[Auditoria]}
                                         >
-                                            <Column header="Usuario Creacion"       headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} body={UsuarioCreacion} />
-                                            <Column header="Fecha Creacion"         headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-                                            <Column header="Usuario Modificacion"   headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
-                                            <Column header="Fecha Modificacion"     headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} />
+                                            <Column field="user_Creacion" header="Usuario Creacion" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} body={(rowData) => rowData.user_Creacion} />
+                                            <Column field="fact_FechaCreacion" header="Fecha Creacion" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} body={(rowData) => new Date(rowData.fact_FechaCreacion).toLocaleDateString()} />
+                                            <Column field="user_Modificacion" header="Usuario Modificacion" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} body={(rowData) => rowData.user_Modificacion} />
+                                            <Column field="fact_FechaModificacion" header="Fecha Modificacion" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }} body={(rowData) => rowData.fact_FechaModificacion} />
 
                                         </DataTable>
                                     </div>
@@ -176,10 +187,16 @@ const Detalle = () => {
                             </Fieldset>
                         </div>
 
+                        <div className='col-12'>
+                            <div className="grid p-fluid">
+                                <div className='col-2'>
+                                    <Button label="Regresar " severity="info" onClick={() => router.push('./factura_index')}/>   
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-
                 </div>
-
             </div>
         </div>
     )

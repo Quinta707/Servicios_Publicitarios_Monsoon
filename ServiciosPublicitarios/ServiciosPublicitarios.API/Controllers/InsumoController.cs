@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiciosPublicitarios.API.models;
 using ServiciosPublicitarios.BusinessLogic.Service;
+using ServiciosPublicitarios.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,37 @@ namespace ServiciosPublicitarios.API.Controllers
         public IActionResult List()
         {
             var list = _publicidadService.ListadoInsumos();
+            return Ok(list);
+        }
+
+        [HttpPost("Eliminar")]
+        public IActionResult Delete(InsumoViewModel proveedor)
+        {
+            var item = _mapper.Map<tbInsumos>(proveedor);
+            var result = _publicidadService.EliminarInsumo(item);
+            return Ok(result);
+        }
+
+        [HttpPost("Insertar")]
+        public IActionResult Insert(InsumoViewModel proveedor)
+        {
+            var item = _mapper.Map<tbInsumos>(proveedor);
+            var response = _publicidadService.InsertarInsumo(item);
+            return Ok(response);
+        }
+
+        [HttpPost("Editar")]
+        public IActionResult Update(InsumoViewModel proveedor)
+        {
+            var item = _mapper.Map<tbInsumos>(proveedor);
+            var response = _publicidadService.EditarInsumo(item);
+            return Ok(response);
+        }
+
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _publicidadService.BuscarInsumo(id);
             return Ok(list);
         }
     }

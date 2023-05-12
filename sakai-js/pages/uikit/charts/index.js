@@ -236,6 +236,9 @@ const ChartDemo = () => {
                     <Chart type="bar" data={data.barData} options={options.barOptions}></Chart>
                 </div>
             </div>
+
+
+
             <div className="col-12 xl:col-6">
                 <div className="card flex flex-column align-items-center">
                     <h5 className="text-left w-full">Pie Chart</h5>
@@ -248,6 +251,9 @@ const ChartDemo = () => {
                     <Chart type="doughnut" data={data.pieData} options={options.pieOptions}></Chart>
                 </div>
             </div>
+
+
+
             <div className="col-12 xl:col-6">
                 <div className="card flex flex-column align-items-center">
                     <h5 className="text-left w-full">Polar Area Chart</h5>

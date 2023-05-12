@@ -18,14 +18,35 @@ const App = () => {
   const [EmpleadoId, setEmpleadoId] = useState("");//almecenar el id del empleado
   const toast = useRef(null); //para los toast
   const router = useRouter();
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(Global.url + 'Empleado/Listado')
+
+    if (localStorage.getItem('EmpleadoInsert') == '1') {
+      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
+      setLoading(true);
+      localStorage.setItem('EmpleadoInsert', '');
+    }
+    else if (localStorage.getItem('EmpleadoInsert') == '2') {
+      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
+      setLoading(true);
+      localStorage.setItem('EmpleadoInsert', '');
+    }
+    else if (localStorage.getItem('EmpleadoInsert') == '400') {
+      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+      localStorage.setItem('EmpleadoInsert', '');
+    }
+    if(loading){
+      axios.get(Global.url + 'Empleado/Listado')
       .then(response => response.data)
-      .then(data => setPosts(data.data))
+      .then(data => {
+        setLoading(false);
+        setPosts(data.data)
+      })
       .catch(error => console.error(error))
-  }, [posts]);
+    }
+    
+  }, [loading]);
 
 
 
@@ -68,6 +89,7 @@ const App = () => {
     }
     axios.post(Global.url + 'Empleado/Eliminar', payload)
       .then((r) => {
+        setLoading(true);
         hideDeleteModal();
         setEmpleadoId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });

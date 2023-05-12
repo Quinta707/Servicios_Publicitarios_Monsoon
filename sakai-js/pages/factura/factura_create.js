@@ -43,6 +43,8 @@ const createFactura = () => {
 
     const [DeleteModal, setDeleteModal] = useState(false); //abrir el modal eliminar
 
+    const [loading, setLoading] = useState(true);
+
     //cargar ddl Cargos
     useEffect(() => {
 
@@ -62,17 +64,26 @@ const createFactura = () => {
             .catch(error => console.error(error))
     }, []);
 
+
     //listado de detalles
     useEffect(() => {
-        axios.put(Global.url + 'Factura/ListadoDetalles?id=' + FacturaId)
-            .then(response => response.data)
-            .then(data => setDetalles(data.data))
-            .catch(error => console.error(error))
 
-        axios.put(Global.url + 'Factura/PrecioDetalles?id=' + FacturaId)
-            .then(response => setPrecioTotal(response.data[0].Total + " Lps"))
-            .catch(error => console.error(error))
-    }, [Detalles]);
+        if (loading) {
+            axios.put(Global.url + 'Factura/ListadoDetalles?id=' + FacturaId)
+                .then(response => response.data)
+                .then(data => {
+                    setDetalles(data.data)
+                    setLoading(false);
+                })
+                .catch(error => console.error(error))
+
+
+            axios.put(Global.url + 'Factura/PrecioDetalles?id=' + FacturaId)
+                .then(response => setPrecioTotal(response.data[0].Total + " Lps"))
+                .catch(error => console.error(error))
+        }
+
+    }, [loading]);
 
 
     //* MODAL ELIMINAR */
@@ -97,6 +108,7 @@ const createFactura = () => {
         axios.post(Global.url + 'Factura/EliminarDetalles', payload)
             .then((r) => {
                 hideDeleteModal();
+                setLoading(true);
                 toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
             });
     }
@@ -154,18 +166,26 @@ const createFactura = () => {
                     .then((r) => {
                         setCatidad('');
                         setServicio('');
-
+                        setLoading(true);
                     })
             }
         }
     }
 
+    const TerminarFactura = () => {
+
+        localStorage.setItem('FacturaCreate', '1');
+
+        router.push('./factura_index')
+
+    }
+
     const header = (
         <div className="table-header">
-             <div className="grid p-fluid">
-                
+            <div className="grid p-fluid">
+
                 <div className="col-3">
-                    <Button label="Finalizar Compra" raised severity="info" disabled={FacturaDetalleActivate} onClick={() => router.push('./factura_index')} />
+                    <Button label="Finalizar Compra" raised severity="info" disabled={FacturaDetalleActivate} onClick={() => TerminarFactura()} />
                 </div>
 
                 <div className="col-9">
@@ -176,9 +196,10 @@ const createFactura = () => {
                 </div>
 
             </div>
-           
+
         </div>
     );
+
 
     const onProyeccionFilter = (event) => {
         setTimeout(() => {
@@ -231,7 +252,7 @@ const createFactura = () => {
                                         <Button label="Crear" severity="success" onClick={() => EnviarFactura()} disabled={FacturaActivate} />
                                     </div>
                                     <div className='col-5'>
-                                        <Button label="Cancelar" severity="danger" onClick={() => router.push('./factura_index')} disabled={FacturaActivate}/>
+                                        <Button label="Cancelar" severity="danger" onClick={() => router.push('./factura_index')} disabled={FacturaActivate} />
                                     </div>
                                 </div>
                             </div>
@@ -335,10 +356,10 @@ const createFactura = () => {
                                 <div className="grid p-fluid">
                                     <div className='col-5 mt-3'>
                                         <label htmlFor='Precio'>Precio de la Compra: </label>
-                                    </div> 
+                                    </div>
                                     <div className='col-7'>
                                         <InputText type="text" id="Precio" value={PrecioTotal} disabled={true} />
-                                    </div>   
+                                    </div>
                                 </div>
                             </div>
                         </div>

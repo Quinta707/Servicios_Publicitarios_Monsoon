@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServiciosPublicitarios.API.models;
 using ServiciosPublicitarios.BusinessLogic.Service;
+using ServiciosPublicitarios.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,5 +31,40 @@ namespace ServiciosPublicitarios.API.Controllers
             var list = _accessService.ListadoRoles();
             return Ok(list);
         }
+
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _accessService.BuscarRoles(id);
+            return Ok(list);
+        }
+
+        [HttpPost("Eliminar")]
+        public IActionResult Delete(RolViewModel rol)
+        {
+            var item = _mapper.Map<tbRoles>(rol);
+            var result = _accessService.EliminarRoles(item);
+            return Ok(result);
+        }
+
+
+        [HttpPost("Insertar")]
+        public IActionResult Insert(RolViewModel rol)
+        {
+
+            var item = _mapper.Map<tbRoles>(rol);
+            var response = _accessService.InsertarRoles(item);
+            return Ok(response);
+        }
+
+        [HttpPost("Editar")]
+        public IActionResult Update(RolViewModel rol)
+        {
+
+            var item = _mapper.Map<tbRoles>(rol);
+            var response = _accessService.EditarRoles(item);
+            return Ok(response);
+        }
+
     }
 }

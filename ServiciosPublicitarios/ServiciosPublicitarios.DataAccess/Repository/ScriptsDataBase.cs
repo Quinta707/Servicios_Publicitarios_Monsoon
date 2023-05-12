@@ -52,14 +52,16 @@ namespace ServiciosPublicitarios.DataAccess.Repository
         public static string UDP_tbSucursales_Actualizar = "pbli.UDP_tbSucursales_Update";
         public static string UDP_tbSucursales_Eliminar = "pbli.UDP_tbSucursales_Delete";
         public static string UDP_tbSucursales_Buscar = "pbli.UDP_tbSucursales_Find";
+
+        public static string UDP_tbSucursales_Grafica = "pbli.UDP_tbSucursales_Graphic";
         #endregion
 
         #region Proveedor
-        public static string UDP_tbProveedores_Listado = "pbli.UDP_tbSucursales_Find";
-        public static string UDP_tbProveedores_Insertar = "pbli.UDP_tbSucursales_Find";
-        public static string UDP_tbProveedores_Actualizar = "pbli.UDP_tbSucursales_Find";
-        public static string UDP_tbProveedores_Eliminar = "pbli.UDP_tbSucursales_Find";
-        public static string UDP_tbProveedores_Buscar = "pbli.UDP_tbSucursales_Find";
+        public static string UDP_tbProveedores_Listado = "pbli.UDP_tbProveedores_Index";
+        public static string UDP_tbProveedores_Insertar = "pbli.UDP_tbProveedores_Insert";
+        public static string UDP_tbProveedores_Actualizar = "pbli.UDP_tbProveedores_Update";
+        public static string UDP_tbProveedores_Eliminar = "pbli.UDP_tbProveedores_Delete";
+        public static string UDP_tbProveedores_Buscar = "pbli.UDP_tbProveedores_Find";
         #endregion
 
         #region Servicio
@@ -140,6 +142,7 @@ namespace ServiciosPublicitarios.DataAccess.Repository
 
         public static string UDP_tbusuarios_Iniciarsesion           = "acce.UDP_IniciarSesion";
         public static string UDP_tbusuarios_RecuperarContrasenia    = "acce.UDP_RecuperarUsuario";
+        public static string UDP_tbusuarios_ValidarUsuario = "acce.UDP_ValidarUsuario";
         #endregion
 
         #region Roles
@@ -148,7 +151,21 @@ namespace ServiciosPublicitarios.DataAccess.Repository
         public static string UDP_tbRoles_Actualizar = "acce.UDP_tbRoles_Update";
         public static string UDP_tbRoles_Eliminar   = "acce.UDP_tbRoles_Delete";
         public static string UDP_tbRoles_Buscar     = "acce.UDP_tbRoles_Find";
+
+        public static string UDP_tbPantallasPorRoles_Insertar               = "acce.UDP_tbPantallasPorRoles_Insert";
+        public static string UDP_tbPantallasPorRoles_Buscar                 = "acce.UDP_tbPantallasPorRoles_Find";
+        public static string UDP_tbPantallasPorRoles_PantallasDisponibles   = "acce.UDP_tbPantallasPorRoles_PantallasDisponibles";
+        public static string UDP_tbPantallasPorRoles_Eliminar                 ="acce.UDP_tbPantallasPorRoles_Delete";
         #endregion
+
+        #region Pantallas
+        public static string UDP_tbPantallas_Listado = "acce.tbPantallas_Index";
+        public static string UDP_tbPantallas_Menu = "acce.tbPantallas_Menu";
+        #endregion
+
+
+
+
     }
 }
  

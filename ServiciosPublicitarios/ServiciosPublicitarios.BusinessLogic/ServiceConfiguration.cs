@@ -32,6 +32,7 @@ namespace ServiciosPublicitarios.BusinessLogic
 
             service.AddScoped<UsuarioRepository>();
             service.AddScoped<RolRepository>();
+            service.AddScoped<PantallaRepository>();
 
             MonsoonContext.BuildConnectionString(connectionString);
         }

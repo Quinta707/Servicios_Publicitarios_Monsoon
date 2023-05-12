@@ -106,17 +106,15 @@ const createEmpleado = () => {
                 empe_UsuCreacion :      1
             }
 
-            console.log(empleado);
     
             axios.post(Global.url + 'Empleado/Insertar', empleado)
             .then((r) => {
+
+                localStorage.setItem('EmpleadoInsert', '1');
+
                 router.push('./empleado_index')
             });
         }
-
-        
-
-        
     }
     
     return (
@@ -212,7 +210,7 @@ const createEmpleado = () => {
                         <div className="field">
                             <label htmlFor="Sexo">Cargo</label><br />
                             <Dropdown optionLabel="name" placeholder="Selecionar" options={CargoDDL} value={Cargo} onChange={(e) => setCargo(e.value)} className={classNames({ 'p-invalid': submitted && !Cargo })}/>
-                            {submitted && !Sexo && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+                            {submitted && !Cargo && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
                         </div>
                     </div>
 

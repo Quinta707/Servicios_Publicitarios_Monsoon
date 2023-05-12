@@ -150,6 +150,84 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
                 return result.Error(e.Message);
             }
         }
+
+        public ServiceResult EliminarCliente(tbClientes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _clienteRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarCliente(tbClientes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _clienteRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarCliente(tbClientes item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _clienteRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbClientes BuscarCliente(int? id)
+        {
+            try
+            {
+                var list = _clienteRepository.Find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
 
 
@@ -165,6 +243,84 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
             catch (Exception e)
             {
                 return result.Error(e.Message);
+            }
+        }
+
+        public ServiceResult EliminarInsumo(tbInsumos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _insumoRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarInsumo(tbInsumos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _insumoRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarInsumo(tbInsumos item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _insumoRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbInsumos BuscarInsumo(int? id)
+        {
+            try
+            {
+                var list = _insumoRepository.Find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
         #endregion
@@ -308,6 +464,100 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
                 return result.Error(e.Message);
             }
         }
+
+
+        public VW_tbSucursales BuscarSucursal(int? id)
+        {
+            try
+            {
+                var list = _sucursalRepository.Find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public ServiceResult InsertarSucursal(tbSucursales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult EditarSucursales(tbSucursales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult EliminarSucursales(tbSucursales item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _sucursalRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable SucursalGrafica()
+        {
+            try
+            {
+                return _sucursalRepository.GraficaSucursales();
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         #endregion
 
 
@@ -325,6 +575,84 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
                 return result.Error(e.Message);
             }
         }
+
+        public ServiceResult EliminarProveedores(tbProveedores item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _proveedorRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarProveedores(tbProveedores item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _proveedorRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarProveedor(tbProveedores item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _proveedorRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbProveedores BuscarProveedor(int? id)
+        {
+            try
+            {
+                var list = _proveedorRepository.Find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
         #endregion
 
 
@@ -340,6 +668,83 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
             catch (Exception e)
             {
                 return result.Error(e.Message);
+            }
+        }
+        public ServiceResult EliminarServicio(tbServicios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _servicioRepository.Delete(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ServiceResult InsertarServicio(tbServicios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _servicioRepository.Insert(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public ServiceResult EditarServicio(tbServicios item)
+        {
+            var result = new ServiceResult();
+            try
+            {
+                var map = _servicioRepository.Update(item);
+                if (map.CodeStatus > 0)
+                {
+                    return result.Ok(map);
+                }
+                else
+                {
+                    map.MessageStatus = (map.CodeStatus == 0) ? "404 Error de consulta" : map.MessageStatus;
+                    return result.Error(map);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public VW_tbservicios BuscarServicio(int? id)
+        {
+            try
+            {
+                var list = _servicioRepository.Find(id);
+                return list;
+            }
+            catch (Exception)
+            {
+                return null;
             }
         }
         #endregion

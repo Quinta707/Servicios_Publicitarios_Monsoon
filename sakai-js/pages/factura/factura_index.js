@@ -17,11 +17,17 @@ const App = () => {
 
 
   useEffect(() => {
+
+    if (localStorage.getItem('FacturaCreate') == '1') {
+      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
+      localStorage.setItem('FacturaCreate', '');
+    }
+
     axios.get(Global.url + 'Factura/Listado')
       .then(response => response.data)
       .then(data => setPosts(data.data))
       .catch(error => console.error(error))
-  }, [posts]);
+  }, []);
 
 
 

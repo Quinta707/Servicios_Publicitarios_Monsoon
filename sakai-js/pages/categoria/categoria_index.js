@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
 
+
 const App = () => {
 
     const [posts, setPosts] = useState([]);
@@ -27,13 +28,17 @@ const App = () => {
     const [CategoriaId, setCategoriaId] = useState("");
     
     
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         const url = Global.url + 'Categoria/Listado';
-        fetch(url)
-          .then(response => response.json())
-          .then(data => setPosts(data.data))
-    }, [posts]);
+        if (loading) {
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {setPosts(data.data)
+                setLoading(false);
+            })
+        }
+    }, [loading]);
     
 
 
@@ -80,9 +85,13 @@ const App = () => {
         }  
         axios.post(Global.url + 'Categoria/Insertar', payload)
         .then((r) => {
+            setLoading(true);
             hideDialog();
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Ingresados Correctamente', life: 1500 });       
-        });
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 1500 });       
+        })
+        .catch((e) => {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+        })
     } 
 
 
@@ -109,9 +118,13 @@ const App = () => {
         axios.post(Global.url + 'Categoria/Eliminar', payload)
         .then((r) => {
             hideDeleteModal();
+            setLoading(true);
             setCategoriaId("");
             toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });     
-        });
+        })
+        .catch((e) => {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+        })
     }
 
     /* MODAL EDITAR */
@@ -157,8 +170,12 @@ const App = () => {
         axios.post(Global.url + 'Categoria/Editar',payload)
         .then((r) => {
             hideEditModal();
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Editados Correctamente', life: 1500 });       
-        });
+            setLoading(true);
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 1500 });       
+        })
+        .catch((e) => {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+        })
     }
 
     return (
@@ -220,8 +237,8 @@ const App = () => {
                         onHide={hideDialog}
                         footer={
                             <div>
-                            <Button label="Cancel" icon="pi pi-times" severity="danger" onClick={hideDialog} />
-                            <Button label="Save" icon="pi pi-check" severity="success" onClick={saveProduct} />
+                            <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDialog} />
+                            <Button label="Guardar" icon="pi pi-check" severity="success" onClick={saveProduct} />
                             </div>
                         }
                     >
@@ -247,8 +264,8 @@ const App = () => {
                         onHide={hideEditModal}
                         footer={
                             <div>
-                            <Button label="Cancel" icon="pi pi-times" severity="danger" onClick={hideEditModal} />
-                            <Button label="Save" icon="pi pi-check" severity="success" onClick={ValidarDatosEdit} />
+                            <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideEditModal} />
+                            <Button label="Guardar" icon="pi pi-check" severity="success" onClick={ValidarDatosEdit} />
                             </div>
                         }
                     >

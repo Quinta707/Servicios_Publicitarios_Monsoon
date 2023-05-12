@@ -125,6 +125,10 @@ namespace ServiciosPublicitarios.DataAccess.Context
                     .HasMaxLength(15)
                     .IsUnicode(false);
 
+                entity.Property(e => e.clie_NombreCompleto)
+                    .IsRequired()
+                    .HasMaxLength(401);
+
                 entity.Property(e => e.clie_Nombres)
                     .IsRequired()
                     .HasMaxLength(200);
@@ -1269,7 +1273,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82EB4B4DF20")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E22DA5230")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)

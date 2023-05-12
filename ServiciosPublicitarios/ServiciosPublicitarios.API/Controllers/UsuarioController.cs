@@ -32,7 +32,38 @@ namespace ServiciosPublicitarios.API.Controllers
             return Ok(list);
         }
 
+        [HttpGet("Buscar")]
+        public IActionResult Find(int? id)
+        {
+            var list = _accessService.BuscarUsuarios(id);
+            return Ok(list);
+        }
 
+        [HttpPost("Eliminar")]
+        public IActionResult Delete(UsuarioViewModel usuario)
+        {
+            var item = _mapper.Map<tbUsuarios>(usuario);
+            var result = _accessService.EliminarUsuarios(item);
+            return Ok(result);
+        }
+
+
+        [HttpPost("Insertar")]
+        public IActionResult Insert(UsuarioViewModel usuario)
+        {
+            var item = _mapper.Map<tbUsuarios>(usuario);
+            var result = _accessService.InsertarUsuarios(item);
+            return Ok(result);
+        }
+
+        [HttpPost("Editar")]
+        public IActionResult Update(UsuarioViewModel usuario)
+        {
+
+            var item = _mapper.Map<tbUsuarios>(usuario);
+            var response = _accessService.EditarUsuarios(item);
+            return Ok(response);
+        }
 
         [HttpPut("IniciarSesion")]
         public IActionResult Login(UsuarioViewModel usuariosView)
@@ -47,6 +78,14 @@ namespace ServiciosPublicitarios.API.Controllers
         {
             var item = _mapper.Map<tbUsuarios>(usuariosView);
             var list = _accessService.Recuperar(item);
+            return Ok(list);
+        }
+
+        [HttpPut("ValidarUsuario")]
+        public IActionResult ValidarUsuario(UsuarioViewModel usuariosView)
+        {
+            var item = _mapper.Map<tbUsuarios>(usuariosView);
+            var list = _accessService.ValidarUsuario(item);
             return Ok(list);
         }
     }

@@ -142,6 +142,10 @@
          "ObjectType": 3
       },
       {
+         "Name": "[pbli].[VW_tbInsumosPorServicio]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[pbli].[VW_tbProveedores]",
          "ObjectType": 3
       },
@@ -154,7 +158,7 @@
          "ObjectType": 3
       }
    ],
-   "UiHint": "DESKTOP-NC80200\\SQLEXPRESS.ServiciosPublicitarios",
+   "UiHint": "DESKTOP-AJ8GUH2\\SQLEXPRESS.ServiciosPublicitarios",
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": true,
    "UseDbContextSplitting": false,
