@@ -5775,24 +5775,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ALEXANDER\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\LAB01\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
+      "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
       "projectName": "ServiciosPublicitarios.BusinessLogic",
-      "projectPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
-      "packagesPath": "C:\\Users\\ALEXANDER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\obj\\",
+      "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\ServiciosPublicitarios.BusinessLogic.csproj",
+      "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.BusinessLogic\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\ALEXANDER\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5806,8 +5801,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj": {
-              "projectPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj"
+            "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj": {
+              "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.DataAccess\\ServiciosPublicitarios.DataAccess.csproj"
             }
           }
         }
@@ -5836,7 +5831,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.409\\RuntimeIdentifierGraph.json"
       }
     }
   }

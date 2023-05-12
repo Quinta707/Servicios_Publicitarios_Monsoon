@@ -64,10 +64,13 @@ const RolesUpdate = () => {
             axios.post(Global.url + 'Rol/Editar', rolModificado)
             .then((r) => {
 
+                console.log(r.data.data.codeStatus);
+
                 if (r.data.data.codeStatus == 2) {
                     toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ya existe un registro con este nombre', life: 2000 });
                 }
                 else if (r.data.data.codeStatus == 0) {
+                    
                     toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups algo salio mal', life: 2000 });
                 }
                 else {

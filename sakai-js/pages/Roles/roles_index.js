@@ -35,7 +35,6 @@ const App = () => {
     }
 
     if (loading) {
-      console.log(1)
       axios.get(Global.url + 'Rol/Listado')
         .then(response => response.data)
         .then(data => {

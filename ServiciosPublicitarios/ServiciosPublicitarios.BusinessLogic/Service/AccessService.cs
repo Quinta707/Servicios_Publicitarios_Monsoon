@@ -171,7 +171,7 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
             {
                 return result.Error(e.Message);
             }
-        } 
+        }
 
         public VW_tbRoles BuscarRoles(int? id)
         {

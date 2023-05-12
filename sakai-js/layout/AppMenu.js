@@ -27,29 +27,29 @@ const AppMenu = () => {
 
     useEffect(() => {
 
-        if (localStorage.getItem('usuID') == "" || localStorage.getItem('usuID') == null) {
-            console.log(localStorage.getItem('usuID'));
-            router.push('/auth/login');
-        }
-        else {
+        // if (localStorage.getItem('usuID') == "" || localStorage.getItem('usuID') == null) {
+        //     console.log(localStorage.getItem('usuID'));
+        //     router.push('/auth/login');
+        // }
+        // else {
 
-            var role_Id = localStorage.getItem('role_Id');
+        //     var role_Id = localStorage.getItem('role_Id');
 
-            if (localStorage.getItem('user_EsAdmin') == "true") {
-                var EsAdmin = 1;
-            }
-            else {
-                var EsAdmin = 0;
-            }
+        //     if (localStorage.getItem('user_EsAdmin') == "true") {
+        //         var EsAdmin = 1;
+        //     }
+        //     else {
+        //         var EsAdmin = 0;
+        //     }
 
-            const url = 'https://localhost:44304/api/Pantalla/PantallaMenu?id=' + role_Id + '&EsAdmin=' + EsAdmin;
+            const url = 'https://localhost:44304/api/Pantalla/PantallaMenu?id=' + 1 + '&EsAdmin=' + 1;
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     setPosts(data.data)
                     console.log(data)
                 })
-        }
+        //}
 
     }, []);
 

@@ -51,9 +51,9 @@ namespace ServiciosPublicitarios.DataAccess.Repository
         {
             using var db = new SqlConnection(MonsoonContext.ConnectionString);
             var parametros = new DynamicParameters();
-            parametros.Add("@role_Id",              item.role_Id,                   DbType.Int32, ParameterDirection.Input);
-            parametros.Add("@role_Nombre",          item.role_Nombre,               DbType.String, ParameterDirection.Input);
-            parametros.Add("@role_UsuModificacion", item.role_FechaModificacion,    DbType.String, ParameterDirection.Input);
+            parametros.Add("@role_Id", item.role_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_Nombre", item.role_Nombre, DbType.String, ParameterDirection.Input);
+            parametros.Add("@role_UsuModificacion", item.role_UsuModificacion, DbType.Int32, ParameterDirection.Input);
 
             var result = db.QueryFirst<RequestStatus>(ScriptsDataBase.UDP_tbRoles_Actualizar, parametros, commandType: System.Data.CommandType.StoredProcedure);
             return result;

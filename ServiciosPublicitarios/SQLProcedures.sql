@@ -926,8 +926,9 @@ END
 
 
 --************** INSERT *****************--
+--************** INSERT *****************--
 Go
-CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Insert 
+CREATE OR ALTER PROCEDURE acce.UDP_tbRoles_Insert
  (@role_Nombre NVARCHAR(100),
   @role_UsuCreacion INT)
 AS
@@ -936,7 +937,7 @@ BEGIN
         IF EXISTS (SELECT * FROM acce.tbRoles WHERE role_Nombre = @role_Nombre AND role_Estado = 1)
         BEGIN
 
-            SELECT 2 codeStatus
+            SELECT -1 codeStatus
 
         END
         ELSE IF NOT EXISTS (SELECT * FROM acce.tbRoles WHERE role_Nombre = @role_Nombre)
@@ -956,7 +957,7 @@ BEGIN
 				   ,Null
 				   ,1)
 
-            SELECT SCOPE_IDENTITY() 
+            SELECT SCOPE_IDENTITY() codeStatus
 			END
         ELSE
         BEGIN
@@ -969,7 +970,7 @@ BEGIN
 				,role_FechaModificacion = NULL
             WHERE role_Nombre = @role_Nombre
 
-            select role_Id From acce.tbRoles  WHERE role_Nombre = @role_Nombre
+            select role_Id codeStatus From acce.tbRoles  WHERE role_Nombre = @role_Nombre 
         END
 
     END TRY
@@ -1003,11 +1004,11 @@ BEGIN
 					WHERE role_Id = @role_Id
 
 
-				SELECT 1 codeSatus
+				SELECT 1 codeStatus
 			END
     END TRY
     BEGIN CATCH
-        SELECT 0 codeSatus
+        SELECT 0 codeStatus
     END CATCH
 END
 
@@ -1022,7 +1023,7 @@ BEGIN
 	BEGIN TRY
 		  IF EXISTS (SELECT * FROM acce.tbUsuarios WHERE (role_Id = @role_Id))
 			BEGIN
-				SELECT -1
+				SELECT 3
 			END
 		ELSE
 			BEGIN 
@@ -1041,6 +1042,7 @@ BEGIN
 		SELECT 0 codeStaus
 	END CATCH
 END
+
 
 
 -- ************* TABLA PANTALLAS *****************--

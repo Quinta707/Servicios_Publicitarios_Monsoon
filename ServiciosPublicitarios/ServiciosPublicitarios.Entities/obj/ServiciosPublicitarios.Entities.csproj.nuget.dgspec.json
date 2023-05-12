@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {}
+    "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {
+    "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
         "projectName": "ServiciosPublicitarios.Entities",
-        "projectPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
-        "packagesPath": "C:\\Users\\ALEXANDER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ALEXANDER\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\obj\\",
+        "projectPath": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\ServiciosPublicitarios.Entities.csproj",
+        "packagesPath": "C:\\Users\\LAB01\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAB01\\Documents\\GitHub\\Servicios_Publicitarios_Monsoon\\ServiciosPublicitarios\\ServiciosPublicitarios.Entities\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ALEXANDER\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\LAB01\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.409\\RuntimeIdentifierGraph.json"
         }
       }
     }
