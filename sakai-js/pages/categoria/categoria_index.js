@@ -4,13 +4,15 @@ import { Column } from 'primereact/column';
 import Global from '../api/Global';
 import { InputText } from 'primereact/inputtext';
 import { Dialog } from 'primereact/dialog';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, use } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
+import { useRouter } from 'next/router';
 
 
 const App = () => {
 
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
 
@@ -24,22 +26,42 @@ const App = () => {
 
     const [error, setError] = useState('');
 
-    const [Desripcion, setDescripcion] = useState(""); 
+    const [Desripcion, setDescripcion] = useState("");
     const [CategoriaId, setCategoriaId] = useState("");
-    
-    
-    const [loading, setLoading] = useState(true);
+
+    const [acceso, setacceso] = useState(0);
+    const [loading, setLoading] = useState(true)
     useEffect(() => {
-        const url = Global.url + 'Categoria/Listado';
-        if (loading) {
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {setPosts(data.data)
-                setLoading(false);
-            })
+
+        var admin = 0;
+        var pant_Id = 3;
+        var role_Id = localStorage.getItem('role_Id');
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
         }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+                setacceso(r.data[0][""])
+
+                if (r.data[0][""] == 1) {
+                    const url = Global.url + 'Categoria/Listado';
+                    if (loading) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                setPosts(data.data)
+                                setLoading(false);
+                            })
+                    }
+                }
+                else{
+                    router.push('/');
+                }
+            })
+
     }, [loading]);
-    
+
 
 
     const header = (
@@ -49,10 +71,10 @@ const App = () => {
                     <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => setProductDialog(true)} />
                 </div>
             </div>
-          <span className="block mt-2 md:mt-0 p-input-icon-left">
-            <i className="pi pi-search" />
-            <InputText type="text" value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Buscar..." />
-          </span>
+            <span className="block mt-2 md:mt-0 p-input-icon-left">
+                <i className="pi pi-search" />
+                <InputText type="text" value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Buscar..." />
+            </span>
         </div>
     );
 
@@ -63,7 +85,7 @@ const App = () => {
             setError('Este campo no necesario.');
             return;
         }
-        else{
+        else {
             IngresarCategorias();
         }
     };
@@ -78,27 +100,27 @@ const App = () => {
 
     //mandar datos de ingresar a la api
     const IngresarCategorias = (e) => {
-             
+
         let payload = {
-            cate_Descripcion:Desripcion,
-            cate_UsuCreacion:1,
-        }  
+            cate_Descripcion: Desripcion,
+            cate_UsuCreacion: 1,
+        }
         axios.post(Global.url + 'Categoria/Insertar', payload)
-        .then((r) => {
-            setLoading(true);
-            hideDialog();
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 1500 });       
-        })
-        .catch((e) => {
-            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-        })
-    } 
+            .then((r) => {
+                setLoading(true);
+                hideDialog();
+                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 1500 });
+            })
+            .catch((e) => {
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+            })
+    }
 
 
 
     /* MODAL ELIMINAR */
     //abrir modal eliminar
-    const OpenDeleteModal= (id) => {
+    const OpenDeleteModal = (id) => {
         setCategoriaId(id);
         setDeleteModal(true);
     }
@@ -113,32 +135,32 @@ const App = () => {
     const EliminarCategorias = (e) => {
 
         let payload = {
-            cate_Id:CategoriaId,
-        }  
+            cate_Id: CategoriaId,
+        }
         axios.post(Global.url + 'Categoria/Eliminar', payload)
-        .then((r) => {
-            hideDeleteModal();
-            setLoading(true);
-            setCategoriaId("");
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });     
-        })
-        .catch((e) => {
-            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-        })
+            .then((r) => {
+                hideDeleteModal();
+                setLoading(true);
+                setCategoriaId("");
+                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
+            })
+            .catch((e) => {
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+            })
     }
 
     /* MODAL EDITAR */
     //traer los datos para el editar
     const LlamarDatosEdit = (id) => {
-        axios.get(Global.url + 'Categoria/Buscar?id='+ id)
-        .then((r) => { 
-            return r.data; // La respuesta ya está en formato JSON
-        })
-        .then((data) => {
-            setDescripcion(data.cate_Descripcion) 
-            setEditModal(true)
-            setCategoriaId(id);
-        });
+        axios.get(Global.url + 'Categoria/Buscar?id=' + id)
+            .then((r) => {
+                return r.data; // La respuesta ya está en formato JSON
+            })
+            .then((data) => {
+                setDescripcion(data.cate_Descripcion)
+                setEditModal(true)
+                setCategoriaId(id);
+            });
     }
 
     //cerrar modal Editar
@@ -155,7 +177,7 @@ const App = () => {
             setError('Este campo no necesario.');
             return;
         }
-        else{
+        else {
             DatosEditados();
         }
     };
@@ -163,26 +185,26 @@ const App = () => {
     //Mandar la categoria ya editada a la api
     const DatosEditados = (e) => {
         let payload = {
-            cate_Id : CategoriaId,
-            cate_Descripcion:Desripcion,
-            cate_usuModificacion:1
-        }  
-        axios.post(Global.url + 'Categoria/Editar',payload)
-        .then((r) => {
-            hideEditModal();
-            setLoading(true);
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 1500 });       
-        })
-        .catch((e) => {
-            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-        })
+            cate_Id: CategoriaId,
+            cate_Descripcion: Desripcion,
+            cate_usuModificacion: 1
+        }
+        axios.post(Global.url + 'Categoria/Editar', payload)
+            .then((r) => {
+                hideEditModal();
+                setLoading(true);
+                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 1500 });
+            })
+            .catch((e) => {
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+            })
     }
 
     return (
         <div className="grid">
             <div className="col-12">
 
-                <div className="card" style={{background: `rgb(105,101,235)`, height: '100px', width: '100%' }}>
+                <div className="card" style={{ background: `rgb(105,101,235)`, height: '100px', width: '100%' }}>
                     <div className="row text-center d-flex align-items-center">
                         <h2 style={{ color: 'white' }}>Categorias</h2>
                     </div>
@@ -207,7 +229,7 @@ const App = () => {
                         filterMode="filter"
                         header={header}
                         value={posts.filter((post) =>
-                            post.cate_Descripcion.toLowerCase().includes(searchText.toLowerCase()) 
+                            post.cate_Descripcion.toLowerCase().includes(searchText.toLowerCase())
                         )}
 
                     >
@@ -215,12 +237,12 @@ const App = () => {
                         <Column
                             field="acciones"
                             header="Acciones"
-                            headerStyle={{ background: `rgb(105,101,235)`, color: '#fff'}}
+                            headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}
                             style={{ minWidth: '300px' }}
                             body={rowData => (
                                 <div>
-                                    <Button label="Detalles" severity="info"   icon="pi pi-eye"    outlined style={{ fontSize: '0.8rem' }} /> .
-                                    <Button label="Editar"  severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => LlamarDatosEdit(rowData.cate_Id)}/> .
+                                    <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> .
+                                    <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => LlamarDatosEdit(rowData.cate_Id)} /> .
                                     <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.cate_Id)} />
                                 </div>
                             )}
@@ -237,8 +259,8 @@ const App = () => {
                         onHide={hideDialog}
                         footer={
                             <div>
-                            <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDialog} />
-                            <Button label="Guardar" icon="pi pi-check" severity="success" onClick={saveProduct} />
+                                <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDialog} />
+                                <Button label="Guardar" icon="pi pi-check" severity="success" onClick={saveProduct} />
                             </div>
                         }
                     >
@@ -264,8 +286,8 @@ const App = () => {
                         onHide={hideEditModal}
                         footer={
                             <div>
-                            <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideEditModal} />
-                            <Button label="Guardar" icon="pi pi-check" severity="success" onClick={ValidarDatosEdit} />
+                                <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideEditModal} />
+                                <Button label="Guardar" icon="pi pi-check" severity="success" onClick={ValidarDatosEdit} />
                             </div>
                         }
                     >
@@ -279,25 +301,25 @@ const App = () => {
                             />
                             {error && <div className="error" style={{ color: 'red' }}>{error}</div>}
                         </div>
-                    </Dialog>   
+                    </Dialog>
 
 
-                    
+
                     {/*modal para Eliminar Registros*/}
                     <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Categorias" onHide={hideDeleteModal} modal footer={
                         <>
-                        <Button label="Cancelar" icon="pi pi-times"  severity="danger"  onClick={hideDeleteModal} />
-                        <Button label="Confirmar" icon="pi pi-check" severity="success"  onClick={EliminarCategorias} />
+                            <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
+                            <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarCategorias} />
                         </>
                     }>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             <span>
-                                ¿Desea eliminar este registro? 
+                                ¿Desea eliminar este registro?
                             </span>
                         </div>
                     </Dialog>
-                     
+
                 </div>
             </div>
         </div>

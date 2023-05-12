@@ -33,7 +33,7 @@ function LoginPage() {
     useEffect(() => {
 
         if (localStorage.getItem('usuID') != "" && localStorage.getItem('usuID') != null) {
-          //router.push('/');
+          router.push('/');
         }
        
     }, [])  

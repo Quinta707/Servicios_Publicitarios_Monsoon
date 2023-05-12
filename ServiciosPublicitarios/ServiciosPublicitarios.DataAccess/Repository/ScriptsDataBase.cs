@@ -161,6 +161,7 @@ namespace ServiciosPublicitarios.DataAccess.Repository
         #region Pantallas
         public static string UDP_tbPantallas_Listado = "acce.tbPantallas_Index";
         public static string UDP_tbPantallas_Menu = "acce.tbPantallas_Menu";
+        public static string UDP_AccesoPantalla = "acce.UDP_AccesoAPantallas";
         #endregion
 
 

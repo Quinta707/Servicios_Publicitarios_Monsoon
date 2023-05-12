@@ -1,6 +1,7 @@
 ﻿using ServiciosPublicitarios.DataAccess.Repository;
 using ServiciosPublicitarios.Entities.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -364,6 +365,21 @@ namespace ServiciosPublicitarios.BusinessLogic.Service
                 return result.Error(e.Message);
             }
         }
+
+        public IEnumerable AccesoPantall(int esAdmin, int role_Id, int pant_Id)
+        {
+            try
+            {
+                return _pantallaRepository.AccesoPantallas(esAdmin, role_Id, pant_Id);
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+
         #endregion
 
 

@@ -16,6 +16,16 @@ const Layout = (props) => {
     const sidebarRef = useRef(null);
 
     const router = useRouter();
+
+
+    useEffect(() => {
+        if (localStorage.getItem('usuID') == "" || localStorage.getItem('usuID') == null) {
+            console.log(localStorage.getItem('usuID'));
+            router.push('/auth/login');
+        } 
+    },[]) 
+
+    
     const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] = useEventListener({
         type: 'click',
         listener: (event) => {

@@ -7,7 +7,7 @@ import { classNames } from 'primereact/utils';
 import { Toast } from 'primereact/toast';
 import { InputText } from 'primereact/inputtext';
 import { PickList } from 'primereact/picklist';
-
+import { Toolbar } from 'primereact/toolbar';
 
 
 const RolesUpdate = () => {
@@ -33,7 +33,7 @@ const RolesUpdate = () => {
                 setRol(r.data.role_Nombre);
             })
 
-        axios.get(Global.url + 'RolporPantalla/BuscarPantallasdisponibles?id='+ RolId)
+        axios.get(Global.url + 'RolporPantalla/BuscarPantallasdisponibles?id=' + RolId)
             .then(response => response.data)
             .then((data) => setPantallas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
             .catch(error => console.error(error))
@@ -46,10 +46,10 @@ const RolesUpdate = () => {
     }, []);
 
 
-   
+
 
     const EnviarRol = () => {
-        
+
         if (!Rol) {
             setSubmitted(true);
         }
@@ -62,38 +62,38 @@ const RolesUpdate = () => {
             }
 
             axios.post(Global.url + 'Rol/Editar', rolModificado)
-            .then((r) => {
+                .then((r) => {
 
-                console.log(r.data.data.codeStatus);
+                    console.log(r.data.data.codeStatus);
 
-                if (r.data.data.codeStatus == 2) {
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ya existe un registro con este nombre', life: 2000 });
-                }
-                else if (r.data.data.codeStatus == 0) {
-                    
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups algo salio mal', life: 2000 });
-                }
-                else {
-                    EliminarRolesPantallas();
-                }
-            })
+                    if (r.data.data.codeStatus == 2) {
+                        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ya existe un registro con este nombre', life: 2000 });
+                    }
+                    else if (r.data.data.codeStatus == 0) {
+
+                        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups algo salio mal', life: 2000 });
+                    }
+                    else {
+                        EliminarRolesPantallas();
+                    }
+                })
         }
     }
 
     const EliminarRolesPantallas = () => {
-        
+
         let eliminarPantallas = {
             role_Id: parseInt(RolId),
         }
 
         axios.post(Global.url + 'RolporPantalla/Eliminar', eliminarPantallas)
-        .then((r) => {
-            console.log(r)
-            if (r.data.data.codeStatus == 1) {
+            .then((r) => {
+                console.log(r)
+                if (r.data.data.codeStatus == 1) {
 
-                IngresarRolesporPantalla();
-            }
-        })
+                    IngresarRolesporPantalla();
+                }
+            })
     }
 
 
@@ -117,47 +117,42 @@ const RolesUpdate = () => {
         router.push('./roles_index')
     }
 
+    const toolbarLeftTemplate = () => {
+        return (
+            <>
+
+                <div className='col-10'>
+                    <label>Nombre</label>
+                    <InputText type="text" id="inputtext" value={Rol} onChange={(e) => setRol(e.target.value)} disabled={RolActivate} className={classNames({ 'p-invalid': submitted && !Rol })} />
+                    {submitted && !Rol && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
+                </div>
+            </>
+        );
+    };
+
     return (
         <div className="grid">
             <div className="col-12">
                 <Toast ref={toast} />
                 <div className="card" style={{ background: `rgb(105,101,235)`, height: '100px', width: '100%' }}>
                     <div className="row text-center d-flex align-items-center">
-                        <h2 style={{ color: 'white' }}>Insertar Roles</h2>
+                        <h2 style={{ color: 'white' }}>Editar Roles</h2>
                     </div>
                 </div>
 
                 <div className="grid p-fluid">
-                    <div className='col-4'>
-                        <div className='card'>
-                            <div className="grid p-fluid">
-                                <div className='col-12 mt-4'>
-                                    <div className="field">
-                                        <label>Nombre</label>
-                                        <InputText type="text" id="inputtext" value={Rol} onChange={(e) => setRol(e.target.value)} disabled={RolActivate} className={classNames({ 'p-invalid': submitted && !Rol })} />
-                                        {submitted && !Rol && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
-                                    </div>
-                                </div>
-                                <div className='col-12 mb-4'>
-                                    <div className="grid p-fluid">
-                                        <div className='col-6'>
-                                            <Button label="Guardar" severity="success" onClick={() => EnviarRol()} disabled={RolActivate} />
-                                        </div>
-                                        <div className='col-6'>
-                                            <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} disabled={RolActivate} />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-8'>
-                        <div className='card'>
 
-                        </div>
-                    </div>
+
                     <div className='col-12'>
                         <div className='card'>
+
+                            <div className="grid p-fluid">
+                                <div className='col-1'></div>
+                                <div className='col-10'>
+                                    <Toolbar left={toolbarLeftTemplate} ></Toolbar>
+                                </div>
+                            </div>
+
                             <PickList
                                 source={Pantallas}
                                 target={PantallasSeleccionadas}
@@ -171,6 +166,23 @@ const RolesUpdate = () => {
                                 sourceStyle={{ height: '200px' }}
                                 targetStyle={{ height: '200px' }}
                             ></PickList>
+
+
+                            <div className='grid p-fluid mt-3'>
+                                <div className='col-1'>
+
+                                </div>
+                                <div className='col-4'>
+
+                                </div>
+                                <div className='col-3'>
+                                    <Button label="Guardar" severity="success" onClick={() => EnviarRol()} icon="pi pi-plus" style={{ marginRight: '.5em' }} />
+                                </div>
+                                <div className='col-3'>
+                                    <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} icon="pi pi-times" />
+                                </div>
+                                <div className='col-1'></div>
+                            </div>
                         </div>
                     </div>
                 </div>
