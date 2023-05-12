@@ -2177,3 +2177,33 @@ BEGIN
 	WHERE	insu_Estado = 1
 	AND		serv_Id = @serv_Id;
 END
+
+
+----/***********************************************\-----
+--- ********** PROCIDIMIENTOS ADICIONALES **********---
+
+--**************  MUNICIPIOS POR DEPARTAMENTO  ******************--
+
+GO
+CREATE OR ALTER PROCEDURE gral.tbMunicipios_DDL 
+(@depa_Id INT)
+AS
+BEGIN
+	SELECT * FROM gral.VW_tbMunicipios
+	WHERE depa_Id = @depa_Id
+END
+
+--**************  GRAFICA: SUCURSALES CON MAS VENTAS ******************--
+GO
+CREATE OR ALTER PROCEDURE pbli.UDP_tbSucursales_Graphic
+AS
+BEGIN
+	SELECT  t4.sucu_Nombre,
+			SUM(T1.fdet_Cantidad) AS total_cantidad
+	FROM pbli.tbFacturaDetalle AS T1
+	INNER JOIN pbli.tbFacturas AS T2 ON T1.fact_Id = T2.fact_Id
+	INNER JOIN pbli.tbEmpleados AS T3 ON T2.empe_Id = T3.empe_Id
+	INNER JOIN pbli.tbSucursales AS T4 ON T3.sucu_Id = T4.sucu_Id
+	GROUP BY T4.sucu_Nombre
+	ORDER BY T4.sucu_Nombre;
+END
