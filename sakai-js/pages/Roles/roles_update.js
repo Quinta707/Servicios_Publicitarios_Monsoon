@@ -121,11 +121,10 @@ const RolesUpdate = () => {
         return (
             <>
 
-                <div className='col-9'>
+                <div className='col-10'>
                     <label>Nombre</label>
                     <InputText type="text" id="inputtext" value={Rol} onChange={(e) => setRol(e.target.value)} disabled={RolActivate} className={classNames({ 'p-invalid': submitted && !Rol })} />
                     {submitted && !Rol && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
-
                 </div>
             </>
         );
@@ -142,7 +141,7 @@ const RolesUpdate = () => {
                 </div>
 
                 <div className="grid p-fluid">
-                   
+
 
                     <div className='col-12'>
                         <div className='card'>
@@ -177,10 +176,10 @@ const RolesUpdate = () => {
 
                                 </div>
                                 <div className='col-3'>
-                                <Button label="Guardar" severity="success" onClick={() => EnviarRol()} icon="pi pi-plus" style={{ marginRight: '.5em' }} />
+                                    <Button label="Guardar" severity="success" onClick={() => EnviarRol()} icon="pi pi-plus" style={{ marginRight: '.5em' }} />
                                 </div>
                                 <div className='col-3'>
-                                <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} icon="pi pi-times" />
+                                    <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} icon="pi pi-times" />
                                 </div>
                                 <div className='col-1'></div>
                             </div>

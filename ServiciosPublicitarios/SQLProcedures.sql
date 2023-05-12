@@ -2361,12 +2361,40 @@ GO
 CREATE OR ALTER PROCEDURE pbli.UDP_tbSucursales_Graphic
 AS
 BEGIN
-	SELECT  t4.sucu_Nombre,
+	SELECT  TOP 3
+			t4.sucu_Nombre,
 			SUM(T1.fdet_Cantidad) AS total_cantidad
 	FROM pbli.tbFacturaDetalle AS T1
 	INNER JOIN pbli.tbFacturas AS T2 ON T1.fact_Id = T2.fact_Id
 	INNER JOIN pbli.tbEmpleados AS T3 ON T2.empe_Id = T3.empe_Id
 	INNER JOIN pbli.tbSucursales AS T4 ON T3.sucu_Id = T4.sucu_Id
 	GROUP BY T4.sucu_Nombre
-	ORDER BY T4.sucu_Nombre;
+	ORDER BY total_cantidad DESC;
 END
+
+
+
+--**************  Acceso a vista  ******************--
+GO
+CREATE OR ALTER PROCEDURE acce.UDP_AccesoAPantallas
+@esAdmin	INT,
+@role_Id	INT,
+@pant_Id	Int
+AS
+BEGIN
+
+	IF @esAdmin = 1 
+	BEGIN
+	SELECT 1 
+	END
+	ELSE IF EXISTS (select * FROM acce.tbPantallasPorRoles WHERE role_Id = @role_Id
+												AND pant_Id = @pant_Id)
+	BEGIN
+	SELECT 1 
+	END
+	ELSE
+	BEGIN
+	SELECT 0
+	END
+END
+GO

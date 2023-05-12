@@ -90,8 +90,7 @@ const RolesInsert = () => {
     const toolbarLeftTemplate = () => {
         return (
             <>
-
-                <div className='col-9'>
+                <div className='col-10'>
                     <label >Nombre</label>
                     <InputText type="text" id="inputtext" value={Rol} onChange={(e) => setRol(e.target.value)} className={classNames({ 'p-invalid': submitted && !Rol })} />
                     {submitted && !Rol && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
@@ -100,7 +99,6 @@ const RolesInsert = () => {
             </>
         );
     };
-
 
 
 
@@ -115,7 +113,6 @@ const RolesInsert = () => {
                 </div>
 
                 <div className="grid p-fluid">
-
                     <div className='col-12'>
                         <div className='card'>
                             <div className="grid p-fluid">
@@ -156,10 +153,6 @@ const RolesInsert = () => {
                             </div>
 
                         </div>
-
-
-
-
                     </div>
                 </div>
             </div>

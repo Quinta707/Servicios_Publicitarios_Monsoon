@@ -39,7 +39,7 @@ const AppTopbar = forwardRef((props, ref) => {
         <div className="layout-topbar">
             <Link href="/" className="layout-topbar-logo">
                 <img src={`demo/images/product/logo.jpeg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
-                <span>Monsoon</span>
+                <span>Servicios Monsoon</span>
             </Link>
 
             <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>

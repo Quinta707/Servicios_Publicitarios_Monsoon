@@ -37,5 +37,13 @@ namespace ServiciosPublicitarios.API.Controllers
             var list = _accessService.PantallasMenu(id, EsAdmin);
             return Ok(list);
         }
+
+        [HttpPut("AccesoPantalla")]
+        public IActionResult FindPrice(int esAdmin, int role_Id, int pant_Id)
+        {
+            var list = _accessService.AccesoPantall(esAdmin,role_Id,pant_Id);
+            return Ok(list);
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using ServiciosPublicitarios.Entities.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
@@ -44,6 +45,17 @@ namespace ServiciosPublicitarios.DataAccess.Repository
             parametros.Add("@esAdmin", EsAdmin, DbType.Int32, ParameterDirection.Input);
 
             return db.Query<tbPantallas>(ScriptsDataBase.UDP_tbPantallas_Menu, parametros, commandType: System.Data.CommandType.StoredProcedure);
+        }
+
+        public IEnumerable AccesoPantallas(int esAdmin , int role_Id, int pant_Id)
+        {
+            using var db = new SqlConnection(MonsoonContext.ConnectionString);
+            var parametros = new DynamicParameters();
+            parametros.Add("@esAdmin", esAdmin, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@role_Id", role_Id, DbType.Int32, ParameterDirection.Input);
+            parametros.Add("@pant_Id", pant_Id, DbType.Int32, ParameterDirection.Input);
+
+            return db.Query(ScriptsDataBase.UDP_AccesoPantalla, parametros, commandType: System.Data.CommandType.StoredProcedure);
         }
     }
 }

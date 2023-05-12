@@ -1051,11 +1051,24 @@ VALUES	('1', '1', '2', '1'),
 		
 GO
 INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_reactId, pant_UsuCreacion, pant_UsuModificacion, pant_FechaModificacion)
-VALUES	('Roles',		'/Roles/roles_index',			'Acceso',		'pi pi-fw pi-sign-in',		'RolesItem',	1,NULL,NULL),
-		('Categoria',	'/categoria/categoria_index',	'General',		'pi pi-fw pi-sign-in',		'CategoriItem',	1,NULL,NULL),
-		('Empleado',	'/Empleado/empleado_index',		'Publicidad',	'pi pi-fw pi-sign-in',		'EmpleadoItem',	1,NULL,NULL),
-		('Sucursal',	'/Sucursal/sucursal_index',		'Publicidad',	'pi pi-fw pi-times-circle',	'SucursalItem',	1,NULL,NULL),
-		('Factura',		'/factura/factura_index',		'Publicidad',	'pi pi-fw pi-lock',			'FacturaItem',	1,NULL,NULL);
+VALUES	('Usuario',		'/Usuario/usuario_index',		'Acceso',		'pi pi-fw pi-user',			'UsuarioItem',	1,NULL,NULL),
+		('Roles',		'/Roles/roles_index',			'Acceso',		'pi pi-fw pi-sign-in',		'RolesItem',	1,NULL,NULL),
+		('Categoria',	'/categoria/categoria_index',	'General',		'pi pi-fw pi-sign-in',		'CategoriItem',	1,NULL,NULL);
+		
+GO
+INSERT INTO acce.tbPantallas (pant_Nombre, pant_Url, pant_Menu, pant_Icono, pant_reactId, pant_UsuCreacion, pant_UsuModificacion, pant_FechaModificacion)
+VALUES	('Empleado',		'/Empleado/empleado_index',			'Publicidad',		'pi pi-fw pi-users',			'EmpleadoItem',	1,NULL,NULL),
+		('Factura',			'/factura/factura_index',			'Publicidad',		'pi pi-fw pi-inbox',				'FacturaItem',	1,NULL,NULL),
+		('Sucursal',		'/Sucursal/sucursal_index',			'Publicidad',		'pi pi-fw pi-map-marker',		'SucursalItem',	1,NULL,NULL),
+		('Clientes',		'/Clientes/clientes_index',			'Publicidad',		'pi pi-fw pi-users',			'ClienteItem',	1,NULL,NULL),
+		('Insumos',			'/Insumos/insumos_index',			'Publicidad',		'pi pi-fw pi-book',				'InsumosItem',	1,NULL,NULL),
+		('Proveedores',		'/Proveedores/proveedores_index',	'Publicidad',		'pi pi-fw pi-building',			'ProveedoreItem',	1,NULL,NULL),
+		('Reporte',			'/Reporte/reporte_index',			'Publicidad',		'pi pi-fw pi-file-pdf',			'ReporteItem',	1,NULL,NULL),
+		('Servicios',		'/Servicios/servicios_index',		'Publicidad',		'pi pi-fw pi-euro',				'ServicioItem',	1,NULL,NULL);
+
+
+
+
 
 
 
