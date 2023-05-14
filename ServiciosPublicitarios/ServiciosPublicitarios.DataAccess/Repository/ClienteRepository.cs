@@ -36,7 +36,7 @@ namespace ServiciosPublicitarios.DataAccess.Repository
             parametros.Add("@clie_Nombres", item.clie_Nombres, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_Apellidos", item.clie_Apellidos, DbType.String, ParameterDirection.Input);
             parametros.Add("@clie_Identidad", item.clie_Identidad, DbType.String, ParameterDirection.Input);
-            parametros.Add("@clie_FechaNacimiento", item.clie_FechaNacimiento, DbType.String, ParameterDirection.Input);
+            parametros.Add("@clie_FechaNacimiento", item.clie_FechaNacimiento, DbType.Date, ParameterDirection.Input);
             parametros.Add("@clie_Sexo", item.clie_Sexo, DbType.String, ParameterDirection.Input);
             parametros.Add("@eciv_Id", item.eciv_Id, DbType.Int32, ParameterDirection.Input);
             parametros.Add("@muni_Id", item.muni_Id, DbType.Int32, ParameterDirection.Input);

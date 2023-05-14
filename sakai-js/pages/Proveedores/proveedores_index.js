@@ -15,7 +15,7 @@ import { classNames } from 'primereact/utils';
 const ProveedoresIn = () => {
 
   const [posts, setPosts] = useState([]);
-  const [searchText, setSearchText] = useState(''); 
+  const [searchText, setSearchText] = useState('');
   const [DeleteModal, setDeleteModal] = useState(false);
   const [ProveedoresId, setProveedoresId] = useState("");
   const toast = useRef(null);
@@ -38,25 +38,30 @@ const ProveedoresIn = () => {
   const [edit, setedit] = useState([]);
   const [editDialog, seteditDialog] = useState(false);
 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(Global.url + 'Proveedor/Listado')
-      .then(response => response.data)
-      .then(data => setPosts(data.data))
-      .catch(error => console.error(error))
+    if (loading) {
+      axios.get(Global.url + 'Proveedor/Listado')
+        .then(response => response.data)
+        .then(data => {
+          setLoading(false);
+          setPosts(data.data)})
+        .catch(error => console.error(error))
 
       axios.get(Global.url + 'Departamento/Listado')
         .then(response => response.data)
-        .then((data) => setDepartamentoDDL( data.data.map((c) => ({ code: c.depa_Id, name: c.depa_Nombre }))))
+        .then((data) => setDepartamentoDDL(data.data.map((c) => ({ code: c.depa_Id, name: c.depa_Nombre }))))
         .catch(error => console.error(error))
-  }, [posts]);
+    }
+  }, [loading]);
 
   const ActivarMunicipioDDl = (depa_Id) => {
     setMunicipioActivated(false);
-    axios.put(Global.url + 'Municipio/MunicipioDDL?id='+ depa_Id)
-        .then(response => response.data)
-        .then((data) => setMunicipioDDL( data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
-        .catch(error => console.error(error))
+    axios.put(Global.url + 'Municipio/MunicipioDDL?id=' + depa_Id)
+      .then(response => response.data)
+      .then((data) => setMunicipioDDL(data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
+      .catch(error => console.error(error))
   };
 
   const openNew = () => {
@@ -67,7 +72,7 @@ const ProveedoresIn = () => {
     <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
       <div className="grid">
         <div className="col-12">
-          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={openNew}  />
+          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={openNew} />
         </div>
       </div>
       <span className="block mt-2 md:mt-0 p-input-icon-left">
@@ -77,26 +82,25 @@ const ProveedoresIn = () => {
     </div>
   );
 
-  const AsiganrlevalorMunicipioDDL = (depa_Id, datos) => 
-    {
-        setMunicipioActivated(false);
-        axios.put(Global.url + 'Municipio/MunicipioDDL?id='+ depa_Id)
-        .then(response => response.data)
-        .then((data) => setMunicipioDDL( data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
-        .catch(error => console.error(error))
+  const AsiganrlevalorMunicipioDDL = (depa_Id, datos) => {
+    setMunicipioActivated(false);
+    axios.put(Global.url + 'Municipio/MunicipioDDL?id=' + depa_Id)
+      .then(response => response.data)
+      .then((data) => setMunicipioDDL(data.data.map((c) => ({ code: c.muni_Id, name: c.muni_Nombre }))))
+      .catch(error => console.error(error))
 
-        var codeMuni  = {code: datos.muni_Id, name: datos.muni_Nombre}
-        setMunicipio(codeMuni);
-    }
+    var codeMuni = { code: datos.muni_Id, name: datos.muni_Nombre }
+    setMunicipio(codeMuni);
+  }
 
   const EditProveedor = (prov_Id) => {
-      axios.get(Global.url + 'Proveedor/Buscar?id=' + prov_Id)
+    axios.get(Global.url + 'Proveedor/Buscar?id=' + prov_Id)
       .then((r) => {
         console.log(r.data)
         setProveedor(r.data.prov_Nombre)
         setDireccion(r.data.prov_Direccion)
         setCorreo(r.data.prov_Correo)
-        var codeDepto  = {code: r.data.depa_Id, name: r.data.depa_Nombre}
+        var codeDepto = { code: r.data.depa_Id, name: r.data.depa_Nombre }
         setDepartamento(codeDepto)
         AsiganrlevalorMunicipioDDL(codeDepto.code, r.data)
         setProveedoresId(prov_Id)
@@ -105,14 +109,16 @@ const ProveedoresIn = () => {
       })
       .catch(error => console.error(error))
 
-      seteditDialog(true)
-      
+    seteditDialog(true)
+
   };
 
   const hideeditDialog = () => {
+    setSubmitted(false);
     setProveedor('');
     setDireccion('');
     setCorreo('');
+    setDepartamento('');
     setMunicipio('');
     setProveedoresId('');
     setedit('');
@@ -121,47 +127,46 @@ const ProveedoresIn = () => {
 
   const EditarP = (e) => {
 
-    if (!Proveedor || !Correo || !Direccion ) 
-    {
-        setSubmitted(true);
+    if (!Proveedor || !Correo || !Direccion) {
+      setSubmitted(true);
 
-        if(Deparatemento && !Municipio)
-        {
-            setMunicipioSubmited(true);
-        }
+      if (Deparatemento && !Municipio) {
+        setMunicipioSubmited(true);
+      }
     }
-    else{
+    else {
 
-        let proveedor = {
-            prov_Id:                ProveedoresId,
-            prov_Nombre:            Proveedor,
-            muni_Id:                Municipio.code,
-            prov_Direccion:         Direccion,
-            prov_Correo:            Correo,
-            prov_UsuModificacion :  1
-        }
+      let proveedor = {
+        prov_Id: ProveedoresId,
+        prov_Nombre: Proveedor,
+        muni_Id: Municipio.code,
+        prov_Direccion: Direccion,
+        prov_Correo: Correo,
+        prov_UsuModificacion: 1
+      }
 
-        console.log(proveedor);
 
-        axios.post(Global.url + 'Proveedor/Editar', proveedor)
+      axios.post(Global.url + 'Proveedor/Editar', proveedor)
         .then((r) => {
+          setLoading(true);
           hideeditDialog();
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
-        });
-    }    
+        })
+        .catch((e) =>{
+          toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+        })
+    }
   }
 
 
   const editDialogFooter = (
     <>
-        <Button label="Cancelar" icon="pi pi-times" text onClick={hideeditDialog} />
-        <Button label="Guardar" icon="pi pi-check" text onClick={() => EditarP()} />
+      <Button label="Cancelar" severity="danger" icon="pi pi-times"  onClick={hideeditDialog} />
+      <Button label="Guardar" severity="success" icon="pi pi-check"  onClick={() => EditarP()} />
     </>
   );
 
-  
   const OpenDeleteModal = (id) => {
-    console.log(id)
     setProveedoresId(id);
     setDeleteModal(true);
   };
@@ -179,12 +184,17 @@ const ProveedoresIn = () => {
     axios.post(Global.url + 'Proveedor/Eliminar', payload)
       .then((r) => {
         hideDeleteModal();
+        setLoading(true);
         setProveedoresId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-      });
+      })
+      .catch((e) =>{
+        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+      })
   };
 
   const hideDialog = () => {
+    setSubmitted(false)
     setCorreo("");
     setProveedor("");
     setDireccion("");
@@ -195,41 +205,41 @@ const ProveedoresIn = () => {
 
   const proveedoresDialogFooter = (
     <>
-        <Button label="Cancelar" icon="pi pi-times" text onClick={hideDialog} />
-        <Button label="Guardar" icon="pi pi-check" text onClick={() => Agregar()} />
+      <Button label="Cancelar" severity="danger" icon="pi pi-times"  onClick={hideDialog} />
+      <Button label="Guardar" severity="success" icon="pi pi-check"  onClick={() => Agregar()} />
     </>
   );
 
   const Agregar = (e) => {
 
-    if (!Proveedor || !Correo || !Direccion ) 
-    {
-        setSubmitted(true);
+    if (!Proveedor || !Correo || !Direccion) {
+      setSubmitted(true);
 
-        if(Deparatemento && !Municipio)
-        {
-            setMunicipioSubmited(true);
-        }
+      if (Deparatemento && !Municipio) {
+        setMunicipioSubmited(true);
+      }
     }
-    else{
+    else {
 
-        let proveedor = {
-            prov_Nombre:            Proveedor,
-            muni_Id:                Municipio.code,
-            prov_Direccion:         Direccion,
-            prov_Correo:            Correo,
-            prov_UsuCreacion :      1
-        }
+      let proveedor = {
+        prov_Nombre: Proveedor,
+        muni_Id: Municipio.code,
+        prov_Direccion: Direccion,
+        prov_Correo: Correo,
+        prov_UsuCreacion: 1
+      }
 
-        console.log(proveedor);
-
-        axios.post(Global.url + 'Proveedor/Insertar', proveedor)
+      axios.post(Global.url + 'Proveedor/Insertar', proveedor)
         .then((r) => {
           hideDialog();
+          setLoading(true);
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
-        });
-    }    
-}
+        })
+        .catch((e) =>{
+          toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+        })
+    }
+  }
 
   return (
     <div className="grid">
@@ -274,8 +284,8 @@ const ProveedoresIn = () => {
               style={{ minWidth: '300px' }}
               body={rowData => (
                 <div>
-                  <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} /> 
-                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => EditProveedor(rowData.prov_Id)} /> 
+                  <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} />
+                  <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => EditProveedor(rowData.prov_Id)} />
                   <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.prov_Id)} />
                 </div>
               )}
@@ -296,73 +306,73 @@ const ProveedoresIn = () => {
             </div>
           </Dialog>
 
-          <Dialog visible={ProveedoresDialog} style={{ width: '500px' }} header="Nuevo Proveedor" modal className="p-fluid" footer={proveedoresDialogFooter} onHide={hideDialog}>             
-          <div className="p-fluid formgrid grid">
+          <Dialog visible={ProveedoresDialog} style={{ width: '500px' }} header="Nuevo Proveedor" modal className="p-fluid" footer={proveedoresDialogFooter} onHide={hideDialog}>
+            <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
-                  <label htmlFor="proveedor">Proveedor</label>
-                  <InputText optionLabel="proveedor" value={Proveedor} onChange={ (e) => setProveedor(e.target.value)} className={classNames({ 'p-invalid': submitted && !Proveedor })}/>
-                  {submitted && !Proveedor && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                <label htmlFor="proveedor">Proveedor</label>
+                <InputText optionLabel="proveedor" value={Proveedor} onChange={(e) => setProveedor(e.target.value)} className={classNames({ 'p-invalid': submitted && !Proveedor })} />
+                {submitted && !Proveedor && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
               </div>
               <div className="field col-12 md:col-6">
-                  <label htmlFor="correo">Correo Electrónico</label>
-                  <InputText type='email' optionLabel="correo" value={Correo} onChange={ (e) => setCorreo(e.target.value)} className={classNames({ 'p-invalid': submitted && !Correo })}/>
-                  {submitted && !Correo && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                <label htmlFor="correo">Correo Electrónico</label>
+                <InputText type='email' optionLabel="correo" value={Correo} onChange={(e) => setCorreo(e.target.value)} className={classNames({ 'p-invalid': submitted && !Correo })} />
+                {submitted && !Correo && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
               </div>
-          </div>
-          <div className="p-fluid formgrid grid">
+            </div>
+            <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
-                  <label htmlFor="name">Departamento</label>
-                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartamentoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value); ActivarMunicipioDDl(e.value.code); }} className={classNames({ 'p-invalid': submitted && !Deparatemento })}/>
-                  {submitted && !Deparatemento && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+                <label htmlFor="name">Departamento</label>
+                <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartamentoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value); ActivarMunicipioDDl(e.value.code); }} className={classNames({ 'p-invalid': submitted && !Deparatemento })} />
+                {submitted && !Deparatemento && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
               </div>
               <div className="field col-12 md:col-6">
-                  <label htmlFor="name">Municipio</label>
-                  <Dropdown optionLabel="name" placeholder="Selecionar" options={MunicipioDDL} value={Municipio} onChange={(e) => setMunicipio(e.value)} disabled={MunicipioActivated}/>
-                  {MunicipioSubmited && !Municipio && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+                <label htmlFor="name">Municipio</label>
+                <Dropdown optionLabel="name" placeholder="Selecionar" options={MunicipioDDL} value={Municipio} onChange={(e) => setMunicipio(e.value)} disabled={MunicipioActivated} />
+                {MunicipioSubmited && !Municipio && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
               </div>
-          </div>
-          <div className="p-fluid formgrid grid">
+            </div>
+            <div className="p-fluid formgrid grid">
               <div className="field col-12">
-                  <label optionLabel="name">Dirección</label>
-                  <InputTextarea id="direccion" value={Direccion} onChange={ (e) => setDireccion(e.target.value)} className={classNames({ 'p-invalid': submitted && !Direccion })}></InputTextarea>
-                  {submitted && !Direccion && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                <label optionLabel="name">Dirección</label>
+                <InputTextarea id="direccion" value={Direccion} onChange={(e) => setDireccion(e.target.value)} className={classNames({ 'p-invalid': submitted && !Direccion })}></InputTextarea>
+                {submitted && !Direccion && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
               </div>
-          </div>
+            </div>
           </Dialog>
 
 
-          <Dialog visible={editDialog} value={edit} style={{ width: '500px' }} header="Editar Proveedor" modal className="p-fluid" footer={editDialogFooter} onHide={hideeditDialog}>             
-          <div className="p-fluid formgrid grid">
+          <Dialog visible={editDialog} value={edit} style={{ width: '500px' }} header="Editar Proveedor" modal className="p-fluid" footer={editDialogFooter} onHide={hideeditDialog}>
+            <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
-                  <label htmlFor="proveedor">Proveedor</label>
-                  <InputText optionLabel="proveedor" value={Proveedor} onChange={ (e) => setProveedor(e.target.value)} className={classNames({ 'p-invalid': submitted && !Proveedor })}/>
-                  {submitted && !Proveedor && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                <label htmlFor="proveedor">Proveedor</label>
+                <InputText optionLabel="proveedor" value={Proveedor} onChange={(e) => setProveedor(e.target.value)} className={classNames({ 'p-invalid': submitted && !Proveedor })} />
+                {submitted && !Proveedor && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
               </div>
               <div className="field col-12 md:col-6">
-                  <label htmlFor="correo">Correo Electrónico</label>
-                  <InputText type='email' optionLabel="correo" value={Correo} onChange={ (e) => setCorreo(e.target.value)} className={classNames({ 'p-invalid': submitted && !Correo })}/>
-                  {submitted && !Correo && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                <label htmlFor="correo">Correo Electrónico</label>
+                <InputText type='email' optionLabel="correo" value={Correo} onChange={(e) => setCorreo(e.target.value)} className={classNames({ 'p-invalid': submitted && !Correo })} />
+                {submitted && !Correo && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
               </div>
-          </div>
-          <div className="p-fluid formgrid grid">
+            </div>
+            <div className="p-fluid formgrid grid">
               <div className="field col-12 md:col-6">
-                  <label htmlFor="name">Departamento</label>
-                  <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartamentoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value); ActivarMunicipioDDl(e.value.code); }} className={classNames({ 'p-invalid': submitted && !Deparatemento })}/>
-                  {submitted && !Deparatemento && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+                <label htmlFor="name">Departamento</label>
+                <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartamentoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value); ActivarMunicipioDDl(e.value.code); }} className={classNames({ 'p-invalid': submitted && !Deparatemento })} />
+                {submitted && !Deparatemento && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
               </div>
               <div className="field col-12 md:col-6">
-                  <label htmlFor="name">Municipio</label>
-                  <Dropdown optionLabel="name" placeholder="Selecionar" options={MunicipioDDL} value={Municipio} onChange={(e) => setMunicipio(e.value)} disabled={MunicipioActivated}/>
-                  {MunicipioSubmited && !Municipio && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+                <label htmlFor="name">Municipio</label>
+                <Dropdown optionLabel="name" placeholder="Selecionar" options={MunicipioDDL} value={Municipio} onChange={(e) => setMunicipio(e.value)} disabled={MunicipioActivated} />
+                {MunicipioSubmited && !Municipio && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
               </div>
-          </div>
-          <div className="p-fluid formgrid grid">
+            </div>
+            <div className="p-fluid formgrid grid">
               <div className="field col-12">
-                  <label optionLabel="name">Dirección</label>
-                  <InputTextarea id="direccion" value={Direccion} onChange={ (e) => setDireccion(e.target.value)} className={classNames({ 'p-invalid': submitted && !Direccion })}></InputTextarea>
-                  {submitted && !Direccion && <small className="p-invalid" style={{color: 'red'}}>El campo es requerido.</small>}
+                <label optionLabel="name">Dirección</label>
+                <InputTextarea id="direccion" value={Direccion} onChange={(e) => setDireccion(e.target.value)} className={classNames({ 'p-invalid': submitted && !Direccion })}></InputTextarea>
+                {submitted && !Direccion && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
               </div>
-          </div>
+            </div>
           </Dialog>
 
         </div>

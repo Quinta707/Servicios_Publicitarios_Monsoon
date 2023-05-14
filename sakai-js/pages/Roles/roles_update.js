@@ -32,6 +32,10 @@ const RolesUpdate = () => {
             .then((r) => {
                 setRol(r.data.role_Nombre);
             })
+            .catch((e) => {
+                localStorage.setItem('RolInsert', '400');
+                router.push('./roles_index')
+            })
 
         axios.get(Global.url + 'RolporPantalla/BuscarPantallasdisponibles?id=' + RolId)
             .then(response => response.data)
@@ -77,6 +81,9 @@ const RolesUpdate = () => {
                         EliminarRolesPantallas();
                     }
                 })
+                .catch((e) =>{
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                  })
         }
     }
 
@@ -94,6 +101,7 @@ const RolesUpdate = () => {
                     IngresarRolesporPantalla();
                 }
             })
+            .catch(error => console.error(error))
     }
 
 
@@ -111,6 +119,9 @@ const RolesUpdate = () => {
                 .then((r) => {
                     console.log(r.data.data.codeStatus)
                 })
+                .catch((e) =>{
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                  })
         });
 
         localStorage.setItem('RolInsert', '2');
@@ -179,7 +190,7 @@ const RolesUpdate = () => {
                                     <Button label="Guardar" severity="success" onClick={() => EnviarRol()} icon="pi pi-plus" style={{ marginRight: '.5em' }} />
                                 </div>
                                 <div className='col-3'>
-                                    <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} icon="pi pi-times" />
+                                    <Button label="Cancelar" severity="default" onClick={() => router.push('./roles_index')} icon="pi pi-times" />
                                 </div>
                                 <div className='col-1'></div>
                             </div>

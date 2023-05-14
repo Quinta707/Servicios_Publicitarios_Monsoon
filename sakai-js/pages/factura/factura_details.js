@@ -46,11 +46,17 @@ const Detalle = () => {
                 setAuditoria(r.data)
                 console.log(Auditoria)
             })
+            .catch((e) =>{
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+              })
 
         axios.put(Global.url + 'Factura/ListadoDetalles?id=' + FacturaId)
             .then((r) => {
                 setFacturaDatos(r.data.data);
             })
+            .catch((e) =>{
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+              })
 
         axios.put(Global.url + 'Factura/PrecioDetalles?id=' + FacturaId)
             .then((r) => {
@@ -58,6 +64,9 @@ const Detalle = () => {
                 setIVA(r.data[0].IVA);
                 setTotal(r.data[0].Total);
             })
+            .catch((e) =>{
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+              })
     }, []);
 
     return (

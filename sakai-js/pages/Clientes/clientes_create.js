@@ -93,12 +93,14 @@ const createCliente = () => {
                 clie_UsuCreacion :      1
             }
 
-            console.log(Cliente);
-    
             axios.post(Global.url + 'Cliente/Insertar', Cliente)
             .then((r) => {
+                localStorage.setItem('ClienteInsert', '1');
                 router.push('./clientes_index')
-            });
+            })
+            .catch((e) =>{
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+              })
         }
     }
     

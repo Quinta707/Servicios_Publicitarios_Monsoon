@@ -1891,7 +1891,6 @@ CREATE OR ALTER PROCEDURE pbli.UDP_tbSucursales_Update
 @sucu_Nombre			NVARCHAR(200), 
 @muni_Id				INT, 
 @sucu_Direccion			NVARCHAR(200), 
-@sucu_UsuCreacion		INT,
 @sucu_UsuModificacion	INT
 )
 AS

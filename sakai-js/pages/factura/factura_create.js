@@ -110,7 +110,10 @@ const createFactura = () => {
                 hideDeleteModal();
                 setLoading(true);
                 toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-            });
+            })
+            .catch((e) =>{
+                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+              })
     }
 
 
@@ -168,6 +171,9 @@ const createFactura = () => {
                         setServicio('');
                         setLoading(true);
                     })
+                    .catch((e) =>{
+                        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                      })
             }
         }
     }
@@ -252,7 +258,7 @@ const createFactura = () => {
                                         <Button label="Crear" severity="success" onClick={() => EnviarFactura()} disabled={FacturaActivate} />
                                     </div>
                                     <div className='col-5'>
-                                        <Button label="Cancelar" severity="danger" onClick={() => router.push('./factura_index')} disabled={FacturaActivate} />
+                                        <Button label="Cancelar" severity="default" onClick={() => router.push('./factura_index')} disabled={FacturaActivate} />
                                     </div>
                                 </div>
                             </div>

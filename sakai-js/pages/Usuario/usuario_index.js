@@ -156,7 +156,8 @@ const Usuarios = () => {
                 setUsuarioId(id);
                 setEditModal(true)
 
-            });
+            })
+            .catch(error => console.error(error))
     }
 
 

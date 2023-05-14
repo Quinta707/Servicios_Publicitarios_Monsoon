@@ -33,6 +33,10 @@ const App = () => {
       setLoading(true);
       localStorage.setItem('RolInsert', '');
     }
+    else if (localStorage.getItem('RolInsert') == '400') {
+      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+      localStorage.setItem('RolInsert', '');
+    }
 
     if (loading) {
       axios.get(Global.url + 'Rol/Listado')

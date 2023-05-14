@@ -150,7 +150,8 @@ const App = () => {
 
                 setEditModal(true)
 
-            });
+            })
+            .catch(error => console.error(error))
     }
 
     //cerrar modal Editar

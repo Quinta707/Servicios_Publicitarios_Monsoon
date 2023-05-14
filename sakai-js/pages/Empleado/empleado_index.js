@@ -93,7 +93,10 @@ const App = () => {
         hideDeleteModal();
         setEmpleadoId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-      });
+      })
+      .catch((e) =>{
+        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+      })
   }
 
 

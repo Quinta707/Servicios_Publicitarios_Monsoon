@@ -19,13 +19,35 @@ const App = () => {
   const toast = useRef(null); //para los toast
   const router = useRouter();
 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(Global.url + 'Cliente/Listado')
-      .then(response => response.data)
-      .then(data => setPosts(data.data))
-      .catch(error => console.error(error))
-  }, [posts]);
+
+    if (localStorage.getItem('ClienteInsert') == '1') {
+      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
+      setLoading(true);
+      localStorage.setItem('ClienteInsert', '');
+    }
+    else if (localStorage.getItem('ClienteInsert') == '2') {
+      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
+      setLoading(true);
+      localStorage.setItem('ClienteInsert', '');
+    }
+    else if (localStorage.getItem('ClienteInsert') == '400') {
+      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+      localStorage.setItem('ClienteInsert', '');
+    }
+
+    if (loading) {
+      axios.get(Global.url + 'Cliente/Listado')
+        .then(response => response.data)
+        .then(data => {
+          setPosts(data.data)
+          setLoading(false);
+        })
+        .catch(error => console.error(error))
+    }
+  }, [loading]);
 
 
 
@@ -62,9 +84,13 @@ const App = () => {
     axios.post(Global.url + 'Cliente/Eliminar', payload)
       .then((r) => {
         hideDeleteModal();
+        setLoading(true);
         setClienteId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-      });
+      })
+      .catch((e) =>{
+        toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+      })
   }
 
 

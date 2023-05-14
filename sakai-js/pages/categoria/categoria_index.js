@@ -58,6 +58,9 @@ const App = () => {
                                 setPosts(data.data)
                                 setLoading(false);
                             })
+                            .catch((e) =>{
+                                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                              })
                     }
                 }
                 else {
@@ -165,7 +168,8 @@ const App = () => {
                 setDescripcion(data.cate_Descripcion)
                 setEditModal(true)
                 setCategoriaId(id);
-            });
+            })
+            .catch(error => console.error(error))
     }
 
     //cerrar modal Editar

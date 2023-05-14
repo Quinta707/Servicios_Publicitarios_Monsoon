@@ -81,6 +81,11 @@ const EditarCliente = () => {
             
             //return r.data; // La respuesta ya está en formato JSON
         })
+        .catch((e) => {
+
+            localStorage.setItem('ClienteInsert', '400');
+            router.push('./clientes_index');
+        })
         
         
     },[]);
@@ -149,6 +154,7 @@ const EditarCliente = () => {
     
             axios.post(Global.url + 'Cliente/Editar', Cliente111)
             .then((r) => {
+                localStorage.setItem('ClienteInsert', '2');
                 router.push('./clientes_index')
             })
             .catch((error) => {

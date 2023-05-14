@@ -125,7 +125,8 @@ const App = () => {
                 setDepartamentoId(id);
 
                 setEditModal(true)
-            });
+            })
+            .catch(error => console.error(error))
     }
 
 

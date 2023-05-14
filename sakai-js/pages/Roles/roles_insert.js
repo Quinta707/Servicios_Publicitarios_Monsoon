@@ -147,7 +147,7 @@ const RolesInsert = () => {
                                     <Button label="Crear" severity="success" onClick={() => EnviarRol()} disabled={RolActivate} icon="pi pi-plus" style={{ marginRight: '.5em' }} />
                                 </div>
                                 <div className='col-3'>
-                                    <Button label="Cancelar" severity="danger" onClick={() => router.push('./roles_index')} disabled={RolActivate} icon="pi pi-times" />
+                                    <Button label="Cancelar" severity="default" onClick={() => router.push('./roles_index')} disabled={RolActivate} icon="pi pi-times" />
                                 </div>
                                 <div className='col-1'></div>
                             </div>

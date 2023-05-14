@@ -50,7 +50,10 @@ const App = () => {
                 .then(response => response.json())
                 .then(data => {setPosts(data.data);
                     setLoading(false);
-                });
+                })
+                .catch((e) =>{
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                  })
         }
     }, [loading]);
 
@@ -167,7 +170,8 @@ const App = () => {
 
                 setEditModal(true)
                 setSucursalId(id);
-            });
+            })
+            .catch(error => console.error(error))
     }
 
     //cargar MunicipioDDL
@@ -356,7 +360,7 @@ const App = () => {
                     <Dialog
                         visible={EditModal}
                         style={{ width: '500px' }}
-                        header="Ingresar Sucursal"
+                        header="Editar Sucursal"
                         modal
                         className="p-fluid"
                         onHide={hideEditModal}

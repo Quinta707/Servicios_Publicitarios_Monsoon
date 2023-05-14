@@ -38,7 +38,10 @@ const App = () => {
                     setPosts(data.data);
                     setLoading(false);
 
-                });
+                })
+                .catch((e) =>{
+                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                  })
         }
     }, [loading]);
 
@@ -124,7 +127,8 @@ const App = () => {
                 setCargoId(id);
 
                 setEditModal(true)
-            });
+            })
+            .catch(error => console.error(error))
     }
 
 
