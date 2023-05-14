@@ -27,6 +27,13 @@ const AppMenu = () => {
 
     useEffect(() => {
 
+
+
+        if (localStorage.getItem('usuID') == "" || localStorage.getItem('usuID') == null) {
+            console.log(localStorage.getItem('usuID'));
+            router.push('/auth/login');
+        }
+
         var role_Id = 0
         var EsAdmin = 0;
 
@@ -39,7 +46,7 @@ const AppMenu = () => {
             EsAdmin = 1;
         }
 
-        console.log(role_Id, EsAdmin )
+        console.log(role_Id, EsAdmin)
         const url = 'https://localhost:44304/api/Pantalla/PantallaMenu?id=' + role_Id + '&EsAdmin=' + EsAdmin;
         fetch(url)
             .then(response => response.json())
@@ -53,7 +60,7 @@ const AppMenu = () => {
         if (item.length > 0) {
             Acceso.push({
                 label: 'Acceso',
-                icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-server',
                 items: item, // Sin descomponer item en otro array
             });
         }
@@ -63,7 +70,7 @@ const AppMenu = () => {
         if (item.length > 0) {
             Publicidad.push({
                 label: 'Publicidad',
-                icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-server',
                 items: item, // Sin descomponer item en otro array
             });
         }
@@ -74,7 +81,7 @@ const AppMenu = () => {
             General.push({
 
                 label: 'General',
-                icon: 'pi pi-fw pi-user',
+                icon: 'pi pi-fw pi-server',
                 items: item, // Sin descomponer item en otro array
             });
         }

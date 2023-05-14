@@ -35,7 +35,12 @@ const App = () => {
 
         var admin = 0;
         var pant_Id = 3;
-        var role_Id = localStorage.getItem('role_Id');
+        var role_Id = 0;
+       
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
+        }
+
         if (localStorage.getItem('user_EsAdmin') == 'true') {
             admin = 1;
         }
@@ -55,7 +60,7 @@ const App = () => {
                             })
                     }
                 }
-                else{
+                else {
                     router.push('/');
                 }
             })

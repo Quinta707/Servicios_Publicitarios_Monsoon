@@ -1323,7 +1323,7 @@ namespace ServiciosPublicitarios.DataAccess.Context
 
                 entity.ToTable("tbRoles", "acce");
 
-                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E1348127C")
+                entity.HasIndex(e => e.role_Nombre, "UQ__tbRoles__3895D82E445CC06C")
                     .IsUnique();
 
                 entity.Property(e => e.role_Estado)

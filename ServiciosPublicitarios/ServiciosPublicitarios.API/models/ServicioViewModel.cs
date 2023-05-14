@@ -15,5 +15,9 @@ namespace ServiciosPublicitarios.API.models
         public int? serv_UsuModificacion { get; set; }
         public DateTime? serv_FechaModificacion { get; set; }
         public bool? serv_Estado { get; set; }
+        public string serv_Url { get; set; }
+
+
+
     }
 }
