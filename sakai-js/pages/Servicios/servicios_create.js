@@ -10,12 +10,9 @@ import Global from '../api/Global';
 import { Toast } from 'primereact/toast';
 import { useRouter } from 'next/router'
 import { Dropdown } from 'primereact/dropdown';
-import { Dialog } from 'primereact/dialog';
 
 const Servicios = () => {
-    const fileInputRef = useRef(null);
     const [submitted, setsubmitted] = useState(false);
-    const [submitted2, setsubmitted2] = useState(false);
     const [Insumo, setInsumo] = useState([]);
     const toast = useRef(null);
 
@@ -37,20 +34,13 @@ const Servicios = () => {
     const [Insumoval, setInsumoval] = useState('');
     const [InsumoActivated, setInsumoActivated] = useState(true);
     const [InsumoSubmited, setInsumoSubmited] = useState(false);
-    const [ServicioID, setServivioID] = useState('');
-
-    const [InsumoId, setInsumoId] = useState('');
-    const [DeleteModal, setDeleteModal] = useState(false);
 
     useEffect(() => {
         axios.get(Global.url + 'Categoria/Listado')
         .then(response => response.data)
         .then((data) => setCategoriaDDL( data.data.map((c) => ({ code: c.cate_Id, name: c.cate_Descripcion }))))
         .catch(error => console.error(error))
-
-    }, []);
-
-    
+    },);
 
     const ActivarInsumoDDl = (cate_Id) => {
         setInsumoActivated(false);
@@ -61,7 +51,7 @@ const Servicios = () => {
     }
 
     const handleImageChange = (e) => {
-        const file = fileInputRef.current.files[0];
+        const file = e.target.files[0];
         if (file) {
           const reader = new FileReader();
           reader.readAsDataURL(file);
@@ -72,52 +62,24 @@ const Servicios = () => {
     };
 
     const handleImageUpload = async () => {
-    const base64Image = image.split(',')[1];
+    const base64Image = image.split(',')[1]; // obtener la cadena Base64 sin el prefijo "data:image/png;base64,"
     const url = 'https://api.imgbb.com/1/upload?key=' + apikey;
     const body = new FormData();
     body.append('image', base64Image);
     
-        const response = await fetch(url, {
+        const response = await  fetch(url, {
             method: 'POST',
             body: body
           })
     
         const data = await response.json();
-        console.log(data.data);
+        console.log(data)
         setImgurl(data.data.url);
-        console.log(Imgurl)
         NuevoServicio();
     };
 
-    const ObtenerInsumosPorServicio = () => {
-        let serv = {
-            insu_Id: 0,
-            insu_Nombre: "string",
-            cate_Id: 0,
-            insu_Precio: 0,
-            prov_Id: 0,
-            insu_UsuCreacion: 0,
-            insu_FechaCreacion: "2023-05-15T04:33:10.725Z",
-            insu_UsuModificacion: 0,
-            insu_FechaModificacion: "2023-05-15T04:33:10.725Z",
-            insu_Estado: true,
-            inse_Id: 0,
-            serv_Id: parseInt(ServicioID),
-            inse_UsuCreacion: 0,
-            inse_FechaCreacion: "2023-05-15T04:33:10.725Z",
-            inse_UsuModificacion: 0,
-            inse_FechaModificacion: "2023-05-15T04:33:10.725Z",
-            inse_Estado: true
-        }
-
-        axios.put(Global.url + 'InsumosPorServicio/Listado', serv)
-        .then(data => data.data)
-        .then(data => setInsumo(data.data))
-        .catch(error => console.error(error))
-    }
-
     const NuevoServicio = () => {
-        if(ServicioName !== "" && ServicioName != null && Precio !== "" && Precio !== null && Imgurl !== ""){
+        if(ServicioName !== "" && ServicioName != null && Precio !== "" && Precio !== null ){
 
              let servicio = {
                  serv_Id:                   0,
@@ -133,97 +95,14 @@ const Servicios = () => {
 
              axios.post(Global.url + 'Servicio/Insertar', servicio)
              .then((r) => {
-                setServivioID(r.data.data.codeStatus);
-                
                 setservicio(true);
                 setinsum(false);
-                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
              });
         }
         else{
             setsubmitted(true);
         }
     };
-
-    const NuevoInsumo = () => {
-        if(Categoria !== "" && Categoria != null && Insumoval !== "" && Insumoval !== null ){
-
-             let insum = {
-                insu_Id: Insumoval.code,
-                insu_Nombre: "string",
-                cate_Id: 0,
-                insu_Precio: 0,
-                prov_Id: 0,
-                insu_UsuCreacion: 0,
-                insu_FechaCreacion: "2023-05-14T21:59:05.631Z",
-                insu_UsuModificacion: 0,
-                insu_FechaModificacion: "2023-05-14T21:59:05.631Z",
-                insu_Estado: true,
-                inse_Id: 0,
-                serv_Id: ServicioID,
-                inse_UsuCreacion: 1,
-                inse_FechaCreacion: "2023-05-14T21:59:05.631Z",
-                inse_UsuModificacion: 0,
-                inse_FechaModificacion: "2023-05-14T21:59:05.631Z",
-                inse_Estado: true
-             }
-
-             axios.post(Global.url + 'InsumosPorServicio/Insertar', insum)
-             .then((r) => {
-                setCategoria('');
-                setInsumoval('');
-                ObtenerInsumosPorServicio()
-                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
-             });
-        }
-        else{
-            setsubmitted2(true)
-            if(Categoria && !Insumoval)
-            {
-                setInsumoSubmited(true);
-            }
-        }
-    };
-
-    const EliminarInsumo = (e) => {
-        console.log(InsumoId)
-        let payload = {
-            insu_Id: 0,
-            insu_Nombre: "string",
-            cate_Id: 0,
-            insu_Precio: 0,
-            prov_Id: 0,
-            insu_UsuCreacion: 0,
-            insu_FechaCreacion: "2023-05-15T05:23:09.357Z",
-            insu_UsuModificacion: 0,
-            insu_FechaModificacion: "2023-05-15T05:23:09.357Z",
-            insu_Estado: true,
-            inse_Id: parseInt(InsumoId),
-            serv_Id: 0,
-            inse_UsuCreacion: 0,
-            inse_FechaCreacion: "2023-05-15T05:23:09.357Z",
-            inse_UsuModificacion: 0,
-            inse_FechaModificacion: "2023-05-15T05:23:09.357Z",
-            inse_Estado: true
-        }
-        axios.post(Global.url + 'InsumosPorServicio/Eliminar', payload)
-          .then((r) => {
-            hideDeleteModal();
-            setInsumoId("");
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-          });
-      }
-
-    const OpenDeleteModal = (id) => {
-        console.log(id)
-        setInsumoId(id);
-        setDeleteModal(true);
-      }
-    
-      const hideDeleteModal = () => {
-        setInsumoId("");
-        setDeleteModal(false);
-      };
 
     return (
         <div className="grid">
@@ -249,10 +128,10 @@ const Servicios = () => {
 
                                 <div className="field col-12 md:col-4">
                                     <label htmlFor="fail">Imagen</label>
-                                    <button   className="p-button" severity='primary' type='button' onClick={() => fileInputRef.current.click()}>Seleccionar imagen</button>
-                                    <input type="file" ref={fileInputRef}  accept="image/*" style={{ display: 'none' }} onChange={handleImageChange} />
+                                    <input className='p-button' severity="primary" type="file" accept="image/*" onChange={handleImageChange} disabled={servicio} />
+                                    {image && <img src={image} alt="uploaded image" />}
                                 </div>  
-                                           
+                                
                             </div>
                             
                             <Button label='Crear Servicio' icon="pi pi-plus" type='submit' onClick={handleImageUpload} disabled={servicio}></Button>
@@ -267,7 +146,7 @@ const Servicios = () => {
                             <div className="p-fluid formgrid grid">
                                 <div className='field col-12 md:col-4'>
                                     <Dropdown optionLabel="name" placeholder="Seleccionar una categoria" options={CategoriaDDL} value={Categoria} onChange={(e) => { setCategoria(e.value); ActivarInsumoDDl(e.value.code);}} className={classNames({ 'p-invalid': submitted && !Categoria })} disabled={insum}/>
-                                    {submitted2 && !Categoria && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
+                                    {submitted && !Categoria && <small className="p-invalid" style={{color: 'red'}}>Seleccione una opcion.</small>}
                                 </div>
                                 <div className='field col-12 md:col-4'>
                                     <div className="field">
@@ -276,7 +155,7 @@ const Servicios = () => {
                                     </div>
                                 </div>
                                 <div className='field col-12 md:col-4'>
-                                <Button label="Agregar" id='btnNuevoInsumo' icon="pi pi-plus" severity="primary" onClick={NuevoInsumo} className="mr-2" disabled={insum}/>
+                                <Button label="Agregar" id='btnNuevoInsumo' icon="pi pi-plus" severity="primary" className="mr-2" disabled={insum}/>
                                 </div>
                             </div>
 
@@ -284,34 +163,8 @@ const Servicios = () => {
                                 <Column field="insu_Id" header="ID" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}></Column>
                                 <Column field="insu_Nombre" header="Insumo" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}></Column>
                                 <Column field="insu_Precio" header="Precio" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}></Column>
-                                <Column
-                                field="acciones"
-                                header="Acciones"
-                                headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}
-                                style={{ minWidth: '300px' }}
-                                body={rowData => (
-                                    <div>
-                                    <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.inse_Id)} />
-                                    </div>
-                                )}
-                                />
                             </DataTable>
-                            <br></br><br></br>
-                            <Button label="Regresar" severity="primary" onClick={() => router.push('./servicios_index')} className="mr-2"/>
                         </div>
-                        <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Insumos" onHide={hideDeleteModal} modal footer={
-                        <>
-                        <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
-                        <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarInsumo} />
-                        </>
-                    }>
-                        <div className="flex align-items-center justify-content-center">
-                        <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                        <span>
-                            ¿Desea eliminar este servicio?
-                        </span>
-                        </div>
-                    </Dialog>
                     </div>
                 </div>
                     
