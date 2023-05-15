@@ -15,6 +15,7 @@ import { Dialog } from 'primereact/dialog';
 const Servicios = () => {
     const router = useRouter();
     const id = router.query.id;
+
     const [submitted, setsubmitted] = useState(false);
     const [submitted2, setsubmitted2] = useState(false);
     const [Insumo, setInsumo] = useState([]);
@@ -275,7 +276,7 @@ const Servicios = () => {
                                 style={{ minWidth: '300px' }}
                                 body={rowData => (
                                     <div>
-                                    <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.inse_Id)} />
+                                        <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => OpenDeleteModal(rowData.inse_Id)} />
                                     </div>
                                 )}
                                 />

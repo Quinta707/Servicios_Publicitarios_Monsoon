@@ -14,6 +14,8 @@ import { classNames } from 'primereact/utils';
 
 const EstadosCivilesIn = () => {
 
+  const router = useRouter();
+
   const [posts, setPosts] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [DeleteModal, setDeleteModal] = useState(false);
@@ -31,14 +33,36 @@ const EstadosCivilesIn = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (loading) {
-      axios.get(Global.url + 'EstadoCivil/Listado')
-        .then(response => response.data)
-        .then(data => {
-          setLoading(false);
-          setPosts(data.data)})
-        .catch(error => console.error(error))
+
+    var admin = 0;
+    var pant_Id = 7;
+    var role_Id = 0;
+
+    if (localStorage.getItem('role_Id') != null) {
+      role_Id = localStorage.getItem('role_Id');
     }
+
+    if (localStorage.getItem('user_EsAdmin') == 'true') {
+      admin = 1;
+    }
+
+    axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+      .then((r) => {
+        if (r.data[0][""] == 1) {
+          if (loading) {
+            axios.get(Global.url + 'EstadoCivil/Listado')
+              .then(response => response.data)
+              .then(data => {
+                setLoading(false);
+                setPosts(data.data)
+              })
+              .catch(error => console.error(error))
+          }
+        }
+        else{
+          router.push('/');
+        }
+      })
   }, [loading]);
 
   const openNew = () => {
@@ -100,7 +124,7 @@ const EstadosCivilesIn = () => {
           hideeditDialog();
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
         })
-        .catch((e) =>{
+        .catch((e) => {
           toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
         })
     }
@@ -109,8 +133,8 @@ const EstadosCivilesIn = () => {
 
   const editDialogFooter = (
     <>
-      <Button label="Cancelar" severity="danger" icon="pi pi-times"  onClick={hideeditDialog} />
-      <Button label="Guardar" severity="success" icon="pi pi-check"  onClick={() => EditarP()} />
+      <Button label="Cancelar" severity="danger" icon="pi pi-times" onClick={hideeditDialog} />
+      <Button label="Guardar" severity="success" icon="pi pi-check" onClick={() => EditarP()} />
     </>
   );
 
@@ -127,7 +151,7 @@ const EstadosCivilesIn = () => {
   const EliminarEstadosCiviles = (e) => {
 
     let payload = {
-        eciv_Id: EstadosCivilesId,
+      eciv_Id: EstadosCivilesId,
     }
     axios.post(Global.url + 'EstadoCivil/Eliminar', payload)
       .then((r) => {
@@ -136,7 +160,7 @@ const EstadosCivilesIn = () => {
         setEstadosCivilesId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
       })
-      .catch((e) =>{
+      .catch((e) => {
         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
       })
   };
@@ -149,8 +173,8 @@ const EstadosCivilesIn = () => {
 
   const EstadosCivilesDialogFooter = (
     <>
-      <Button label="Cancelar" severity="danger" icon="pi pi-times"  onClick={hideDialog} />
-      <Button label="Guardar" severity="success" icon="pi pi-check"  onClick={() => Agregar()} />
+      <Button label="Cancelar" severity="danger" icon="pi pi-times" onClick={hideDialog} />
+      <Button label="Guardar" severity="success" icon="pi pi-check" onClick={() => Agregar()} />
     </>
   );
 
@@ -160,35 +184,35 @@ const EstadosCivilesIn = () => {
       setSubmitted(true);
     }
     else {
-        var validacion = 0
-        posts.forEach((posts) => {
-            if (posts.eciv_Descripcion == EstadosCivil) {
-                console.log(posts.eciv_Descripcion)
-                console.log("entra")
-                    validacion = validacion + 1;
-            }
-            else{
-            }
-          });
-        if(validacion == 1){
-            toast.current.show({ severity: 'warn', summary: 'Error', detail: 'El registro que intenta ingresar ya existe', life: 2000 });
+      var validacion = 0
+      posts.forEach((posts) => {
+        if (posts.eciv_Descripcion == EstadosCivil) {
+          console.log(posts.eciv_Descripcion)
+          console.log("entra")
+          validacion = validacion + 1;
         }
-        else{
-            let meto = {
-                eciv_Descripcion: EstadosCivil,
-                eciv_UsuCreacion: 1
-              }
-        
-              axios.post(Global.url + 'EstadoCivil/Insertar', meto)
-                .then((r) => {
-                  hideDialog();
-                  setLoading(true);
-                  toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
-                })
-                .catch((e) =>{
-                  toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                })
+        else {
         }
+      });
+      if (validacion == 1) {
+        toast.current.show({ severity: 'warn', summary: 'Error', detail: 'El registro que intenta ingresar ya existe', life: 2000 });
+      }
+      else {
+        let meto = {
+          eciv_Descripcion: EstadosCivil,
+          eciv_UsuCreacion: 1
+        }
+
+        axios.post(Global.url + 'EstadoCivil/Insertar', meto)
+          .then((r) => {
+            hideDialog();
+            setLoading(true);
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
+          })
+          .catch((e) => {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+          })
+      }
     }
   }
 

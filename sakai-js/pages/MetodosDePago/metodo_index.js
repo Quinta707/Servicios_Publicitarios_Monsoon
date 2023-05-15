@@ -12,7 +12,10 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
 import { classNames } from 'primereact/utils';
 
+
 const MetodosDePagoesIn = () => {
+
+  const router = useRouter();
 
   const [posts, setPosts] = useState([]);
   const [searchText, setSearchText] = useState('');
@@ -31,14 +34,38 @@ const MetodosDePagoesIn = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (loading) {
-      axios.get(Global.url + 'MetododePago/Listado')
-        .then(response => response.data)
-        .then(data => {
-          setLoading(false);
-          setPosts(data.data)})
-        .catch(error => console.error(error))
+
+    var admin = 0;
+    var pant_Id = 6;
+    var role_Id = 0;
+
+    if (localStorage.getItem('role_Id') != null) {
+      role_Id = localStorage.getItem('role_Id');
     }
+
+    if (localStorage.getItem('user_EsAdmin') == 'true') {
+      admin = 1;
+    }
+
+    axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+      .then((r) => {
+        if (r.data[0][""] == 1) {
+
+          if (loading) {
+            axios.get(Global.url + 'MetododePago/Listado')
+              .then(response => response.data)
+              .then(data => {
+                setLoading(false);
+                setPosts(data.data)
+              })
+              .catch(error => console.error(error))
+          }
+
+        }
+        else {
+          router.push('/');
+        }
+      })
   }, [loading]);
 
   const openNew = () => {
@@ -100,7 +127,7 @@ const MetodosDePagoesIn = () => {
           hideeditDialog();
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
         })
-        .catch((e) =>{
+        .catch((e) => {
           toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
         })
     }
@@ -109,8 +136,8 @@ const MetodosDePagoesIn = () => {
 
   const editDialogFooter = (
     <>
-      <Button label="Cancelar" severity="danger" icon="pi pi-times"  onClick={hideeditDialog} />
-      <Button label="Guardar" severity="success" icon="pi pi-check"  onClick={() => EditarP()} />
+      <Button label="Cancelar" severity="danger" icon="pi pi-times" onClick={hideeditDialog} />
+      <Button label="Guardar" severity="success" icon="pi pi-check" onClick={() => EditarP()} />
     </>
   );
 
@@ -136,7 +163,7 @@ const MetodosDePagoesIn = () => {
         setMetodosDePagoesId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
       })
-      .catch((e) =>{
+      .catch((e) => {
         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
       })
   };
@@ -149,8 +176,8 @@ const MetodosDePagoesIn = () => {
 
   const MetodosDePagoesDialogFooter = (
     <>
-      <Button label="Cancelar" severity="danger" icon="pi pi-times"  onClick={hideDialog} />
-      <Button label="Guardar" severity="success" icon="pi pi-check"  onClick={() => Agregar()} />
+      <Button label="Cancelar" severity="danger" icon="pi pi-times" onClick={hideDialog} />
+      <Button label="Guardar" severity="success" icon="pi pi-check" onClick={() => Agregar()} />
     </>
   );
 
@@ -172,7 +199,7 @@ const MetodosDePagoesIn = () => {
           setLoading(true);
           toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado correctamente', life: 1500 });
         })
-        .catch((e) =>{
+        .catch((e) => {
           toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
         })
     }

@@ -29,15 +29,41 @@ const Servicios = () => {
 
     const router = useRouter();
 
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        fetch(Global.url + 'Servicio/Listado', { headers: { 'Cache-Control': 'no-cache' } })
-            .then((res) => res.json())
-            .then((d) => d.data)
-            .then((data) => setDataViewValue(data)),
-        setGlobalFilterValue('');
-    }, []);
 
-  
+        var admin = 0;
+        var pant_Id = 16;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
+        }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+                    fetch(Global.url + 'Servicio/Listado', { headers: { 'Cache-Control': 'no-cache' } })
+                        .then((res) => res.json())
+                        .then((d) => d.data)
+                        .then((data) => {
+                            setLoading(false);
+                            setDataViewValue(data)
+                        }),
+                        setGlobalFilterValue('');
+                }
+                else {
+                    router.push('/');
+                }
+            })
+    }, [loading]);
+
+
     const onFilter = (e) => {
         const value = e.target.value;
         setGlobalFilterValue(value);
@@ -62,7 +88,7 @@ const Servicios = () => {
             <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
         </div>
     );
-      
+
 
     const cerrarInsumos = () => {
         setInsumosDialog(false);
@@ -78,27 +104,28 @@ const Servicios = () => {
         console.log(id)
         setServicioId(id);
         setDeleteModal(true);
-      }
-    
-      const hideDeleteModal = () => {
+    }
+
+    const hideDeleteModal = () => {
         setServicioId("");
         setDeleteModal(false);
-      };
-    
-      const EliminarServicio = (e) => {
-    
+    };
+
+    const EliminarServicio = (e) => {
+
         let payload = {
-          serv_Id: ServicioId,
+            serv_Id: ServicioId,
         }
         axios.post(Global.url + 'Servicio/Eliminar', payload)
-          .then((r) => {
-            hideDeleteModal();
-            setServicioId("");
-            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
-          });
-      }
+            .then((r) => {
+                hideDeleteModal();
+                setLoading(true);
+                setServicioId("");
+                toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
+            });
+    }
 
-    const IDSelect = (serv_Id) =>{
+    const IDSelect = (serv_Id) => {
         let serv = {
             insu_Id: 0,
             insu_Nombre: "string",
@@ -119,18 +146,18 @@ const Servicios = () => {
             inse_Estado: true
         }
         axios.put(Global.url + 'InsumosPorServicio/Listado', serv)
-        .then(data => data.data)
+            .then(data => data.data)
             .then(data => setInsumo(data.data))
             .catch(error => console.error(error)),
             setInsumosDialog(true)
     };
 
     const dataviewListItem = (data) => {
-       
+
         return (
             <div className="col-12">
                 <div className="flex flex-column md:flex-row align-items-center p-3 w-full">
-                   
+
                     <div className="flex-1 flex flex-column align-items-center text-center md:text-left">
                         <img src={data.serv_url} alt={data.serv_Nombre} className="w-9 shadow-2 my-3 mx-0" />
                         <div className="font-bold text-2xl">{data.serv_Nombre}</div>
@@ -152,7 +179,7 @@ const Servicios = () => {
                 <div className="card m-3 border-1 surface-border">
                     <div className="flex flex-wrap gap-2 align-items-center justify-content-between mb-2">
                         <div className="flex align-items-center">
-                        <i className="pi pi-tag mr-2" onClick={() => router.push({ pathname: './servicios_edit', query: { id: data.serv_Id } })} />
+                            <i className="pi pi-tag mr-2" onClick={() => router.push({ pathname: './servicios_edit', query: { id: data.serv_Id } })} />
                             <span className="font-semibold">{data.serv_Nombre}</span>
                         </div>
                     </div>
@@ -200,25 +227,25 @@ const Servicios = () => {
                                 <Column field="insu_Precio" header="Precio" headerStyle={{ background: `rgb(105,101,235)`, color: '#fff' }}></Column>
                             </DataTable>
                         </Dialog>
-                    <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Servicios" onHide={hideDeleteModal} modal footer={
-                        <>
-                        <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
-                        <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarServicio} />
-                        </>
-                    }>
-                        <div className="flex align-items-center justify-content-center">
-                        <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                        <span>
-                            ¿Desea eliminar este servicio?
-                        </span>
-                        </div>
-                    </Dialog>
-                    
-                     </div>
+                        <Dialog visible={DeleteModal} style={{ width: '450px' }} header="Eliminar Servicios" onHide={hideDeleteModal} modal footer={
+                            <>
+                                <Button label="Cancelar" icon="pi pi-times" severity="danger" onClick={hideDeleteModal} />
+                                <Button label="Confirmar" icon="pi pi-check" severity="success" onClick={EliminarServicio} />
+                            </>
+                        }>
+                            <div className="flex align-items-center justify-content-center">
+                                <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
+                                <span>
+                                    ¿Desea eliminar este servicio?
+                                </span>
+                            </div>
+                        </Dialog>
+
+                    </div>
                 </div>
             </div>
         </div>
-        
+
     );
 };
 
