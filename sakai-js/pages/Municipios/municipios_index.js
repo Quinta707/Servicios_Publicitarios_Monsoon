@@ -275,7 +275,6 @@ const App = () => {
                             post.muni_Codigo.toLowerCase().includes(searchText.toLowerCase()) ||
                             post.muni_Nombre.toLowerCase().includes(searchText.toLowerCase()) ||
                             post.muni_UsuCreacion.toLowerCase().includes(searchText.toLowerCase())
-
                         )}
 
                     >

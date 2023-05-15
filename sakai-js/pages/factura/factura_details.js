@@ -46,17 +46,17 @@ const Detalle = () => {
                 setAuditoria(r.data)
                 console.log(Auditoria)
             })
-            .catch((e) =>{
-                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-              })
+            .catch((e) => {
+                router.push('./factura_index')
+            })
 
         axios.put(Global.url + 'Factura/ListadoDetalles?id=' + FacturaId)
             .then((r) => {
                 setFacturaDatos(r.data.data);
             })
-            .catch((e) =>{
-                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-              })
+            .catch((e) => {
+
+            })
 
         axios.put(Global.url + 'Factura/PrecioDetalles?id=' + FacturaId)
             .then((r) => {
@@ -64,9 +64,9 @@ const Detalle = () => {
                 setIVA(r.data[0].IVA);
                 setTotal(r.data[0].Total);
             })
-            .catch((e) =>{
-                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-              })
+            .catch((e) => {
+
+            })
     }, []);
 
     return (
@@ -82,34 +82,30 @@ const Detalle = () => {
 
                 <div className="card">
                     <div className="grid p-fluid">
-                        <div className='p-fluid formgrid grid'>
-                            <div className='field col-12 mb:col-4'>
+
+
+                        <div className='col-12'>
                             <h5>Factura Id: </h5> <label>{FacturaId}</label>
-                            </div>
-                            <div className='field col-12 mb:col-4'>
+                        </div>
+                        <div className='col-6 mt-2'>
                             <h5>Cliente: </h5>
                             <label>{cliente}</label>
-                            </div>
-                            <div className='field col-12 mb:col-4'>
-                            <h5>Empleado: </h5> <label>{Empleado}</label>
-                            </div>
                         </div>
-                        <div className='p-fluid formgrid grid'>
-                            <div className='field col-12 mb:col-4'>
+                        <div className='col-6m t-2'>
                             <h5>Empleado: </h5> <label>{Empleado}</label>
-                            </div>
-                            <div className='field col-12 mb:col-4'>
+                        </div>
+                        <div className='col-6 mt-2'>
                             <h5>Sucursal: </h5> <label>{sucursal}</label>
-                            </div>
-                            <div className='field col-12 mb:col-4'>
+                        </div>
+                        <div className='col-6 mt-2'>
                             <h5>Metdodo de pago: </h5> <label>{metodopago}</label>
-                            </div>
                         </div>
-                        <div className='p-fluid formgrid grid'>
-                            <div className='field col-12 mb:col-4'>
-                                <h5>FechaCompra: </h5> <label>{FechaCompra}</label>
-                            </div>
+
+
+                        <div className='col-6 mt-2'>
+                            <h5>FechaCompra: </h5> <label>{FechaCompra}</label>
                         </div>
+
 
                         <div className='col-12 mt-2'>
 
@@ -199,7 +195,7 @@ const Detalle = () => {
                         <div className='col-12'>
                             <div className="grid p-fluid">
                                 <div className='col-2'>
-                                    <Button label="Regresar " severity="info" onClick={() => router.push('./factura_index')}/>   
+                                    <Button label="Regresar " severity="info" onClick={() => router.push('./factura_index')} />
                                 </div>
                             </div>
                         </div>
