@@ -8,7 +8,7 @@ import axios from 'axios';
 import { Column } from 'primereact/column';
 import Global from '../api/Global';
 import { Toast } from 'primereact/toast';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { Dropdown } from 'primereact/dropdown';
 import { Dialog } from 'primereact/dialog';
 
@@ -34,36 +34,48 @@ const Servicios = () => {
     const [Insumoval, setInsumoval] = useState('');
     const [InsumoActivated, setInsumoActivated] = useState(true);
     const [InsumoSubmited, setInsumoSubmited] = useState(false);
-    const [ServicioID, setServivioID] = useState('');
+    const [ServicioID, setServicioID] = useState('');
 
     const [InsumoId, setInsumoId] = useState('');
     const [DeleteModal, setDeleteModal] = useState(false);
 
 
     useEffect(() => {
+        console.log(id)
+        axios.get(Global.url + 'Servicio/Buscar?id=' + id)
+        .then((r) => { 
+            console.log(r.data);
+            console.log(r.data.serv_Id);
+            setServicioID(r.data.serv_Id);
+            console.log(ServicioID);
+            console.log(r.data.serv_Nombre);
+            setServicioName(r.data.serv_Nombre);
+            console.log(ServicioName);
+            console.log(r.data.serv_Precio);
+            setPrecio(r.data.serv_Precio);
+            console.log(Precio);
+
+            var codeCate  = {code: r.data.cate_Id, name: r.data.cate_Descripcion}
+            setCategoria(codeCate);
+            AsiganrlevalorInsumoDDL(codeCate.code, r.data)
+
+            InsumosServicios()
+        })
+
         axios.get(Global.url + 'Categoria/Listado')
         .then(response => response.data)
         .then((data) => setCategoriaDDL( data.data.map((c) => ({ code: c.cate_Id, name: c.cate_Descripcion }))))
         .catch(error => console.error(error))
 
-
-        axios.get(Global.url + 'Servicio/Buscar?id=' + id)
-        .then((r) => { 
-           setServivioID(id)
-            setServicioName(r.data.serv_Nombre);
-            setPrecio(r.data.serv_Precio);
-
-            var codeCate  = {code: r.data.cate_Id, name: r.data.cate_Descripcion}
-            setCategoria(codeCate);
-
-            AsiganrlevalorInsumoDDL(codeCate.code, r.data)
-
-        })
         .catch((e) => {
 
             localStorage.setItem('Serviciosindex', '400');
             router.push('./servicios_index');
         })
+        
+    }, []);
+
+    const InsumosServicios = () =>{
         
         let serv = {
             insu_Id: 0,
@@ -77,19 +89,19 @@ const Servicios = () => {
             insu_FechaModificacion: "2023-05-15T04:33:10.725Z",
             insu_Estado: true,
             inse_Id: 0,
-            serv_Id: parseInt(ServicioID),
+            serv_Id: id,
             inse_UsuCreacion: 0,
             inse_FechaCreacion: "2023-05-15T04:33:10.725Z",
             inse_UsuModificacion: 0,
             inse_FechaModificacion: "2023-05-15T04:33:10.725Z",
             inse_Estado: true
         }
+        
         axios.put(Global.url + 'InsumosPorServicio/Listado', serv)
         .then(data => data.data)
         .then(data => setInsumo(data.data))
         .catch(error => console.error(error))
-    }, []);
-
+    }
     const AsiganrlevalorInsumoDDL = (cate_Id, datos) => 
     {
         setInsumoActivated(false);
@@ -103,15 +115,6 @@ const Servicios = () => {
     }
     
 
-    const ActivarInsumoDDl = (cate_Id) => {
-        setInsumoActivated(false);
-        axios.put(Global.url + 'Insumo/InsumoDDL?id='+ cate_Id)
-            .then(response => response.data)
-            .then((data) => setInsumoDDL( data.data.map((c) => ({ code: c.insu_Id, name: c.insu_Nombre }))))
-            .catch(error => console.error(error))
-    }
-
-
     const EditarServicio = () => {
         if(ServicioName !== "" && ServicioName != null && Precio !== "" && Precio !== null ){
 
@@ -119,7 +122,7 @@ const Servicios = () => {
                  serv_Id:                   ServicioID,
                  serv_Nombre:               ServicioName,
                  serv_Precio:               parseInt(Precio),
-                 serv_url:                  string,
+                 serv_url:                  "string",
                  serv_UsuCreacion:          0,
                  serv_FechaCreacion:        "2023-05-11T19:57:32.534Z",
                  serv_UsuModificacion:      1,
@@ -223,7 +226,7 @@ const Servicios = () => {
                     <br></br>
                     <Toast ref={toast} />
                     <div className="surface-0 text-700 text-center">
-                        <div className="text-900 text-primary font-bold text-5xl mb-3">Crea un servicio</div>
+                        <div className="text-900 text-primary font-bold text-5xl mb-3">Editar servicio</div>
                         <br></br>
                             <div className="p-fluid formgrid grid">
                                 <div className="field col-12 md:col-6">
