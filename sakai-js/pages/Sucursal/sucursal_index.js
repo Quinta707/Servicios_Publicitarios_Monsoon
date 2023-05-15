@@ -10,8 +10,11 @@ import axios from 'axios'
 import { classNames } from 'primereact/utils';
 import { Dropdown } from 'primereact/dropdown';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { useRouter } from 'next/router';
 
 const App = () => {
+
+    const router = useRouter();
 
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
@@ -38,23 +41,46 @@ const App = () => {
     const [MunicipioActivated, setMunicipioActivated] = useState(true);// almacena si el ddl esta activado
 
     const [Direccion, setDireccion] = useState(''); //almecena la direccion
-    
 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = Global.url + 'Sucursal/Listado';
-        
-        if (loading) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {setPosts(data.data);
-                    setLoading(false);
-                })
-                .catch((e) =>{
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                  })
+
+        var admin = 0;
+        var pant_Id = 11;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
         }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+                const url = Global.url + 'Sucursal/Listado';
+
+                if (loading) {
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            setPosts(data.data);
+                            setLoading(false);
+                        })
+                        .catch((e) => {
+                            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                        })
+                }
+            }
+            else{
+                router.push('/');
+            }
+
+            })
     }, [loading]);
 
 
@@ -142,7 +168,7 @@ const App = () => {
         axios.post(Global.url + 'Sucursal/Eliminar', payloadDelete)
             .then((r) => {
                 setLoading(true);
-                hideDeleteModal(); 
+                hideDeleteModal();
                 setSucursalId("");
                 toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
             })

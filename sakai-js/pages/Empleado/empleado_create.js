@@ -44,25 +44,48 @@ const createEmpleado = () => {
 
     //cargar ddl Cargos
     useEffect(() => {
-        axios.get(Global.url + 'EstadoCivil/Listado')
-            .then(response => response.data)
-            .then((data) => setEstadosCivilesDDL(data.data.map((c) => ({ code: c.eciv_Id, name: c.eciv_Descripcion }))))
-            .catch(error => console.error(error))
 
-        axios.get(Global.url + 'Sucursal/Listado')
-            .then(response => response.data)
-            .then((data) => setSucursalDDL(data.data.map((c) => ({ code: c.sucu_Id, name: c.sucu_Nombre }))))
-            .catch(error => console.error(error))
+        var admin = 0;
+        var pant_Id = 9;
+        var role_Id = 0;
 
-        axios.get(Global.url + 'Cargo/Listado')
-            .then(response => response.data)
-            .then((data) => setCargoDDL(data.data.map((c) => ({ code: c.carg_Id, name: c.carg_Descripcion }))))
-            .catch(error => console.error(error))
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
+        }
 
-        axios.get(Global.url + 'Departamento/Listado')
-            .then(response => response.data)
-            .then((data) => setDepartamentoDDL(data.data.map((c) => ({ code: c.depa_Id, name: c.depa_Nombre }))))
-            .catch(error => console.error(error))
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+
+                    axios.get(Global.url + 'EstadoCivil/Listado')
+                        .then(response => response.data)
+                        .then((data) => setEstadosCivilesDDL(data.data.map((c) => ({ code: c.eciv_Id, name: c.eciv_Descripcion }))))
+                        .catch(error => console.error(error))
+
+                    axios.get(Global.url + 'Sucursal/Listado')
+                        .then(response => response.data)
+                        .then((data) => setSucursalDDL(data.data.map((c) => ({ code: c.sucu_Id, name: c.sucu_Nombre }))))
+                        .catch(error => console.error(error))
+
+                    axios.get(Global.url + 'Cargo/Listado')
+                        .then(response => response.data)
+                        .then((data) => setCargoDDL(data.data.map((c) => ({ code: c.carg_Id, name: c.carg_Descripcion }))))
+                        .catch(error => console.error(error))
+
+                    axios.get(Global.url + 'Departamento/Listado')
+                        .then(response => response.data)
+                        .then((data) => setDepartamentoDDL(data.data.map((c) => ({ code: c.depa_Id, name: c.depa_Nombre }))))
+                        .catch(error => console.error(error))
+                }
+                else{
+                    router.push('/');
+                }
+            })
 
     }, []);
 

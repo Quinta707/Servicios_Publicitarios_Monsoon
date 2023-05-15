@@ -29,7 +29,6 @@ const App = () => {
     const [Desripcion, setDescripcion] = useState("");
     const [CategoriaId, setCategoriaId] = useState("");
 
-    const [acceso, setacceso] = useState(0);
     const [loading, setLoading] = useState(true)
     useEffect(() => {
 
@@ -47,7 +46,6 @@ const App = () => {
 
         axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
             .then((r) => {
-                setacceso(r.data[0][""])
 
                 if (r.data[0][""] == 1) {
                     const url = Global.url + 'Categoria/Listado';

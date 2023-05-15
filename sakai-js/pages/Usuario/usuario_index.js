@@ -9,10 +9,11 @@ import { Toast } from 'primereact/toast';
 import axios from 'axios'
 import { classNames } from 'primereact/utils';
 import { Dropdown } from 'primereact/dropdown';
-import { InputTextarea } from 'primereact/inputtextarea';
+import { useRouter } from 'next/router';
 import { InputSwitch } from 'primereact/inputswitch';
 
 const Usuarios = () => {
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
     const [submitted, setSubmitted] = useState(false);
@@ -37,16 +38,39 @@ const Usuarios = () => {
 
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        const url = Global.url + 'Usuario/Listado';
 
-        if (loading) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    setPosts(data.data);
-                    setLoading(false);
-                });
+        var admin = 0;
+        var pant_Id = 1;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
         }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+                    const url = Global.url + 'Usuario/Listado';
+
+                    if (loading) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                setPosts(data.data);
+                                setLoading(false);
+                            });
+                    }
+                }
+                else{
+                    router.push('/');
+                }
+            })
+
     }, [loading]);
 
     //cargar ddl 

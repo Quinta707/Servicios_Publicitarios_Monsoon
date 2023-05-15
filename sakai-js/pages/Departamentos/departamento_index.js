@@ -8,10 +8,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
 import { classNames } from 'primereact/utils';
+import { useRouter } from 'next/router';
 
 
 const App = () => {
 
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
 
@@ -30,17 +32,41 @@ const App = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = Global.url + 'Departamento/Listado';
 
-        if (loading) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    setPosts(data.data);
-                    setLoading(false);
 
-                });
+        var admin = 0;
+        var pant_Id = 8;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
         }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+
+                if (r.data[0][""] == 1) {
+
+                    const url = Global.url + 'Departamento/Listado';
+
+                    if (loading) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                setPosts(data.data);
+                                setLoading(false);
+                            });
+                    }
+                }
+                else {
+                    router.push('/');
+                }
+            })
     }, [loading]);
 
     //cerrar modal crear

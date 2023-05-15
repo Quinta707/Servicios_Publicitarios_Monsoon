@@ -48,20 +48,42 @@ const createFactura = () => {
     //cargar ddl Cargos
     useEffect(() => {
 
-        axios.get(Global.url + 'Cliente/Listado')
-            .then(response => response.data)
-            .then((data) => setClienteDDL(data.data.map((c) => ({ code: c.clie_Id, name: `${c.clie_Nombres} ${c.clie_Apellidos}` }))))
-            .catch(error => console.error(error))
+        var admin = 0;
+        var pant_Id = 3;
+        var role_Id = 0;
 
-        axios.get(Global.url + 'MetododePago/Listado')
-            .then(response => response.data)
-            .then((data) => setMetosoPagoDDL(data.data.map((c) => ({ code: c.meto_Id, name: c.meto_Descripcion }))))
-            .catch(error => console.error(error))
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
+        }
 
-        axios.get(Global.url + 'Servicio/Listado')
-            .then(response => response.data)
-            .then((data) => setServicioDDL(data.data.map((c) => ({ code: c.serv_Id, name: c.serv_Nombre }))))
-            .catch(error => console.error(error))
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+                    axios.get(Global.url + 'Cliente/Listado')
+                        .then(response => response.data)
+                        .then((data) => setClienteDDL(data.data.map((c) => ({ code: c.clie_Id, name: `${c.clie_Nombres} ${c.clie_Apellidos}` }))))
+                        .catch(error => console.error(error))
+
+                    axios.get(Global.url + 'MetododePago/Listado')
+                        .then(response => response.data)
+                        .then((data) => setMetosoPagoDDL(data.data.map((c) => ({ code: c.meto_Id, name: c.meto_Descripcion }))))
+                        .catch(error => console.error(error))
+
+                    axios.get(Global.url + 'Servicio/Listado')
+                        .then(response => response.data)
+                        .then((data) => setServicioDDL(data.data.map((c) => ({ code: c.serv_Id, name: c.serv_Nombre }))))
+                        .catch(error => console.error(error))
+                }
+                else{
+                    router.push('/');
+                }
+            })
+
     }, []);
 
 
@@ -111,9 +133,9 @@ const createFactura = () => {
                 setLoading(true);
                 toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
             })
-            .catch((e) =>{
+            .catch((e) => {
                 toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-              })
+            })
     }
 
 
@@ -171,9 +193,9 @@ const createFactura = () => {
                         setServicio('');
                         setLoading(true);
                     })
-                    .catch((e) =>{
+                    .catch((e) => {
                         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                      })
+                    })
             }
         }
     }

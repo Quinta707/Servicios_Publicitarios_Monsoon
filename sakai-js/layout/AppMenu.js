@@ -47,7 +47,7 @@ const AppMenu = () => {
         }
 
         console.log(role_Id, EsAdmin)
-        const url = 'https://localhost:44304/api/Pantalla/PantallaMenu?id=' + role_Id + '&EsAdmin=' + EsAdmin;
+        const url = 'http://serviciospublicitarios.somee.com/api/Pantalla/PantallaMenu?id=' + role_Id + '&EsAdmin=' + EsAdmin;
         fetch(url)
             .then(response => response.json())
             .then(data => {

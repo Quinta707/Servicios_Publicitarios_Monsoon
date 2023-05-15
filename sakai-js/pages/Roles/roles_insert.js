@@ -27,10 +27,33 @@ const RolesInsert = () => {
 
 
     useEffect(() => {
-        axios.get(Global.url + 'Pantalla/Listado')
-            .then(response => response.data)
-            .then((data) => setPantallas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
-            .catch(error => console.error(error))
+
+        var admin = 0;
+        var pant_Id = 2;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
+        }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+
+                    axios.get(Global.url + 'Pantalla/Listado')
+                        .then(response => response.data)
+                        .then((data) => setPantallas(data.data.map((c) => ({ code: c.pant_Id, name: c.pant_Nombre }))))
+                        .catch(error => console.error(error))
+                }
+                else{
+                    router.push('/');
+                }
+            })
     }, []);
 
     const EnviarRol = () => {

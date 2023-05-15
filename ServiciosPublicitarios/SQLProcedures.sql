@@ -1,5 +1,5 @@
 
-USE ServiciosPublicitarios
+USE ServiciosPublicitariosM
 
 --********** VISTAS Y PROCEDIMIENTOS  **********---
 
@@ -2044,10 +2044,10 @@ BEGIN
 			[serv_FechaModificacion] = GETDATE()
 		WHERE serv_Id = @serv_Id;
 
-		SELECT 1 codeSatatus
+		SELECT 1 codeStatus
 	END TRY
 	BEGIN CATCH
-		SELECT 0 codeSatatus
+		SELECT 0 codeStatus
 	END CATCH
 END
 

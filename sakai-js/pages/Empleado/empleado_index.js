@@ -22,30 +22,52 @@ const App = () => {
 
   useEffect(() => {
 
-    if (localStorage.getItem('EmpleadoInsert') == '1') {
-      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
-      setLoading(true);
-      localStorage.setItem('EmpleadoInsert', '');
+    var admin = 0;
+    var pant_Id = 9;
+    var role_Id = 0;
+
+    if (localStorage.getItem('role_Id') != null) {
+      role_Id = localStorage.getItem('role_Id');
     }
-    else if (localStorage.getItem('EmpleadoInsert') == '2') {
-      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
-      setLoading(true);
-      localStorage.setItem('EmpleadoInsert', '');
+
+    if (localStorage.getItem('user_EsAdmin') == 'true') {
+      admin = 1;
     }
-    else if (localStorage.getItem('EmpleadoInsert') == '400') {
-      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-      localStorage.setItem('EmpleadoInsert', '');
-    }
-    if(loading){
-      axios.get(Global.url + 'Empleado/Listado')
-      .then(response => response.data)
-      .then(data => {
-        setLoading(false);
-        setPosts(data.data)
+
+    axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+      .then((r) => {
+
+        if (r.data[0][""] == 1) {
+          
+          if (localStorage.getItem('EmpleadoInsert') == '1') {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
+            setLoading(true);
+            localStorage.setItem('EmpleadoInsert', '');
+          }
+          else if (localStorage.getItem('EmpleadoInsert') == '2') {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
+            setLoading(true);
+            localStorage.setItem('EmpleadoInsert', '');
+          }
+          else if (localStorage.getItem('EmpleadoInsert') == '400') {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+            localStorage.setItem('EmpleadoInsert', '');
+          }
+          if (loading) {
+            axios.get(Global.url + 'Empleado/Listado')
+              .then(response => response.data)
+              .then(data => {
+                setLoading(false);
+                setPosts(data.data)
+              })
+              .catch(error => console.error(error))
+          }
+        }
+        else {
+          router.push('/');
+        }
       })
-      .catch(error => console.error(error))
-    }
-    
+
   }, [loading]);
 
 
@@ -94,7 +116,7 @@ const App = () => {
         setEmpleadoId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
       })
-      .catch((e) =>{
+      .catch((e) => {
         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
       })
   }

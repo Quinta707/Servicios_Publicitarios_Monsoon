@@ -23,30 +23,53 @@ const App = () => {
 
   useEffect(() => {
 
-    if (localStorage.getItem('ClienteInsert') == '1') {
-      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
-      setLoading(true);
-      localStorage.setItem('ClienteInsert', '');
-    }
-    else if (localStorage.getItem('ClienteInsert') == '2') {
-      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
-      setLoading(true);
-      localStorage.setItem('ClienteInsert', '');
-    }
-    else if (localStorage.getItem('ClienteInsert') == '400') {
-      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-      localStorage.setItem('ClienteInsert', '');
+    var admin = 0;
+    var pant_Id = 12;
+    var role_Id = 0;
+
+    if (localStorage.getItem('role_Id') != null) {
+      role_Id = localStorage.getItem('role_Id');
     }
 
-    if (loading) {
-      axios.get(Global.url + 'Cliente/Listado')
-        .then(response => response.data)
-        .then(data => {
-          setPosts(data.data)
-          setLoading(false);
-        })
-        .catch(error => console.error(error))
+    if (localStorage.getItem('user_EsAdmin') == 'true') {
+      admin = 1;
     }
+
+    axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+      .then((r) => {
+
+        if (r.data[0][""] == 1) {
+
+
+          if (localStorage.getItem('ClienteInsert') == '1') {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
+            setLoading(true);
+            localStorage.setItem('ClienteInsert', '');
+          }
+          else if (localStorage.getItem('ClienteInsert') == '2') {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado Correctamente', life: 2000 });
+            setLoading(true);
+            localStorage.setItem('ClienteInsert', '');
+          }
+          else if (localStorage.getItem('ClienteInsert') == '400') {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+            localStorage.setItem('ClienteInsert', '');
+          }
+
+          if (loading) {
+            axios.get(Global.url + 'Cliente/Listado')
+              .then(response => response.data)
+              .then(data => {
+                setPosts(data.data)
+                setLoading(false);
+              })
+              .catch(error => console.error(error))
+          }
+        }
+        else{
+          router.push('/');
+        }
+      })
   }, [loading]);
 
 
@@ -88,7 +111,7 @@ const App = () => {
         setClienteId("");
         toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Eliminado Correctamente', life: 1500 });
       })
-      .catch((e) =>{
+      .catch((e) => {
         toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
       })
   }

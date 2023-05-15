@@ -8,10 +8,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
 import { classNames } from 'primereact/utils';
+import { useRouter } from 'next/router';
 
 
 const App = () => {
 
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
 
@@ -29,20 +31,41 @@ const App = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = Global.url + 'Cargo/Listado';
 
-        if (loading) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    setPosts(data.data);
-                    setLoading(false);
+        var admin = 0;
+        var pant_Id = 4;
+        var role_Id = 0;
 
-                })
-                .catch((e) =>{
-                    toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-                  })
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
         }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+                if (r.data[0][""] == 1) {
+                    const url = Global.url + 'Cargo/Listado';
+
+                    if (loading) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                setPosts(data.data);
+                                setLoading(false);
+
+                            })
+                            .catch((e) => {
+                                toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+                            })
+                    }
+                }
+                else {
+                    router.push('/');
+                }
+            })
     }, [loading]);
 
     //cerrar modal crear
@@ -285,7 +308,7 @@ const App = () => {
                     >
                         <div className="col-12">
                             <div className="grid p-fluid">
-                            <div className="col-12">
+                                <div className="col-12">
                                     <div className="field">
                                         <label htmlFor="inputtext">Nombre</label><br />
                                         <InputText type="text" id="inputtext" value={Cargo} onChange={(e) => setCargo(e.target.value)} className={classNames({ 'p-invalid': submitted && !Cargo })} />

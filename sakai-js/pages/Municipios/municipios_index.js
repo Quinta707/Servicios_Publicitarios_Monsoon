@@ -10,11 +10,13 @@ import axios from 'axios'
 import { classNames } from 'primereact/utils';
 import { Dropdown } from 'primereact/dropdown';
 import { InputMask } from 'primereact/inputmask';
+import { useRouter } from 'next/router';
 
 
 
 const App = () => {
 
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const [searchText, setSearchText] = useState(''); //para la barra de busqueda
 
@@ -35,16 +37,41 @@ const App = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const url = Global.url + 'Municipio/Listado/';
 
-        if (loading) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    setPosts(data.data);
-                    setLoading(false);
-                });
+        var admin = 0;
+        var pant_Id = 5;
+        var role_Id = 0;
+
+        if (localStorage.getItem('role_Id') != null) {
+            role_Id = localStorage.getItem('role_Id');
         }
+
+        if (localStorage.getItem('user_EsAdmin') == 'true') {
+            admin = 1;
+        }
+
+        axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+            .then((r) => {
+
+                if (r.data[0][""] == 1) {
+
+                    const url = Global.url + 'Municipio/Listado/';
+
+                    if (loading) {
+                        fetch(url)
+                            .then(response => response.json())
+                            .then(data => {
+                                setPosts(data.data);
+                                setLoading(false);
+                            });
+                    }
+
+                }
+                else{
+                    router.push('/');
+                }
+            })
+
     }, [loading]);
 
 
@@ -292,7 +319,7 @@ const App = () => {
                                 <div className="col-6">
                                     <div className="field">
                                         <label htmlFor="inputtext">Codigo</label><br />
-                                        <InputMask id="inputmaskIdentidad" mask="9999"   value={CodigoMuni} onChange={(e) => setCodigoMuni(e.target.value)} className={classNames({ 'p-invalid': submitted && !CodigoMuni })} />
+                                        <InputMask id="inputmaskIdentidad" mask="9999" value={CodigoMuni} onChange={(e) => setCodigoMuni(e.target.value)} className={classNames({ 'p-invalid': submitted && !CodigoMuni })} />
                                         {submitted && !CodigoMuni && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
                                     </div>
                                 </div>
@@ -309,7 +336,7 @@ const App = () => {
                                 <div className='col-6'>
                                     <div className="field">
                                         <label htmlFor="Sexo">Departamento</label><br />
-                                        <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartaemntoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value)}} className={classNames({ 'p-invalid': submitted && !Deparatemento })} />
+                                        <Dropdown optionLabel="name" placeholder="Seleccionar" options={DepartaemntoDDL} value={Deparatemento} onChange={(e) => { setDepartamento(e.value) }} className={classNames({ 'p-invalid': submitted && !Deparatemento })} />
                                         {submitted && !Deparatemento && <small className="p-invalid" style={{ color: 'red' }}>Seleccione una opcion.</small>}
                                     </div>
                                 </div>
@@ -340,7 +367,7 @@ const App = () => {
                                 <div className="col-6">
                                     <div className="field">
                                         <label htmlFor="inputtext">Codigo</label><br />
-                                        <InputMask id="inputmaskIdentidad" mask="9999"   value={CodigoMuni} onChange={(e) => setCodigoMuni(e.target.value)} className={classNames({ 'p-invalid': submitted && !CodigoMuni })} />
+                                        <InputMask id="inputmaskIdentidad" mask="9999" value={CodigoMuni} onChange={(e) => setCodigoMuni(e.target.value)} className={classNames({ 'p-invalid': submitted && !CodigoMuni })} />
                                         {submitted && !CodigoMuni && <small className="p-invalid" style={{ color: 'red' }}>El campo es requerido.</small>}
                                     </div>
                                 </div>

@@ -1,7 +1,7 @@
-﻿CREATE DATABASE ServiciosPublicitarios
+﻿--CREATE DATABASE ServiciosPublicitarios
 
 GO
-USE ServiciosPublicitarios
+USE ServiciosPublicitariosM
 GO 
 CREATE SCHEMA gral;
 GO
@@ -1056,6 +1056,8 @@ VALUES	('Usuario',			'/Usuario/usuario_index',				'Acceso',		'pi pi-fw pi-user',
 		('Categoria',		'/categoria/categoria_index',			'General',		'pi pi-fw pi-sitemap',		'CategoriItem',		1,NULL,NULL),
 		('Cargo',			'/Cargo/cargo_index',					'General',		'pi pi-fw pi-th-large',		'CargoiItem',		1,NULL,NULL),
 		('Municipios',		'/Municipios/municipios_index',			'General',		'pi pi-fw pi-map',			'MunicipioItem',	1,NULL,NULL),
+		('Metodos de Pago',	'/MetodosDePago/metodo_index',			'General',		'pi pi-fw pi-shopping-cart','MetodoItem',		1,NULL,NULL),
+		('Estado Civil',	'/EstadoCivil/estado_index',			'General',		'pi pi-fw pi pi-heart',		'EstadoCivilItem',	1,NULL,NULL),
 		('Departamentos',	'/Departamentos/departamento_index',	'General',		'pi pi-fw pi-map',			'DepartamentoItem',	1,NULL,NULL);
 
 		
@@ -1069,11 +1071,6 @@ VALUES	('Empleado',		'/Empleado/empleado_index',			'Publicidad',		'pi pi-fw pi-u
 		('Proveedores',		'/Proveedores/proveedores_index',	'Publicidad',		'pi pi-fw pi-building',			'ProveedoreItem',	1,NULL,NULL),
 		('Reporte',			'/Reporte/reporte_index',			'Publicidad',		'pi pi-fw pi-file-pdf',			'ReporteItem',	1,NULL,NULL),
 		('Servicios',		'/Servicios/servicios_index',		'Publicidad',		'pi pi-fw pi-euro',				'ServicioItem',	1,NULL,NULL);
-
-
-
-
-
 
 
 

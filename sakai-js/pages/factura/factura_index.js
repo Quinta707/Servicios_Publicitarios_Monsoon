@@ -6,27 +6,47 @@ import { InputText } from 'primereact/inputtext';
 import React, { useState, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import axios from 'axios'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 
 const App = () => {
 
   const [posts, setPosts] = useState([]); //alamcenar los registros
   const [searchText, setSearchText] = useState(''); //para la barra de busqueda
   const toast = useRef(null); //para los toast
-  const router = useRouter(); 
+  const router = useRouter();
 
 
   useEffect(() => {
+
+    var admin = 0;
+    var pant_Id = 10;
+    var role_Id = 0;
+
+    if (localStorage.getItem('role_Id') != null) {
+      role_Id = localStorage.getItem('role_Id');
+    }
+
+    if (localStorage.getItem('user_EsAdmin') == 'true') {
+      admin = 1;
+    }
 
     if (localStorage.getItem('FacturaCreate') == '1') {
       toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Ingresado Correctamente', life: 2000 });
       localStorage.setItem('FacturaCreate', '');
     }
 
-    axios.get(Global.url + 'Factura/Listado')
-      .then(response => response.data)
-      .then(data => setPosts(data.data))
-      .catch(error => console.error(error))
+    axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+      .then((r) => {
+        if (r.data[0][""] == 1) {
+        axios.get(Global.url + 'Factura/Listado')
+          .then(response => response.data)
+          .then(data => setPosts(data.data))
+          .catch(error => console.error(error))
+        }
+        else{
+          router.push('/');
+        }
+      })
   }, []);
 
 
@@ -35,7 +55,7 @@ const App = () => {
     <div className="table-header flex flex-column md:flex-row md:justify-content-between md:align-items-center">
       <div className="grid">
         <div className="col-12">
-          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload"  onClick={() => router.push('./factura_create')} />
+          <Button type="button" label="Nuevo" severity="success" outlined icon="pi pi-upload" onClick={() => router.push('./factura_create')} />
         </div>
       </div>
       <span className="block mt-2 md:mt-0 p-input-icon-left">
@@ -46,7 +66,7 @@ const App = () => {
   );
 
 
-  
+
   const Editar = () => {
     toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'No se puede editar, la factura ya fue cerrada', life: 1500 });
   }
@@ -102,9 +122,9 @@ const App = () => {
               style={{ minWidth: '300px' }}
               body={rowData => (
                 <div>
-                  <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './factura_details', query: { id: rowData.fact_Id } })}/> .
+                  <Button label="Detalles" severity="info" icon="pi pi-eye" outlined style={{ fontSize: '0.8rem' }} onClick={() => router.push({ pathname: './factura_details', query: { id: rowData.fact_Id } })} /> .
                   <Button label="Editar" severity="warning" icon="pi pi-upload" outlined style={{ fontSize: '0.8rem' }} onClick={() => Editar()} /> .
-                  <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => Eliminar()}/>
+                  <Button label="Eliminar" severity="danger" icon="pi pi-trash" outlined style={{ fontSize: '0.8rem' }} onClick={() => Eliminar()} />
                 </div>
               )}
             />

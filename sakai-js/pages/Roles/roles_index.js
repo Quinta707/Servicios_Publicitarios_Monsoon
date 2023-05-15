@@ -23,30 +23,54 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem('RolInsert') == '1') {
-      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Ingresados Correctamente', life: 2000 });
-      setLoading(true);
-      localStorage.setItem('RolInsert', '');
-    }
-    else if (localStorage.getItem('RolInsert') == '2') {
-      toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Actualizados Correctamente', life: 2000 });
-      setLoading(true);
-      localStorage.setItem('RolInsert', '');
-    }
-    else if (localStorage.getItem('RolInsert') == '400') {
-      toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-      localStorage.setItem('RolInsert', '');
+
+
+    var admin = 0;
+    var pant_Id = 2;
+    var role_Id = 0;
+
+    if (localStorage.getItem('role_Id') != null) {
+      role_Id = localStorage.getItem('role_Id');
     }
 
-    if (loading) {
-      axios.get(Global.url + 'Rol/Listado')
-        .then(response => response.data)
-        .then(data => {
-            setPosts(data.data)
-            setLoading(false);
-          })
-        .catch(error => console.error(error))
+    if (localStorage.getItem('user_EsAdmin') == 'true') {
+      admin = 1;
     }
+
+    axios.put(Global.url + `Pantalla/AccesoPantalla?esAdmin=${admin}&role_Id=${role_Id}&pant_Id=${pant_Id}`)
+      .then((r) => {
+
+        if (r.data[0][""] == 1) {
+
+          if (localStorage.getItem('RolInsert') == '1') {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Ingresados Correctamente', life: 2000 });
+            setLoading(true);
+            localStorage.setItem('RolInsert', '');
+          }
+          else if (localStorage.getItem('RolInsert') == '2') {
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Datos Actualizados Correctamente', life: 2000 });
+            setLoading(true);
+            localStorage.setItem('RolInsert', '');
+          }
+          else if (localStorage.getItem('RolInsert') == '400') {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+            localStorage.setItem('RolInsert', '');
+          }
+
+          if (loading) {
+            axios.get(Global.url + 'Rol/Listado')
+              .then(response => response.data)
+              .then(data => {
+                setPosts(data.data)
+                setLoading(false);
+              })
+              .catch(error => console.error(error))
+          }
+        }
+        else{
+          router.push('/');
+        }
+      })
 
   }, [loading]);
 
@@ -98,7 +122,7 @@ const App = () => {
 
         <div className="card" style={{ background: `rgb(105,101,235)`, height: '100px', width: '100%' }}>
           <div className="row text-center d-flex align-items-center">
-            <h2 style={{ color: 'white' }}>Factura</h2>
+            <h2 style={{ color: 'white' }}>Roles</h2>
           </div>
         </div>
 
