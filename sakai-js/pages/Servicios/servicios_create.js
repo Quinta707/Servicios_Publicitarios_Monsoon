@@ -286,8 +286,7 @@ const Servicios = () => {
 
                         </div>
 
-                        <Button label='Crear Servicio' icon="pi pi-plus" type='submit' onClick={handleImageUpload} disabled={servicio}></Button>
-
+                        <Button label='Crear Servicio' icon="pi pi-plus" severity='success' type='submit' onClick={handleImageUpload} disabled={servicio}></Button>
 
                     </div>
                 </div>
@@ -307,7 +306,7 @@ const Servicios = () => {
                                     </div>
                                 </div>
                                 <div className='field col-12 md:col-4'>
-                                    <Button label="Agregar" id='btnNuevoInsumo' icon="pi pi-plus" severity="primary" onClick={NuevoInsumo} className="mr-2" disabled={insum} />
+                                    <Button label="Agregar" id='btnNuevoInsumo' icon="pi pi-plus" severity='success' onClick={NuevoInsumo} className="mr-2" disabled={insum} />
                                 </div>
                             </div>
 

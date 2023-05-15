@@ -110,23 +110,38 @@ const EstadosCivilesIn = () => {
       setSubmitted(true);
     }
     else {
-
-      let Metodo = {
-        eciv_Id: EstadosCivilesId,
-        eciv_Descripcion: EstadosCivil,
-        eciv_UsuModificacion: 1
+      var validacion = 0
+      posts.forEach((posts) => {
+        if (posts.eciv_Descripcion == EstadosCivil) {
+          console.log(posts.eciv_Descripcion)
+          console.log("entra")
+          validacion = validacion + 1;
+        }
+        else {
+        }
+      });
+      if (validacion > 0) {
+        toast.current.show({ severity: 'warn', summary: 'Error', detail: 'El registro que intenta ingresar ya existe', life: 2000 });
       }
-
-
-      axios.post(Global.url + 'EstadoCivil/Editar', Metodo)
-        .then((r) => {
-          setLoading(true);
-          hideeditDialog();
-          toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
-        })
-        .catch((e) => {
-          toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
-        })
+      else{
+        let Metodo = {
+          eciv_Id: EstadosCivilesId,
+          eciv_Descripcion: EstadosCivil,
+          eciv_UsuModificacion: 1
+        }
+  
+  
+        axios.post(Global.url + 'EstadoCivil/Editar', Metodo)
+          .then((r) => {
+            setLoading(true);
+            hideeditDialog();
+            toast.current.show({ severity: 'success', summary: 'Accion Exitosa', detail: 'Registro Editado correctamente', life: 1500 });
+          })
+          .catch((e) => {
+            toast.current.show({ severity: 'warn', summary: 'Advertencia', detail: 'Ups, algo salió mal. ¡Inténtalo nuevamente!', life: 2000 });
+          })
+      }
+      
     }
   }
 
@@ -194,7 +209,7 @@ const EstadosCivilesIn = () => {
         else {
         }
       });
-      if (validacion == 1) {
+      if (validacion > 0) {
         toast.current.show({ severity: 'warn', summary: 'Error', detail: 'El registro que intenta ingresar ya existe', life: 2000 });
       }
       else {
