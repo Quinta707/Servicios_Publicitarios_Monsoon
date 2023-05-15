@@ -99,13 +99,30 @@ const Servicios = () => {
       }
 
     const IDSelect = (serv_Id) =>{
-        return(
-            axios.put(Global.url + 'InsumosPorServicio/Listado?serv_Id='+ serv_Id)
-            .then(response => response.data)
+        let serv = {
+            insu_Id: 0,
+            insu_Nombre: "string",
+            cate_Id: 0,
+            insu_Precio: 0,
+            prov_Id: 0,
+            insu_UsuCreacion: 0,
+            insu_FechaCreacion: "2023-05-15T04:33:10.725Z",
+            insu_UsuModificacion: 0,
+            insu_FechaModificacion: "2023-05-15T04:33:10.725Z",
+            insu_Estado: true,
+            inse_Id: 0,
+            serv_Id: parseInt(serv_Id),
+            inse_UsuCreacion: 0,
+            inse_FechaCreacion: "2023-05-15T04:33:10.725Z",
+            inse_UsuModificacion: 0,
+            inse_FechaModificacion: "2023-05-15T04:33:10.725Z",
+            inse_Estado: true
+        }
+        axios.put(Global.url + 'InsumosPorServicio/Listado', serv)
+        .then(data => data.data)
             .then(data => setInsumo(data.data))
             .catch(error => console.error(error)),
             setInsumosDialog(true)
-        );
     };
 
     const dataviewListItem = (data) => {
@@ -135,7 +152,7 @@ const Servicios = () => {
                 <div className="card m-3 border-1 surface-border">
                     <div className="flex flex-wrap gap-2 align-items-center justify-content-between mb-2">
                         <div className="flex align-items-center">
-                            <i className="pi pi-tag mr-2" />
+                        <i className="pi pi-tag mr-2" onClick={() => router.push({ pathname: './servicios_edit', query: { id: data.serv_Id } })} />
                             <span className="font-semibold">{data.serv_Nombre}</span>
                         </div>
                     </div>
