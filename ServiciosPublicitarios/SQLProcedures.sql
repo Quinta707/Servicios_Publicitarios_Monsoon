@@ -2019,7 +2019,7 @@ BEGIN
 				   ,@serv_UsuCreacion 
 				   ,NULL
 				   ,NULL);
-		SELECT 1 codeStatus
+		SELECT SCOPE_IDENTITY() codeStatus
 	END TRY
 	BEGIN CATCH
 		SELECT 0 codeStatus
@@ -2337,6 +2337,7 @@ BEGIN
 	SELECT	*
 	FROM	pbli.VW_tbInsumosPorServicio
 	WHERE	insu_Estado = 1
+	AND		inse_Estado = 1
 	AND		serv_Id = @serv_Id;
 END
 
